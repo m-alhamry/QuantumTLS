@@ -1,60 +1,90 @@
 #!/bin/bash
+set -e
 
-# Check if a version type is provided (major, minor, patch)
-if [ -z "$1" ]; then
+# Ensure we are in a Git repository
+if [ ! -d .git ]; then
+    echo "Error: Not in a Git repository"
+    exit 1
+fi
+
+# Check for uncommitted changes
+if [ -n "$(git status --porcelain)" ]; then
+    echo "Error: There are uncommitted changes. Please commit or stash them."
+    exit 1
+fi
+
+# Get current version from VERSION file
+if [ -f VERSION ]; then
+    version=$(cat VERSION)
+else
+    version="0.0.0"
+fi
+
+# Get bump type from argument
+bump_type=$1
+if [ -z "$bump_type" ]; then
     echo "Usage: $0 [major|minor|patch]"
     exit 1
 fi
 
-# Get the latest version tag (default to v0.0.0 if no tags exist)
-LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+# Parse version into major, minor, patch
+major=${version%%.*}
+rest=${version#*.}
+minor=${rest%%.*}
+patch=${rest#*.}
 
-# Extract version numbers
-IFS='.' read -r -a VERSION_PARTS <<< "${LATEST_TAG#v}"
-MAJOR=${VERSION_PARTS[0]}
-MINOR=${VERSION_PARTS[1]}
-PATCH=${VERSION_PARTS[2]}
-
-# Increment version based on input
-case $1 in
+# Bump version based on type
+case $bump_type in
     major)
-        ((MAJOR+=1))
-        MINOR=0
-        PATCH=0
+        major=$((major + 1))
+        minor=0
+        patch=0
         ;;
     minor)
-        ((MINOR+=1))
-        PATCH=0
+        minor=$((minor + 1))
+        patch=0
         ;;
     patch)
-        ((PATCH+=1))
+        patch=$((patch + 1))
         ;;
     *)
-        echo "Invalid option: Use 'major', 'minor', or 'patch'"
+        echo "Error: Invalid bump type: $bump_type"
         exit 1
         ;;
 esac
 
-# Create new version
-NEW_VERSION="v$MAJOR.$MINOR.$PATCH"
+new_version="${major}.${minor}.${patch}"
 
-echo "📢 New version: $NEW_VERSION"
+# Get last tag
+last_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
 
-# Generate changelog
-echo "## $NEW_VERSION - $(date +"%Y-%m-%d")" > NEW_CHANGELOG.md
-echo "" >> NEW_CHANGELOG.md
-git log --pretty=format:"- %s (%an)" "$LATEST_TAG"..HEAD >> NEW_CHANGELOG.md
-echo "" >> NEW_CHANGELOG.md
-cat CHANGELOG.md >> NEW_CHANGELOG.md
-mv NEW_CHANGELOG.md CHANGELOG.md
+# Get commit messages since last tag
+if [ -z "$last_tag" ]; then
+    commits=$(git log --pretty=format:"%s")
+else
+    commits=$(git log ${last_tag}..HEAD --pretty=format:"%s")
+fi
+
+# Format changelog section
+changelog="## [${new_version}] - $(date +%Y-%m-%d)\n"
+while read -r line; do
+    changelog="${changelog}- ${line}\n"
+done <<< "$commits"
+
+# Prepend to CHANGELOG.md
+if [ -f CHANGELOG.md ]; then
+    temp_file=$(mktemp)
+    echo -e "$changelog\n$(cat CHANGELOG.md)" > "$temp_file"
+    mv "$temp_file" CHANGELOG.md
+else
+    echo -e "$changelog" > CHANGELOG.md
+fi
+
+# Update VERSION file
+echo "$new_version" > VERSION
 
 # Commit changes
-git add .
-git commit -m "Release $NEW_VERSION - Updated CHANGELOG.md"
-git push origin main
+git add VERSION CHANGELOG.md
+git commit -m "Prepare for version ${new_version}"
 
-# Create and push tag
-git tag -a "$NEW_VERSION" -m "Version $NEW_VERSION"
-git push origin "$NEW_VERSION"
-
-echo "✅ Version $NEW_VERSION pushed successfully with changelog update!"
+echo "Version bumped to ${new_version} and changelog updated."

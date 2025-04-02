@@ -1,0 +1,21 @@
+2025-04-01 16:21:04,579 [INFO] Server listening on 127.0.0.1:65432
+2025-04-01 16:21:04,580 [INFO] Server started, awaiting connections
+2025-04-01 16:21:13,490 [INFO] Spawned thread for client ('127.0.0.1', 19278)
+2025-04-01 16:21:15,759 [DEBUG] Receiving ClientHello
+2025-04-01 16:21:15,782 [DEBUG] Generating server keys
+2025-04-01 16:21:15,805 [DEBUG] Encapsulating Kyber shared secret
+2025-04-01 16:21:15,813 [DEBUG] Deriving handshake keys
+2025-04-01 16:21:15,858 [DEBUG] Sending ServerHello
+2025-04-01 16:21:15,863 [DEBUG] Sending server certificate verify
+2025-04-01 16:21:15,877 [DEBUG] Receiving client certificate verify
+2025-04-01 16:21:15,911 [DEBUG] Receiving client finished
+2025-04-01 16:21:15,918 [DEBUG] Sending server finished
+2025-04-01 16:21:15,924 [DEBUG] Deriving application key
+2025-04-01 16:21:15,933 [DEBUG] Waiting for client application data
+2025-04-01 16:21:18,373 [DEBUG] Sending response of length 29 bytes
+2025-04-01 16:21:18,378 [DEBUG] Message exchange round-trip took 2.445403 seconds
+2025-04-01 16:21:18,379 [DEBUG] Waiting for client application data
+2025-04-01 16:49:24,779 [INFO] Received signal 2, initiating shutdown
+2025-04-01 16:49:24,782 [INFO] Shutting down server...
+2025-04-01 16:49:24,783 [INFO] Server connection closed
+2025-04-01 16:49:24,784 [INFO] Server shut down cleanly

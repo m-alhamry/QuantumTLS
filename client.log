@@ -1,0 +1,58 @@
+2025-04-01 16:21:13,421 [INFO] Loaded CA certificate for server verification
+2025-04-01 16:21:13,423 [INFO] Loaded CA certificate for server verification
+2025-04-01 16:21:13,479 [INFO] Client certificate verified against CA
+2025-04-01 16:21:13,480 [INFO] Loaded client certificate and private key
+2025-04-01 16:21:13,482 [DEBUG] Attempting to connect to server
+2025-04-01 16:21:13,488 [INFO] Connected to 127.0.0.1:65432
+2025-04-01 16:21:15,753 [INFO] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber512
+2025-04-01 16:21:15,754 [DEBUG] Negotiating cipher suite with server
+2025-04-01 16:21:15,756 [INFO] Negotiated cipher suite: TLS_AES_256_GCM_SHA384_Kyber512 in 0.000834 seconds
+2025-04-01 16:21:15,758 [DEBUG] Generating client keys
+2025-04-01 16:21:15,765 [DEBUG] ECC key generation took 0.005500 seconds
+2025-04-01 16:21:15,774 [DEBUG] Kyber key generation (Kyber512) took 0.006903 seconds
+2025-04-01 16:21:15,775 [INFO] Generated hybrid ECC+Kyber keys in 0.015252 seconds
+2025-04-01 16:21:15,777 [DEBUG] Sending ClientHello
+2025-04-01 16:21:15,780 [INFO] Sent ClientHello in 0.001043 seconds
+2025-04-01 16:21:15,782 [DEBUG] Receiving ServerHello
+2025-04-01 16:21:15,866 [INFO] Verified server certificate against CA
+2025-04-01 16:21:15,868 [INFO] Received ServerHello in 0.085107 seconds
+2025-04-01 16:21:15,869 [DEBUG] Deriving handshake keys
+2025-04-01 16:21:15,873 [DEBUG] Kyber decapsulation completed in 0.002060 seconds
+2025-04-01 16:21:15,882 [INFO] Derived handshake keys in 0.010927 seconds
+2025-04-01 16:21:15,883 [DEBUG] Receiving server certificate verify
+2025-04-01 16:21:15,889 [DEBUG] Server CertificateVerify verified in 0.004467 seconds
+2025-04-01 16:21:15,891 [INFO] Verified Server CertificateVerify in 0.006181 seconds
+2025-04-01 16:21:15,892 [DEBUG] Sending client certificate verify
+2025-04-01 16:21:15,893 [DEBUG] Transcript length before signing: 3240 bytes
+2025-04-01 16:21:15,900 [DEBUG] CertificateVerify computed in 0.006147 seconds
+2025-04-01 16:21:15,901 [INFO] Sent CertificateVerify in 0.007876 seconds
+2025-04-01 16:21:15,903 [DEBUG] Sending client finished
+2025-04-01 16:21:15,904 [DEBUG] Finished message computed in 0.000137 seconds
+2025-04-01 16:21:15,907 [DEBUG] Encrypted 48 bytes in 0.001224 seconds
+2025-04-01 16:21:15,909 [INFO] Sent Finished message in 0.004520 seconds
+2025-04-01 16:21:15,910 [DEBUG] Receiving server finished
+2025-04-01 16:21:15,923 [DEBUG] Decrypted 64 bytes in 0.000115 seconds
+2025-04-01 16:21:15,925 [DEBUG] Finished message computed in 0.000155 seconds
+2025-04-01 16:21:15,926 [INFO] Verified Server Finished in 0.013538 seconds
+2025-04-01 16:21:15,927 [DEBUG] Deriving application key
+2025-04-01 16:21:15,929 [INFO] Derived application key in 0.000633 seconds
+2025-04-01 16:21:15,931 [INFO] Handshake completed in 0.172921 seconds
+2025-04-01 16:21:15,933 [DEBUG] Handshake compute time (excluding network latency): 0.039728 seconds
+2025-04-01 16:21:15,934 [INFO] Handshake completed, starting message exchange
+2025-04-01 16:21:18,327 [DEBUG] Sending message of length 1038780 bytes
+2025-04-01 16:21:18,332 [DEBUG] Encrypted 1038780 bytes in 0.003733 seconds
+2025-04-01 16:21:18,340 [INFO] Sent application data (length: 1038780 bytes) in 0.011285 seconds
+2025-04-01 16:21:18,376 [DEBUG] Decrypted 45 bytes in 0.000119 seconds
+2025-04-01 16:21:18,378 [INFO] Received application data (length: 29 bytes) in 0.036678 seconds
+2025-04-01 16:21:18,379 [INFO] Received response: Message received successfully... (length: 29 bytes)
+2025-04-01 16:21:18,381 [DEBUG] Message exchange round-trip took 0.054182 seconds
+2025-04-01 16:21:20,061 [INFO] User requested session termination
+2025-04-01 16:21:20,063 [INFO] Session terminated by user
+2025-04-01 16:21:20,064 [DEBUG] Encrypted 19 bytes in 0.000108 seconds
+2025-04-01 16:21:20,065 [DEBUG] Sending encrypted alert: IV=d685d76b1b14a40762205db6, CT=572a7b4e86cac1c874825552f4a02cb81a8de99d06f777e98e3648f288394fd3015562
+2025-04-01 16:21:20,067 [INFO] Sent alert: close_notify (00) - Session terminated
+2025-04-01 16:21:20,076 [DEBUG] Decrypted 35 bytes in 0.000134 seconds
+2025-04-01 16:21:20,078 [INFO] Received alert: close_notify (00) - Session terminated
+2025-04-01 16:21:20,079 [INFO] Received server termination confirmation
+2025-04-01 16:21:20,081 [DEBUG] Cleared sensitive cryptographic data
+2025-04-01 16:21:20,083 [INFO] Client connection closed
