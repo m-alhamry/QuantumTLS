@@ -1,0 +1,58 @@
+2025-04-06 06:18:36,722 [INFO] Server certificate verified against CA
+2025-04-06 06:18:36,722 [INFO] Loaded server certificate and private key
+2025-04-06 06:18:36,722 [INFO] Connected by ('127.0.0.1', 39404)
+2025-04-06 06:18:36,722 [INFO] Negotiated cipher suite (test mode): TLS_AES_256_GCM_SHA384_Kyber768 in 0.000183 seconds
+2025-04-06 06:18:36,722 [DEBUG] Starting server-client handshake
+2025-04-06 06:18:36,722 [DEBUG] Receiving ClientHello
+2025-04-06 06:18:36,722 [INFO] Received ClientHello in 0.003851 seconds
+2025-04-06 06:18:36,722 [INFO] Received ClientHello in 0.004002 seconds
+2025-04-06 06:18:36,722 [DEBUG] Generated ECC keys in 0.001469 seconds
+2025-04-06 06:18:36,722 [DEBUG] Generated Kyber768 keys in 0.001320 seconds
+2025-04-06 06:18:36,722 [DEBUG] Generated keys in 0.003026 seconds
+2025-04-06 06:18:36,730 [INFO] Generated hybrid ECC+Kyber keys in 0.003135 seconds
+2025-04-06 06:18:36,730 [DEBUG] Encapsulated Kyber shared secret in 0.000852 seconds
+2025-04-06 06:18:36,730 [DEBUG] Encapsulated Kyber shared secret in 0.000971 seconds
+2025-04-06 06:18:36,730 [INFO] Encapsulated Kyber shared secret in 0.001609 seconds
+2025-04-06 06:18:36,730 [INFO] Derived handshake keys in 0.001782 seconds
+2025-04-06 06:18:36,730 [DEBUG] Sending ServerHello
+2025-04-06 06:18:36,730 [INFO] Sent ServerHello in 0.000323 seconds
+2025-04-06 06:18:36,730 [INFO] Sent ServerHello in 0.000435 seconds
+2025-04-06 06:18:36,730 [DEBUG] Sending CertificateVerify
+2025-04-06 06:18:36,730 [DEBUG] Transcript length before signing: 3869 bytes
+2025-04-06 06:18:36,730 [DEBUG] Computed CertificateVerify in 0.001551 seconds
+2025-04-06 06:18:36,730 [INFO] Sent CertificateVerify in 0.001799 seconds
+2025-04-06 06:18:36,730 [INFO] Sent CertificateVerify in 0.001893 seconds
+2025-04-06 06:18:36,730 [DEBUG] Receiving CertificateVerify
+2025-04-06 06:18:36,739 [DEBUG] Verified client CertificateVerify in 0.001406 seconds
+2025-04-06 06:18:36,739 [INFO] Received and verified Client CertificateVerify in 0.007423 seconds
+2025-04-06 06:18:36,739 [INFO] Received and verified Client CertificateVerify in 0.007523 seconds
+2025-04-06 06:18:36,739 [DEBUG] Receiving Finished
+2025-04-06 06:18:36,739 [DEBUG] Decrypted handshake data
+2025-04-06 06:18:36,739 [DEBUG] Computed Finished message in 0.000026 seconds
+2025-04-06 06:18:36,739 [INFO] Received and verified Client Finished in 0.000367 seconds
+2025-04-06 06:18:36,739 [INFO] Received and verified Client Finished in 0.000445 seconds
+2025-04-06 06:18:36,739 [DEBUG] Sending Finished
+2025-04-06 06:18:36,739 [DEBUG] Computed Finished message in 0.000022 seconds
+2025-04-06 06:18:36,739 [DEBUG] Encrypted handshake data
+2025-04-06 06:18:36,739 [INFO] Sent Finished in 0.000373 seconds
+2025-04-06 06:18:36,739 [INFO] Sent Finished message in 0.000464 seconds
+2025-04-06 06:18:36,739 [INFO] Derived application key in 0.000089 seconds
+2025-04-06 06:18:36,739 [INFO] Handshake completed in 0.022334 seconds
+2025-04-06 06:18:36,739 [DEBUG] Handshake compute time (excluding network latency): 0.009108 seconds
+2025-04-06 06:18:36,739 [INFO] Handshake completed, starting message exchange
+2025-04-06 06:18:36,739 [DEBUG] Starting message exchange loop
+2025-04-06 06:18:36,739 [DEBUG] Waiting for client application data
+2025-04-06 06:18:36,747 [DEBUG] Decrypted application data with sequence number 1
+2025-04-06 06:18:36,747 [INFO] Received application data (length: 9 bytes) in 0.001337 seconds
+2025-04-06 06:18:36,747 [INFO] Received application data (length: 9 bytes)
+2025-04-06 06:18:36,747 [DEBUG] Sending response of length 29 bytes
+2025-04-06 06:18:36,747 [DEBUG] Sending application data (length: 29 bytes)
+2025-04-06 06:18:36,747 [DEBUG] Encrypted application data with sequence number 1
+2025-04-06 06:18:36,747 [DEBUG] Message exchange round-trip took 0.001963 seconds
+2025-04-06 06:18:36,747 [DEBUG] Waiting for client application data
+2025-04-06 06:18:36,747 [ERROR] TLSError: Client closed connection unexpectedly: Expected 1 bytes, got 0 (Alert: close_notify, 00)
+2025-04-06 06:18:36,747 [DEBUG] Sending unencrypted alert: 00436c69656e7420636c6f73656420636f6e6e656374696f6e20756e65787065637465646c793a20457870656374656420312062797465732c20676f742030
+2025-04-06 06:18:36,747 [INFO] Sent alert: close_notify (00) - Client closed connection unexpectedly: Expected 1 bytes, got 0
+2025-04-06 06:18:36,747 [ERROR] TLS error during message exchange: Client closed connection unexpectedly: Expected 1 bytes, got 0
+2025-04-06 06:18:36,747 [DEBUG] Cleared sensitive cryptographic data
+2025-04-06 06:18:36,747 [INFO] Server connection closed

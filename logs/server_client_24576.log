@@ -1,0 +1,27 @@
+2025-04-05 12:51:12,959 [DEBUG] Loaded server certificate: subject=<Name(CN=localhost)>, issuer=<Name(CN=My Test CA,O=Test Organization)>
+2025-04-05 12:51:12,960 [INFO] Loaded server certificate and private key
+2025-04-05 12:51:13,018 [INFO] Server certificate verified against CA
+2025-04-05 12:51:13,019 [INFO] Connected by ('127.0.0.1', 24576)
+2025-04-05 12:51:13,021 [DEBUG] Receiving supported cipher suites
+2025-04-05 12:51:13,022 [DEBUG] Received supported cipher suites: ['TLS_AES_256_GCM_SHA384', 'TLS_AES_256_GCM_SHA384_Kyber512', 'TLS_AES_256_GCM_SHA384_Kyber768', 'TLS_AES_256_GCM_SHA384_Kyber1024']
+2025-04-05 12:51:16,385 [DEBUG] Chose cipher suite: TLS_AES_256_GCM_SHA384_Kyber512
+2025-04-05 12:51:16,387 [INFO] Negotiated cipher suite: TLS_AES_256_GCM_SHA384_Kyber512 in 3.365762 seconds
+2025-04-05 12:51:16,389 [DEBUG] Starting handshake with client
+2025-04-05 12:51:16,390 [DEBUG] Receiving ClientHello
+2025-04-05 12:51:16,411 [INFO] Received ClientHello in 0.021527 seconds
+2025-04-05 12:51:16,424 [DEBUG] Generated ECC keys in 0.007586 seconds
+2025-04-05 12:51:16,429 [DEBUG] Generated Kyber512 keys in 0.003714 seconds
+2025-04-05 12:51:16,436 [DEBUG] Encapsulated Kyber shared secret in 0.004031 seconds
+2025-04-05 12:51:16,444 [INFO] Verified client certificate against CA
+2025-04-05 12:51:16,456 [DEBUG] Sending ServerHello
+2025-04-05 12:51:16,458 [INFO] Sent ServerHello in 0.002212 seconds
+2025-04-05 12:51:16,461 [DEBUG] Sending CertificateVerify
+2025-04-05 12:51:16,462 [DEBUG] Transcript length before signing: 3165 bytes
+2025-04-05 12:51:16,474 [DEBUG] Computed CertificateVerify in 0.011950 seconds
+2025-04-05 12:51:16,476 [INFO] Sent CertificateVerify in 0.015159 seconds
+2025-04-05 12:51:16,479 [DEBUG] Receiving CertificateVerify
+2025-04-05 12:51:16,482 [ERROR] Network error with ('127.0.0.1', 24576): [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-04-05 12:51:16,486 [DEBUG] Sending unencrypted alert: 004e6574776f726b206572726f7220776974682028273132372e302e302e31272c203234353736293a205b57696e4572726f722031303035345d20416e206578697374696e6720636f6e6e656374696f6e2077617320666f726369626c7920636c6f736564206279207468652072656d6f746520686f7374
+2025-04-05 12:51:16,491 [WARNING] Failed to send alert: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-04-05 12:51:16,493 [DEBUG] Cleared sensitive cryptographic data
+2025-04-05 12:51:16,495 [INFO] Server connection closed

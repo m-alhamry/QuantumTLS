@@ -1,0 +1,135 @@
+2025-04-05 19:34:38,334 [INFO] Server certificate verified against CA
+2025-04-05 19:34:38,335 [INFO] Loaded server certificate and private key
+2025-04-05 19:34:38,338 [INFO] Connected by ('127.0.0.1', 2709)
+2025-04-05 19:34:38,339 [DEBUG] Receiving supported cipher suites
+2025-04-05 19:34:38,341 [DEBUG] Received supported cipher suites: ['TLS_AES_256_GCM_SHA384', 'TLS_AES_256_GCM_SHA384_Kyber512', 'TLS_AES_256_GCM_SHA384_Kyber768', 'TLS_AES_256_GCM_SHA384_Kyber1024']
+2025-04-05 19:34:41,681 [DEBUG] Chose cipher suite: TLS_AES_256_GCM_SHA384_Kyber768
+2025-04-05 19:34:41,683 [INFO] Negotiated cipher suite: TLS_AES_256_GCM_SHA384_Kyber768 in 3.344222 seconds
+2025-04-05 19:34:41,700 [DEBUG] Starting server-client handshake
+2025-04-05 19:34:41,702 [DEBUG] Receiving ClientHello
+2025-04-05 19:34:41,705 [INFO] Received ClientHello in 0.003306 seconds
+2025-04-05 19:34:41,707 [INFO] Received ClientHello in 0.005203 seconds
+2025-04-05 19:34:41,717 [DEBUG] Generated ECC keys in 0.008271 seconds
+2025-04-05 19:34:41,724 [DEBUG] Generated Kyber768 keys in 0.005222 seconds
+2025-04-05 19:34:41,725 [DEBUG] Generated keys in 0.016787 seconds
+2025-04-05 19:34:41,727 [INFO] Generated hybrid ECC+Kyber keys in 0.018426 seconds
+2025-04-05 19:34:41,733 [DEBUG] Encapsulated Kyber shared secret in 0.004677 seconds
+2025-04-05 19:34:41,735 [DEBUG] Encapsulated Kyber shared secret in 0.006442 seconds
+2025-04-05 19:34:41,737 [INFO] Encapsulated Kyber shared secret in 0.008276 seconds
+2025-04-05 19:34:41,749 [INFO] Derived handshake keys in 0.010361 seconds
+2025-04-05 19:34:41,751 [DEBUG] Sending ServerHello
+2025-04-05 19:34:41,754 [INFO] Sent ServerHello in 0.002561 seconds
+2025-04-05 19:34:41,755 [INFO] Sent ServerHello in 0.004192 seconds
+2025-04-05 19:34:41,757 [DEBUG] Sending CertificateVerify
+2025-04-05 19:34:41,758 [DEBUG] Transcript length before signing: 3869 bytes
+2025-04-05 19:34:41,772 [DEBUG] Computed CertificateVerify in 0.013497 seconds
+2025-04-05 19:34:41,774 [INFO] Sent CertificateVerify in 0.017296 seconds
+2025-04-05 19:34:41,776 [INFO] Sent CertificateVerify in 0.019259 seconds
+2025-04-05 19:34:41,778 [DEBUG] Receiving CertificateVerify
+2025-04-05 19:34:41,820 [DEBUG] Verified client CertificateVerify in 0.008062 seconds
+2025-04-05 19:34:41,822 [INFO] Received and verified Client CertificateVerify in 0.044408 seconds
+2025-04-05 19:34:41,824 [INFO] Received and verified Client CertificateVerify in 0.046538 seconds
+2025-04-05 19:34:41,827 [DEBUG] Receiving Finished
+2025-04-05 19:34:41,829 [DEBUG] Decrypted handshake data
+2025-04-05 19:34:41,831 [DEBUG] Computed Finished message in 0.000177 seconds
+2025-04-05 19:34:41,833 [INFO] Received and verified Client Finished in 0.006193 seconds
+2025-04-05 19:34:41,835 [INFO] Received and verified Client Finished in 0.008498 seconds
+2025-04-05 19:34:41,837 [DEBUG] Sending Finished
+2025-04-05 19:34:41,839 [DEBUG] Computed Finished message in 0.000200 seconds
+2025-04-05 19:34:41,841 [DEBUG] Encrypted handshake data
+2025-04-05 19:34:41,844 [INFO] Sent Finished in 0.006601 seconds
+2025-04-05 19:34:41,846 [INFO] Sent Finished message in 0.008388 seconds
+2025-04-05 19:34:41,849 [INFO] Derived application key in 0.001260 seconds
+2025-04-05 19:34:41,851 [INFO] Handshake completed in 0.150615 seconds
+2025-04-05 19:34:41,853 [DEBUG] Handshake compute time (excluding network latency): 0.061192 seconds
+2025-04-05 19:34:41,855 [INFO] Handshake completed, starting message exchange
+2025-04-05 19:34:41,856 [DEBUG] Starting message exchange loop
+2025-04-05 19:34:41,858 [DEBUG] Waiting for client application data
+2025-04-05 19:34:47,434 [DEBUG] Decrypted application data with sequence number 1
+2025-04-05 19:34:47,436 [INFO] Received application data (length: 11 bytes) in 5.575507 seconds
+2025-04-05 19:34:47,438 [INFO] Received application data (length: 11 bytes)
+2025-04-05 19:34:47,439 [DEBUG] Sending response of length 29 bytes
+2025-04-05 19:34:47,440 [DEBUG] Sending application data (length: 29 bytes)
+2025-04-05 19:34:47,442 [DEBUG] Encrypted application data with sequence number 1
+2025-04-05 19:34:47,444 [DEBUG] Message exchange round-trip took 5.585903 seconds
+2025-04-05 19:34:47,447 [DEBUG] Waiting for client application data
+2025-04-05 19:34:49,498 [DEBUG] Decrypted application data with sequence number 2
+2025-04-05 19:34:49,500 [DEBUG] Decrypted application data with sequence number 3
+2025-04-05 19:34:49,502 [DEBUG] Decrypted application data with sequence number 4
+2025-04-05 19:34:49,504 [DEBUG] Decrypted application data with sequence number 5
+2025-04-05 19:34:49,506 [DEBUG] Decrypted application data with sequence number 6
+2025-04-05 19:34:49,511 [DEBUG] Decrypted application data with sequence number 7
+2025-04-05 19:34:49,514 [DEBUG] Decrypted application data with sequence number 8
+2025-04-05 19:34:49,517 [DEBUG] Decrypted application data with sequence number 9
+2025-04-05 19:34:49,521 [DEBUG] Decrypted application data with sequence number 10
+2025-04-05 19:34:49,526 [DEBUG] Decrypted application data with sequence number 11
+2025-04-05 19:34:49,529 [DEBUG] Decrypted application data with sequence number 12
+2025-04-05 19:34:49,531 [DEBUG] Decrypted application data with sequence number 13
+2025-04-05 19:34:49,534 [DEBUG] Decrypted application data with sequence number 14
+2025-04-05 19:34:49,537 [DEBUG] Decrypted application data with sequence number 15
+2025-04-05 19:34:49,541 [DEBUG] Decrypted application data with sequence number 16
+2025-04-05 19:34:49,545 [DEBUG] Decrypted application data with sequence number 17
+2025-04-05 19:34:49,547 [DEBUG] Decrypted application data with sequence number 18
+2025-04-05 19:34:49,550 [DEBUG] Decrypted application data with sequence number 19
+2025-04-05 19:34:49,553 [DEBUG] Decrypted application data with sequence number 20
+2025-04-05 19:34:49,555 [DEBUG] Decrypted application data with sequence number 21
+2025-04-05 19:34:49,561 [DEBUG] Decrypted application data with sequence number 22
+2025-04-05 19:34:49,564 [DEBUG] Decrypted application data with sequence number 23
+2025-04-05 19:34:49,566 [DEBUG] Decrypted application data with sequence number 24
+2025-04-05 19:34:49,570 [DEBUG] Decrypted application data with sequence number 25
+2025-04-05 19:34:49,572 [DEBUG] Decrypted application data with sequence number 26
+2025-04-05 19:34:49,577 [DEBUG] Decrypted application data with sequence number 27
+2025-04-05 19:34:49,581 [DEBUG] Decrypted application data with sequence number 28
+2025-04-05 19:34:49,583 [DEBUG] Decrypted application data with sequence number 29
+2025-04-05 19:34:49,586 [DEBUG] Decrypted application data with sequence number 30
+2025-04-05 19:34:49,588 [DEBUG] Decrypted application data with sequence number 31
+2025-04-05 19:34:49,593 [DEBUG] Decrypted application data with sequence number 32
+2025-04-05 19:34:49,595 [DEBUG] Decrypted application data with sequence number 33
+2025-04-05 19:34:49,598 [DEBUG] Decrypted application data with sequence number 34
+2025-04-05 19:34:49,601 [DEBUG] Decrypted application data with sequence number 35
+2025-04-05 19:34:49,606 [DEBUG] Decrypted application data with sequence number 36
+2025-04-05 19:34:49,610 [DEBUG] Decrypted application data with sequence number 37
+2025-04-05 19:34:49,613 [DEBUG] Decrypted application data with sequence number 38
+2025-04-05 19:34:49,615 [DEBUG] Decrypted application data with sequence number 39
+2025-04-05 19:34:49,618 [DEBUG] Decrypted application data with sequence number 40
+2025-04-05 19:34:49,622 [DEBUG] Decrypted application data with sequence number 41
+2025-04-05 19:34:49,625 [DEBUG] Decrypted application data with sequence number 42
+2025-04-05 19:34:49,628 [DEBUG] Decrypted application data with sequence number 43
+2025-04-05 19:34:49,631 [DEBUG] Decrypted application data with sequence number 44
+2025-04-05 19:34:49,634 [DEBUG] Decrypted application data with sequence number 45
+2025-04-05 19:34:49,639 [DEBUG] Decrypted application data with sequence number 46
+2025-04-05 19:34:49,643 [DEBUG] Decrypted application data with sequence number 47
+2025-04-05 19:34:49,646 [DEBUG] Decrypted application data with sequence number 48
+2025-04-05 19:34:49,649 [DEBUG] Decrypted application data with sequence number 49
+2025-04-05 19:34:49,652 [DEBUG] Decrypted application data with sequence number 50
+2025-04-05 19:34:49,654 [DEBUG] Decrypted application data with sequence number 51
+2025-04-05 19:34:49,660 [DEBUG] Decrypted application data with sequence number 52
+2025-04-05 19:34:49,664 [DEBUG] Decrypted application data with sequence number 53
+2025-04-05 19:34:49,666 [DEBUG] Decrypted application data with sequence number 54
+2025-04-05 19:34:49,669 [DEBUG] Decrypted application data with sequence number 55
+2025-04-05 19:34:49,671 [DEBUG] Decrypted application data with sequence number 56
+2025-04-05 19:34:49,674 [DEBUG] Decrypted application data with sequence number 57
+2025-04-05 19:34:49,677 [DEBUG] Decrypted application data with sequence number 58
+2025-04-05 19:34:49,683 [DEBUG] Decrypted application data with sequence number 59
+2025-04-05 19:34:49,686 [DEBUG] Decrypted application data with sequence number 60
+2025-04-05 19:34:49,688 [DEBUG] Decrypted application data with sequence number 61
+2025-04-05 19:34:49,692 [DEBUG] Decrypted application data with sequence number 62
+2025-04-05 19:34:49,694 [DEBUG] Decrypted application data with sequence number 63
+2025-04-05 19:34:49,697 [DEBUG] Decrypted application data with sequence number 64
+2025-04-05 19:34:49,699 [DEBUG] Decrypted application data with sequence number 65
+2025-04-05 19:34:49,703 [INFO] Received application data (length: 1038780 bytes) in 2.254714 seconds
+2025-04-05 19:34:49,705 [INFO] Received application data (length: 1038780 bytes)
+2025-04-05 19:34:49,707 [DEBUG] Sending response of length 29 bytes
+2025-04-05 19:34:49,708 [DEBUG] Sending application data (length: 29 bytes)
+2025-04-05 19:34:49,710 [DEBUG] Encrypted application data with sequence number 2
+2025-04-05 19:34:49,712 [DEBUG] Message exchange round-trip took 2.266251 seconds
+2025-04-05 19:34:49,714 [DEBUG] Waiting for client application data
+2025-04-05 19:34:51,191 [DEBUG] Decrypted application data with sequence number 66
+2025-04-05 19:34:51,192 [DEBUG] Decrypted alert with seq_bytes: 0000000000000042
+2025-04-05 19:34:51,194 [INFO] Received alert: close_notify (00) - Session terminated
+2025-04-05 19:34:51,195 [INFO] Client terminated session
+2025-04-05 19:34:51,197 [DEBUG] Encrypted application data with sequence number 3
+2025-04-05 19:34:51,198 [DEBUG] Sending encrypted alert: seq=0000000000000003, IV=0e1b79affba00d2ed6bc7b6a, CT=7301bb76e6c4bb1a72b7e57549f62c9943f86090b120f1be75232ee936b86875f9dd0d
+2025-04-05 19:34:51,201 [INFO] Sent alert: close_notify (00) - Session terminated
+2025-04-05 19:34:51,203 [DEBUG] Cleared sensitive cryptographic data
+2025-04-05 19:34:51,205 [INFO] Server connection closed

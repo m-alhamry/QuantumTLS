@@ -1,0 +1,15 @@
+2025-04-05 11:47:53,709 [DEBUG] Loaded server certificate: subject=<Name(CN=localhost)>, issuer=<Name(CN=My Test CA,O=Test Organization)>
+2025-04-05 11:47:53,709 [INFO] Loaded server certificate and private key
+2025-04-05 11:47:53,717 [INFO] Server certificate verified against CA
+2025-04-05 11:47:53,717 [INFO] Connected by ('127.0.0.1', 14203)
+2025-04-05 11:47:53,725 [DEBUG] Receiving supported cipher suites
+2025-04-05 11:47:53,725 [DEBUG] Received supported cipher suites: ['TLS_AES_256_GCM_SHA384', 'TLS_AES_256_GCM_SHA384_Kyber512', 'TLS_AES_256_GCM_SHA384_Kyber768', 'TLS_AES_256_GCM_SHA384_Kyber1024']
+2025-04-05 11:47:57,581 [DEBUG] Chose cipher suite: TLS_AES_256_GCM_SHA384_Kyber512
+2025-04-05 11:47:57,589 [INFO] Negotiated cipher suite: TLS_AES_256_GCM_SHA384_Kyber512 in 3.860620 seconds
+2025-04-05 11:47:57,589 [DEBUG] Starting handshake with client
+2025-04-05 11:47:57,589 [DEBUG] Receiving ClientHello
+2025-04-05 11:47:57,605 [ERROR] Handshake or data error with ('127.0.0.1', 14203): Client did not provide Signature Algorithms extension
+2025-04-05 11:47:57,613 [DEBUG] Sending unencrypted alert: 2848616e647368616b65206f722064617461206572726f7220776974682028273132372e302e302e31272c203134323033293a20436c69656e7420646964206e6f742070726f76696465205369676e617475726520416c676f726974686d7320657874656e73696f6e
+2025-04-05 11:47:57,613 [INFO] Sent alert: handshake_failure (28) - Handshake or data error with ('127.0.0.1', 14203): Client did not provide Signature Algorithms extension
+2025-04-05 11:47:57,621 [DEBUG] Cleared sensitive cryptographic data
+2025-04-05 11:47:57,621 [INFO] Server connection closed

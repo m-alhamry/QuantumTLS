@@ -1,0 +1,35 @@
+2025-04-05 14:05:58,950 [INFO] Server certificate verified against CA
+2025-04-05 14:05:58,951 [INFO] Loaded server certificate and private key
+2025-04-05 14:05:58,952 [INFO] Connected by ('127.0.0.1', 25043)
+2025-04-05 14:05:58,953 [DEBUG] Receiving supported cipher suites
+2025-04-05 14:05:58,954 [DEBUG] Received supported cipher suites: ['TLS_AES_256_GCM_SHA384', 'TLS_AES_256_GCM_SHA384_Kyber512', 'TLS_AES_256_GCM_SHA384_Kyber768', 'TLS_AES_256_GCM_SHA384_Kyber1024']
+2025-04-05 14:06:03,041 [DEBUG] Chose cipher suite: TLS_AES_256_GCM_SHA384_Kyber512
+2025-04-05 14:06:03,043 [INFO] Negotiated cipher suite: TLS_AES_256_GCM_SHA384_Kyber512 in 4.090406 seconds
+2025-04-05 14:06:03,058 [DEBUG] Starting server-client handshake
+2025-04-05 14:06:03,060 [DEBUG] Receiving ClientHello
+2025-04-05 14:06:03,064 [INFO] Received ClientHello in 0.004184 seconds
+2025-04-05 14:06:03,065 [INFO] Received ClientHello in 0.005294 seconds
+2025-04-05 14:06:03,074 [DEBUG] Generated ECC keys in 0.007267 seconds
+2025-04-05 14:06:03,082 [DEBUG] Generated Kyber512 keys in 0.006067 seconds
+2025-04-05 14:06:03,083 [DEBUG] Generated keys in 0.016521 seconds
+2025-04-05 14:06:03,085 [INFO] Generated hybrid ECC+Kyber keys in 0.018475 seconds
+2025-04-05 14:06:03,091 [DEBUG] Encapsulated Kyber shared secret in 0.003927 seconds
+2025-04-05 14:06:03,092 [DEBUG] Encapsulated Kyber shared secret in 0.005228 seconds
+2025-04-05 14:06:03,094 [INFO] Encapsulated Kyber shared secret in 0.006805 seconds
+2025-04-05 14:06:03,103 [INFO] Derived handshake keys in 0.007455 seconds
+2025-04-05 14:06:03,105 [DEBUG] Sending ServerHello
+2025-04-05 14:06:03,107 [INFO] Sent ServerHello in 0.001974 seconds
+2025-04-05 14:06:03,108 [INFO] Sent ServerHello in 0.003351 seconds
+2025-04-05 14:06:03,109 [DEBUG] Sending CertificateVerify
+2025-04-05 14:06:03,111 [DEBUG] Transcript length before signing: 1540 bytes
+2025-04-05 14:06:03,120 [DEBUG] Computed CertificateVerify in 0.009552 seconds
+2025-04-05 14:06:03,123 [INFO] Sent CertificateVerify in 0.013114 seconds
+2025-04-05 14:06:03,124 [INFO] Sent CertificateVerify in 0.014622 seconds
+2025-04-05 14:06:03,125 [DEBUG] Receiving CertificateVerify
+2025-04-05 14:06:03,142 [DEBUG] Hello 1
+2025-04-05 14:06:03,144 [ERROR] TLSError: Expected alert, got 03 (Alert: unexpected_message, 0a)
+2025-04-05 14:06:03,145 [DEBUG] Sending unencrypted alert: 0a457870656374656420616c6572742c20676f74203033
+2025-04-05 14:06:03,148 [INFO] Sent alert: unexpected_message (0a) - Expected alert, got 03
+2025-04-05 14:06:03,150 [ERROR] TLS error with ('127.0.0.1', 25043): Expected alert, got 03
+2025-04-05 14:06:03,152 [DEBUG] Cleared sensitive cryptographic data
+2025-04-05 14:06:03,154 [INFO] Server connection closed
