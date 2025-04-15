@@ -1,0 +1,63 @@
+2025-04-15 10:41:55,982 [INFO] Loaded server certificate and private key
+2025-04-15 10:41:55,983 [INFO] Server certificate and private key match verified
+2025-04-15 10:41:55,983 [INFO] Server certificate verified against CA
+2025-04-15 10:41:55,983 [INFO] Connected by ('127.0.0.1', 26575)
+2025-04-15 10:41:55,984 [DEBUG] Starting server-client handshake
+2025-04-15 10:41:55,992 [DEBUG] Received client random: 7904cd875441dada6c2a0b9dd188fe9b1384b135d2ce8b362fe05686603a445d
+2025-04-15 10:41:55,993 [DEBUG] Received client session Id: b''
+2025-04-15 10:41:55,994 [DEBUG] Received client cipher_suites: b'\x13\x01\xff\x01\xff\x02\xff\x03'
+2025-04-15 10:41:55,995 [DEBUG] Received client compression_methods: b'\x00'
+2025-04-15 10:41:55,996 [DEBUG] Received client extensions hash: b'\x05\xbb^%\xa3\x95\x12gg|\x14G\x19\xd3\xb3\xbf\x8e\xb1\xe4P\xfe\x87\x9a\xb1ao;&\xb5\x10\xf2\xe5\xa6~1\x0ceZl,To\x08\x94J\xa3\xd1\xda'
+2025-04-15 10:41:55,996 [DEBUG] Received client handshake_message hash: b'@\xb2\x85\xf0D/\xc1`\xbb\xd7\xf6\x11\\\x08\xed\x10\x91\xe0\xc2\xed\xcfhvO\x04K\x08P\xcb\xe4\xde\xe03\xeb\x08|w\x9c\xec\xf5\xd6B\x19\x9f\xc60\x83\xb2'
+2025-04-15 10:41:55,997 [DEBUG] Received client handshake_transcript hash: b'@\xb2\x85\xf0D/\xc1`\xbb\xd7\xf6\x11\\\x08\xed\x10\x91\xe0\xc2\xed\xcfhvO\x04K\x08P\xcb\xe4\xde\xe03\xeb\x08|w\x9c\xec\xf5\xd6B\x19\x9f\xc60\x83\xb2'
+2025-04-15 10:41:55,997 [DEBUG] Received ClientHello
+2025-04-15 10:41:55,998 [INFO] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber1024
+2025-04-15 10:41:56,001 [DEBUG] Generated ECC keys in 0.003152 seconds
+2025-04-15 10:41:56,003 [DEBUG] Generated Kyber1024 keys in 0.001589 seconds
+2025-04-15 10:41:56,005 [DEBUG] Encapsulated Kyber shared secret in 0.001639s
+2025-04-15 10:41:56,008 [DEBUG] Derived handshake keys in 0.001897s
+2025-04-15 10:41:56,009 [DEBUG] Send server handshake_message hash: b'i\xd88\x81\xa2\x19\x80\xc3G\xff\xbd\xad\x05r\xfa\xbc}\xc2t!\xe0\xab\x168\x19\xf7\xaeR\x9f\xc6\x9a\xa37\xc1\r\xa2\t\xaaz-u\x9b\xcc}\xacK\x93\xbe'
+2025-04-15 10:41:56,011 [DEBUG] Send server random: b2c538337323c440389ce4bc1f8789dc6be2d83ba80d17f9ef9cdcfc4c634e42
+2025-04-15 10:41:56,011 [DEBUG] Send server session Id: b''
+2025-04-15 10:41:56,013 [DEBUG] Send server selected code: b'\xff\x03'
+2025-04-15 10:41:56,014 [DEBUG] Send server compression_method: b'\x00'
+2025-04-15 10:41:56,014 [DEBUG] Send server extensions hash: b'+\xact\x9f\xb7)\xb2\x07y{\xe2~\xb04\x13\xd0\xc3\xb7\x11"\x91\x18\xb5\xe8\x19\x14r\x91\xa2r\xc1\x93\xad TA\xe2*k\x19rd\xb2sF*\xdaJ'
+2025-04-15 10:41:56,015 [DEBUG] Send server handshake_transcript hash: b',\x19\xb9\xdd\n\xb2t\x80\xfb\xccgE\n\x95|\xad\x89IS\xfc\xd1p->\x07\x80\xb9r\n\x01\xf7Pe\x17Ioy3\xf6\x03g\xca#\xcf\xb3\xc4@\xc5'
+2025-04-15 10:41:56,015 [DEBUG] Sent ServerHello
+2025-04-15 10:41:56,016 [DEBUG] Encrypted message in 0.000087s
+2025-04-15 10:41:56,016 [DEBUG] Sent Server EncryptedExtensions
+2025-04-15 10:41:56,016 [DEBUG] Encrypted message in 0.000035s
+2025-04-15 10:41:56,017 [DEBUG] Sent Server CertificateRequest
+2025-04-15 10:41:56,017 [DEBUG] Encrypted message in 0.000053s
+2025-04-15 10:41:56,018 [DEBUG] Sent Server Certificate
+2025-04-15 10:41:56,018 [INFO] Server transcript_hash: 16728d384b524401dbfe904607caf3d53fac88481d1dc96592ff24be1345c6bb459e708ad01d0fa096ba3a945ba84f96
+2025-04-15 10:41:56,032 [DEBUG] Computed CertificateVerify in 0.014251s
+2025-04-15 10:41:56,033 [DEBUG] Encrypted message in 0.000044s
+2025-04-15 10:41:56,033 [DEBUG] Sent Server CertificateVerify
+2025-04-15 10:41:56,034 [DEBUG] Computed Finished message in 0.000145s
+2025-04-15 10:41:56,035 [DEBUG] Encrypted message in 0.000095s
+2025-04-15 10:41:56,035 [DEBUG] Sent Server Finished
+2025-04-15 10:41:56,054 [DEBUG] Decrypted message in 0.000041s
+2025-04-15 10:41:56,057 [INFO] Client certificate verified against CA
+2025-04-15 10:41:56,059 [DEBUG] Decrypted message in 0.000189s
+2025-04-15 10:41:56,061 [INFO] Server transcript_hash for verification: 63f1e22be814b72520def2ceefd6068a4250460fa0921206d9acc1c6543503bdbaf633a8bcfca1619fd8b948b975f340
+2025-04-15 10:41:56,064 [DEBUG] Verified CertificateVerify in 0.003642s
+2025-04-15 10:41:56,065 [DEBUG] Decrypted message in 0.000038s
+2025-04-15 10:41:56,065 [DEBUG] Computed Finished message in 0.000064s
+2025-04-15 10:41:56,065 [DEBUG] Finished message verification: success
+2025-04-15 10:41:56,067 [DEBUG] Derived application key in 0.000230s, send_seq=0, recv_seq=0
+2025-04-15 10:41:56,067 [INFO] Handshake completed in 0.082665 seconds
+2025-04-15 10:41:56,067 [INFO] Handshake completed, starting message exchange
+2025-04-15 10:41:56,068 [DEBUG] Starting message exchange loop
+2025-04-15 10:42:01,708 [DEBUG] Decrypted message in 0.000058s
+2025-04-15 10:42:01,709 [INFO] Received plaintext: bytearray(b'Hello hi')...
+2025-04-15 10:42:01,709 [DEBUG] Encrypted message in 0.000037s
+2025-04-15 10:42:01,709 [INFO] Sent application data: b'Message received suc'...
+2025-04-15 10:42:04,095 [DEBUG] Decrypted message in 0.000036s
+2025-04-15 10:42:04,095 [INFO] Received alert: close_notify (00) - Session terminated
+2025-04-15 10:42:04,096 [INFO] Client terminated session
+2025-04-15 10:42:04,096 [DEBUG] Encrypted message in 0.000034s
+2025-04-15 10:42:04,096 [DEBUG] Sent alert in 0.000439s: close_notify (00) - Session terminated
+2025-04-15 10:42:04,097 [DEBUG] Cleared sensitive cryptographic data
+2025-04-15 10:42:04,097 [DEBUG] Cleared server-specific sensitive data
+2025-04-15 10:42:04,098 [INFO] Server connection closed

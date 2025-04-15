@@ -1,0 +1,35 @@
+2025-04-13 13:57:07,365 [INFO] Loaded server certificate and private key
+2025-04-13 13:57:07,366 [INFO] Connected by ('127.0.0.1', 41439)
+2025-04-13 13:57:07,367 [DEBUG] Starting server-client handshake
+2025-04-13 13:57:07,400 [DEBUG] received client random: 6d7f6c1b4a96359c6bdcdc9956ea70dc3a236ca25b1eff2e4d096a171ba7a90a
+2025-04-13 13:57:07,402 [DEBUG] received client session Id: b''
+2025-04-13 13:57:07,403 [DEBUG] received client cipher_suites: b'\x13\x01\xff\x01\xff\x02\xff\x03'
+2025-04-13 13:57:07,404 [DEBUG] received client compression_methods: b'\x00'
+2025-04-13 13:57:07,407 [DEBUG] received client extensions hash: b'%/\xf0\xe2\x0f\xb3ZK\x86\x12\x8b\xfe\x1e\xe6\xb1\x0b#\x89\xb5\xc7y\xf3\xe5o\xd9\xce\xde&\xce\x98+\xb3\x11\xfcC\x88\xbft\x12\xf5\xd33\xd3\x8e\xe1B\xdd\xd7'
+2025-04-13 13:57:07,424 [DEBUG] received client handshake_message hash: b'e\xa6m\x0f\xb0\xe9\xf1\x16\xfdss\xf9-\x12,.\xc6+\xef\xec\xe8\xf0\xc1+\xcd\xca\x1b=\xbd\x9a\x9c\xc5\x176Q\xeaG\xbd\xc5\xcb\xe7CtT%G\x8dJ'
+2025-04-13 13:57:07,428 [DEBUG] received client handshake_transcript hash: b'e\xa6m\x0f\xb0\xe9\xf1\x16\xfdss\xf9-\x12,.\xc6+\xef\xec\xe8\xf0\xc1+\xcd\xca\x1b=\xbd\x9a\x9c\xc5\x176Q\xeaG\xbd\xc5\xcb\xe7CtT%G\x8dJ'
+2025-04-13 13:57:07,430 [DEBUG] Received ClientHello
+2025-04-13 13:57:07,432 [INFO] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber512
+2025-04-13 13:57:07,441 [DEBUG] Generated ECC keys in 0.008816 seconds
+2025-04-13 13:57:07,446 [DEBUG] Generated Kyber512 keys in 0.003455 seconds
+2025-04-13 13:57:07,461 [DEBUG] send server handshake_message hash: b'\xae\xc2\xbaN]E:\xa9\x14\xfc\xecM\xf9\x9c\x1b\x89%\xf0\xab\x84\x8dn\xbb\xe4T\xe0\x1e1\xe6\xcc\xefsN\xb9\xb2o\x8f\xfa\xfc\x88\x16$;\xc0\xc3\xeaR\xc7'
+2025-04-13 13:57:07,465 [DEBUG] send server random: 39d174a40d5faca3a06d95e7578df26712f89e61203ed309ae4ea45c68132117
+2025-04-13 13:57:07,466 [DEBUG] send server session Id: b''
+2025-04-13 13:57:07,468 [DEBUG] send server selected code: b'\xff\x01'
+2025-04-13 13:57:07,469 [DEBUG] send server compression_method: b'\x00'
+2025-04-13 13:57:07,472 [DEBUG] send server extensions hash: b'\x1eU\x93[\x8b\xd0:/\xfbW\x8eM":\xc0\xb5!\x02rt,\xe7\xa6\x82\xb8+\x13\xb4T\x89S\xa3\xebRj\x0e\t\xd3\xfb\'z6\xb6\xee,t4\x12'
+2025-04-13 13:57:07,477 [DEBUG] send server handshake_transcript hash: b'\x87\xa3\x01\xcf/\xdb49>\x17z\xd0:\x83\xd8~)\xf6\xcb\xe3\x9b\x0c2\xae\xef\xba&\n\x8e\xd4\x1d\xdb\xb4\x13R\xd5\xa29\x83\xfdl\xbc8\xcbj\xa8\xdfS'
+2025-04-13 13:57:07,479 [DEBUG] Sent ServerHello
+2025-04-13 13:57:07,481 [DEBUG] Sent Server encrypted_extensions
+2025-04-13 13:57:07,483 [DEBUG] Sent Server certificate_request
+2025-04-13 13:57:07,484 [DEBUG] Sent Server certificate
+2025-04-13 13:57:07,486 [INFO] server transcript_hash: fe5b27cc4ef2bc1ffd4fbfc244f022bce47e017321b5ed86c5f38575825827b0c0c57b6e59d0913ea3622c57d3879fbb
+2025-04-13 13:57:07,495 [DEBUG] Sent Server certificate verify
+2025-04-13 13:57:07,497 [DEBUG] Sent Server finished
+2025-04-13 13:57:07,539 [INFO] TLSError: Certificate_list too short (Alert: decode_error, 32)
+2025-04-13 13:57:07,541 [INFO] Sent alert: decode_error (32) - Certificate_list too short
+2025-04-13 13:57:07,542 [ERROR] TLS error with ('127.0.0.1', 41439): Certificate_list too short
+2025-04-13 13:57:07,544 [INFO] Server connection closed
+2025-04-13 13:57:07,545 [DEBUG] Cleared sensitive cryptographic data
+2025-04-13 13:57:07,546 [DEBUG] Cleared server-specific sensitive data
+2025-04-13 13:57:07,548 [INFO] Server connection closed

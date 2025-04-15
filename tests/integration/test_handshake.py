@@ -24,7 +24,7 @@ class TestHandshake(unittest.TestCase):
         self.server_crypto.generate_keys(use_hybrid, kyber_variant)
         client_hello = {
             "ecc_pk": self.client_crypto.ecc_public_key_bytes,
-            "kyber_pk": self.client_crypto.kyber_pk,
+            "kyber_pk": self.client_crypto.kyber_pks,
             "cert": self.client_crypto.cert.public_bytes(Encoding.PEM),
             "transcript": b"client_hello"
         }
@@ -41,7 +41,7 @@ class TestHandshake(unittest.TestCase):
         self.server_crypto.generate_keys(use_hybrid, kyber_variant)
         client_hello = {
             "ecc_pk": self.client_crypto.ecc_public_key_bytes,
-            "kyber_pk": self.client_crypto.kyber_pk,
+            "kyber_pk": self.client_crypto.kyber_pks,
             "cert": b"invalid_cert",  # Invalid certificate
             "transcript": b"client_hello"
         }
@@ -63,7 +63,7 @@ class TestHandshake(unittest.TestCase):
             self.server_crypto.generate_keys(use_hybrid, kyber_variant)
             client_hello = {
                 "ecc_pk": self.client_crypto.ecc_public_key_bytes,
-                "kyber_pk": self.client_crypto.kyber_pk,
+                "kyber_pk": self.client_crypto.kyber_pks,
                 "cert": self.client_crypto.cert.public_bytes(Encoding.PEM),
                 "transcript": b"client_hello"
             }

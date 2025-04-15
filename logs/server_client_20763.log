@@ -1,5 +1,0 @@
-2025-04-05 18:47:28,511 [INFO] Server certificate verified against CA
-2025-04-05 18:47:28,512 [INFO] Loaded server certificate and private key
-2025-04-05 18:47:28,512 [INFO] Connected by ('127.0.0.1', 20763)
-2025-04-05 18:47:28,512 [DEBUG] Receiving supported cipher suites
-2025-04-05 18:47:28,513 [DEBUG] Received supported cipher suites: ['TLS_AES_256_GCM_SHA384', 'TLS_AES_256_GCM_SHA384_Kyber512', 'TLS_AES_256_GCM_SHA384_Kyber768', 'TLS_AES_256_GCM_SHA384_Kyber1024']

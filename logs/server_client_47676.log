@@ -1,0 +1,25 @@
+2025-04-15 21:04:39,209 [INFO] Loaded server certificate and private key
+2025-04-15 21:04:39,211 [INFO] Server certificate and private key match verified
+2025-04-15 21:04:39,213 [INFO] Server certificate verified against CA
+2025-04-15 21:04:39,214 [INFO] Connected by ('127.0.0.1', 47676)
+2025-04-15 21:04:39,215 [DEBUG] Starting server-client handshake
+2025-04-15 21:04:39,250 [DEBUG] Received ClientHello
+2025-04-15 21:04:39,252 [INFO] Selected cipher suite: TLS_AES_256_GCM_SHA384
+2025-04-15 21:04:39,258 [DEBUG] Generated ECC keys in 0.004935 seconds
+2025-04-15 21:04:39,270 [DEBUG] Derived handshake keys in 0.009586s
+2025-04-15 21:04:39,276 [DEBUG] Sent ServerHello
+2025-04-15 21:04:39,278 [DEBUG] Sent Server EncryptedExtensions
+2025-04-15 21:04:39,281 [DEBUG] Sent Server CertificateRequest
+2025-04-15 21:04:39,283 [DEBUG] Sent Server Certificate
+2025-04-15 21:04:39,293 [DEBUG] Computed CertificateVerify in 0.009078s
+2025-04-15 21:04:39,295 [DEBUG] Sent Server CertificateVerify
+2025-04-15 21:04:39,297 [DEBUG] Computed Finished message in 0.000180s
+2025-04-15 21:04:39,298 [DEBUG] Sent Server Finished
+2025-04-15 21:04:39,352 [DEBUG] Recived client certificate
+2025-04-15 21:04:39,352 [INFO] TLSError: Certificate_list too short (Alert: decode_error, 32)
+2025-04-15 21:04:39,352 [DEBUG] Sent alert in 0.000347s: decode_error (32) - Certificate_list too short
+2025-04-15 21:04:39,361 [ERROR] TLS error with ('127.0.0.1', 47676): Certificate_list too short
+2025-04-15 21:04:39,363 [INFO] Server connection closed
+2025-04-15 21:04:39,365 [DEBUG] Cleared sensitive cryptographic data
+2025-04-15 21:04:39,370 [DEBUG] Cleared server-specific sensitive data
+2025-04-15 21:04:39,372 [INFO] Server connection closed

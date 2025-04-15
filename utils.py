@@ -1,30 +1,76 @@
-# Imports modules for logging, networking, and data packing
-from asyncio.log import logger
 import logging
 import socket
 import struct
 import time
 from typing import Tuple, List
 
-# Handshake states for client
+# Network settings
+DEFAULT_IP = "127.0.0.1"
+DEFAULT_PORT = 65432
+SOCKET_RECV_BUFFER_SIZE = 16384
+SOCKET_CONNECT_TIMEOUT = 10.0
+SOCKET_ACCEPT_TIMEOUT = 1.0
+CONNECTION_RETRY_ATTEMPTS = 3
+RETRY_SLEEP_SECONDS = 1
+SERVER_LISTEN_BACKLOG = 5
+MAX_PLAINTEXT_SIZE = 16384
+SESSION_TIMEOUT = 30
+LENGTH_FIELD_2_BYTES = 2
+LENGTH_FIELD_4_BYTES = 4
+
+# File locations
+DEFAULT_JSON_FILE = "large_data.json"
+DEFAULT_CA_CERT = "ca.crt"
+DEFAULT_CLIENT_CERT = "client.crt"
+DEFAULT_CLIENT_KEY = "client.key"
+DEFAULT_SERVER_CERT = "server.crt"
+DEFAULT_SERVER_KEY = "server.key"
+
+# Cryptographic constants
+RANDOM_BYTES_LENGTH = 32
+CERT_VERIFY_CONTEXT_PADDING = b" " * 64
+TLS13_CLIENT_CERT_VERIFY_CONTEXT = b"TLS 1.3, client CertificateVerify"
+TLS13_SERVER_CERT_VERIFY_CONTEXT = b"TLS 1.3, server CertificateVerify"
+HKDF_INFO_INITIAL_KEY = b"tls13 initial key"
+HKDF_INFO_EARLY_SECRET = b""
+HKDF_INFO_HANDSHAKE_KEY = b"tls13 handshake key"
+HKDF_INFO_MASTER_SECRET = b"tls13 master secret"
+HKDF_INFO_APPLICATION_KEY = b"tls13 application key"
+KEY_LENGTH = 32
+IV_LENGTH = 12
+SEQ_BYTES_LENGTH = 8
+
+# Protocol defaults
+DEFAULT_SNI = b"example.com"
+ALPN_HTTP = b"\x04http"
+VERSION_LENGTH = 2
+HANDSHAKE_TYPE_LENGTH = 1
+ALERT_TYPE_LENGTH = 1
+CERT_VERIFY_SIG_LENGTH_FIELD = 2
+
+# Message types
+MSG_TYPE_HANDSHAKE = 0x16
+MSG_TYPE_APPLICATION = 0x17
+ALERT_TYPE = 0x15
+
+# Handshake states
 STATE_CLIENT_INIT = 0
 STATE_CLIENT_SENT_HELLO = 1
 STATE_CLIENT_RECEIVED_SERVER_HELLO = 2
-STATE_CLIENT_RECEIVED_SERVER_CERT_VERIFY = 3
-STATE_CLIENT_SENT_CERT_VERIFY = 4
-STATE_CLIENT_SENT_FINISHED = 5
-STATE_CLIENT_RECEIVED_SERVER_FINISHED = 6
 STATE_CLIENT_APPLICATION = 7
-
-# Handshake states for server
 STATE_SERVER_INIT = 10
 STATE_SERVER_RECEIVED_CLIENT_HELLO = 11
 STATE_SERVER_SENT_HELLO = 12
-STATE_SERVER_SENT_CERT_VERIFY = 13
-STATE_SERVER_RECEIVED_CLIENT_CERT_VERIFY = 14
-STATE_SERVER_RECEIVED_CLIENT_FINISHED = 15
-STATE_SERVER_SENT_FINISHED = 16
 STATE_SERVER_APPLICATION = 17
+
+# TLS 1.3 handshake message types
+HANDSHAKE_TYPE_CLIENT_HELLO = 0x01
+HANDSHAKE_TYPE_SERVER_HELLO = 0x02
+HANDSHAKE_TYPE_ENCRYPTED_EXTENSIONS = 0x08
+HANDSHAKE_TYPE_CERTIFICATE_REQUEST = 0x0D
+HANDSHAKE_TYPE_CERTIFICATE = 0x0B
+HANDSHAKE_TYPE_CERTIFICATE_VERIFY = 0x0F
+HANDSHAKE_TYPE_FINISHED = 0x14
 
 # Define TLS 1.3 alert types (RFC 8446, Section 6)
 ALERT_CLOSE_NOTIFY = 0x00
@@ -96,7 +142,7 @@ ALERT_DESCRIPTIONS = {
     ALERT_CERTIFICATE_REQUIRED: "certificate_required"
 }
 
-# Extension types (IANA registry: https://www.iana.org/assignments/tls-extensiontype-values/)
+# Extension types
 EXTENSION_SERVER_NAME = 0x0000
 EXTENSION_SUPPORTED_GROUPS = 0x000A
 EXTENSION_ALPN = 0x0010
@@ -105,8 +151,8 @@ EXTENSION_SIGNATURE_ALGORITHMS = 0x000D
 EXTENSION_KEY_SHARE = 0x0033
 
 # Protocol versions
-TLS_VERSION_1_3 = b"\x03\x04"  # TLS 1.3
-LEGACY_VERSION = b"\x03\x03"   # TLS 1.2 for record layer compatibility
+TLS_VERSION_1_3 = b"\x03\x04"
+LEGACY_VERSION = b"\x03\x03"
 
 # Supported groups
 GROUP_SECP384R1 = 0x0018
@@ -114,15 +160,11 @@ GROUP_KYBER512 = 0xFF01
 GROUP_KYBER768 = 0xFF02
 GROUP_KYBER1024 = 0xFF03
 
-# Supported signature algorithms
-SIGNATURE_ECDSA_SECP384R1_SHA384 = b"\x05\x03"  # ecdsa_secp384r1_sha384
-SIGNATURE_RSA_PSS_RSAE_SHA384 = b"\x08\x05"     # rsa_pss_rsae_sha384
-SUPPORTED_SIGNATURE_ALGORITHMS = [
-    SIGNATURE_ECDSA_SECP384R1_SHA384,
-    SIGNATURE_RSA_PSS_RSAE_SHA384,
-]
+# Signature algorithms
+SIGNATURE_ECDSA_SECP384R1_SHA384 = b"\x05\x03"
+SUPPORTED_SIGNATURE_ALGORITHMS = [SIGNATURE_ECDSA_SECP384R1_SHA384]
 
-# CIPHER_SUITES: List of available cipher suites for negotiation
+# Cipher suites
 CIPHER_SUITES = [
     "TLS_AES_256_GCM_SHA384",
     "TLS_AES_256_GCM_SHA384_Kyber512",
@@ -130,46 +172,37 @@ CIPHER_SUITES = [
     "TLS_AES_256_GCM_SHA384_Kyber1024"
 ]
 
-# Kyber public key and ciphertext lengths
-KYBER_PK_LENGTHS = {
-    "TLS_AES_256_GCM_SHA384_Kyber512": 800,
-    "TLS_AES_256_GCM_SHA384_Kyber768": 1184,
-    "TLS_AES_256_GCM_SHA384_Kyber1024": 1568
+CIPHER_SUITE_CODES = {
+    "TLS_AES_256_GCM_SHA384": b"\x13\x01",
+    "TLS_AES_256_GCM_SHA384_Kyber512": b"\xFF\x01",
+    "TLS_AES_256_GCM_SHA384_Kyber768": b"\xFF\x02",
+    "TLS_AES_256_GCM_SHA384_Kyber1024": b"\xFF\x03",
 }
 
-KYBER_CT_LENGTHS = {
-    "TLS_AES_256_GCM_SHA384_Kyber512": 768,
-    "TLS_AES_256_GCM_SHA384_Kyber768": 1088,
-    "TLS_AES_256_GCM_SHA384_Kyber1024": 1568
-}
+CIPHER_SUITE_NAMES = {v: k for k, v in CIPHER_SUITE_CODES.items()}
 
-# Maximum plaintext size per TLS record
-MAX_PLAINTEXT_SIZE = 16384
-
-# Helper function to encode Signature Algorithms extension
 def encode_signature_algorithms(algorithms: List[bytes]) -> bytes:
     """
-    Encode the Signature Algorithms extension for ClientHello.
-    
+    Encode a list of signature algorithms into a byte string for the TLS extension.
+
     Args:
-        algorithms: List of 2-byte signature algorithm identifiers.
-    
+        algorithms: List of signature algorithm identifiers (each 2 bytes).
+
     Returns:
-        bytes: Encoded extension data (length + list of algorithms).
+        bytes: Encoded byte string with length prefix.
     """
     sig_alg_list = b"".join(algorithms)
     return struct.pack("!H", len(sig_alg_list)) + sig_alg_list
 
-# Helper functions for Key Share extension
 def encode_key_share_client_hello(key_shares: List[Tuple[int, bytes]]) -> bytes:
     """
-    Encode the Key Share extension for ClientHello with multiple key shares.
-    
+    Encode the key share extension for the ClientHello message.
+
     Args:
-        key_shares: List of (group, key_exchange) tuples.
-    
+        key_shares: List of tuples containing (group, key_exchange).
+
     Returns:
-        bytes: Encoded extension (length + list of key share entries).
+        bytes: Encoded extension byte string.
     """
     client_shares = b""
     for group, key_exchange in key_shares:
@@ -178,71 +211,67 @@ def encode_key_share_client_hello(key_shares: List[Tuple[int, bytes]]) -> bytes:
 
 def encode_key_share_server_hello(key_shares: List[Tuple[int, bytes]]) -> bytes:
     """
-    Encode the Key Share extension for ServerHello with multiple key shares.
-    
+    Encode the key share extension for the ServerHello message.
+
     Args:
-        key_shares: List of (group, key_exchange) tuples.
-    
+        key_shares: List of tuples containing (group, key_exchange).
+
     Returns:
-        bytes: Encoded extension (list of key share entries).
+        bytes: Encoded extension byte string.
     """
     server_shares = b""
     for group, key_exchange in key_shares:
         server_shares += struct.pack("!H", group) + struct.pack("!H", len(key_exchange)) + key_exchange
     return encode_extension(EXTENSION_KEY_SHARE, server_shares)
 
-# Encode an extension: type (2 bytes) + length (2 bytes) + data
 def encode_extension(ext_type: int, ext_data: bytes) -> bytes:
     """
-    Encode an extension in Type-Length-Value (TLV) format.
+    Encode a single TLS extension with type and data.
 
     Args:
-        ext_type: Extension type identifier (2 bytes).
+        ext_type: Extension type (2 bytes).
         ext_data: Extension data.
 
     Returns:
-        bytes: Encoded extension (type: 2 bytes, length: 2 bytes, data).
+        bytes: Encoded extension (type, length, data).
     """
     return struct.pack("!HH", ext_type, len(ext_data)) + ext_data
 
-# Decode extensions from a byte string
 def decode_extensions(data: bytes) -> List[Tuple[int, bytes]]:
     """
-    Decode a list of extensions from raw bytes.
+    Decode a byte string containing multiple TLS extensions.
 
     Args:
-        data: Raw extension data.
+        data: Byte string containing extensions.
 
     Returns:
-        List of (extension type, extension data) tuples.
+        List[Tuple[int, bytes]]: List of (extension_type, extension_data) tuples.
     """
     extensions = []
     offset = 0
     while offset < len(data):
-        ext_type, ext_len = struct.unpack("!HH", data[offset:offset+4])
-        ext_data = data[offset+4:offset+4+ext_len]
+        ext_type, ext_len = struct.unpack("!HH", data[offset:offset + LENGTH_FIELD_4_BYTES])
+        ext_data = data[offset + LENGTH_FIELD_4_BYTES:offset + LENGTH_FIELD_4_BYTES + ext_len]
         extensions.append((ext_type, ext_data))
-        offset += 4 + ext_len
+        offset += LENGTH_FIELD_4_BYTES + ext_len
     return extensions
 
 def setup_logging(name: str, log_file: str, level: int = logging.INFO) -> logging.Logger:
     """
-    Configure a logger with both file and console handlers.
+    Configure and return a logger with file and console handlers.
 
     Args:
-        name: Name of the logger (e.g., 'client', 'server').
+        name: Name of the logger.
         log_file: Path to the log file.
         level: Logging level (default: INFO).
 
     Returns:
-        Configured logger instance.
+        logging.Logger: Configured logger instance.
     """
     logger = logging.getLogger(name)
     logger.setLevel(level)
-    # File handler with detailed format
     file_handler = logging.FileHandler(log_file, encoding='utf-8')
     file_handler.setFormatter(logging.Formatter('%(asctime)s [%(levelname)s] %(message)s'))
-    # Console handler with concise format
     console_handler = logging.StreamHandler()
     console_handler.setFormatter(logging.Formatter(f'({name}) %(levelname)s: %(message)s'))
     logger.addHandler(file_handler)
@@ -254,28 +283,22 @@ def receive_exact(sock: socket.socket, size: int) -> bytes:
     Receive exactly the specified number of bytes from a socket.
 
     Args:
-        sock: Socket to read from.
+        sock: Socket object.
         size: Number of bytes to receive.
 
     Returns:
         bytes: Received data.
 
     Raises:
-        ConnectionError: If connection closes before receiving all bytes.
+        ConnectionError: If the connection closes before all data is received.
     """
     data = bytearray()
     while len(data) < size:
-        try:
-            packet = sock.recv(size - len(data))
-            if not packet:
-                raise ConnectionError(f"Expected {size} bytes, got {len(data)}")
-            data.extend(packet)
-        except socket.error as e:
-            raise  # Let caller handle socket-specific errors
+        packet = sock.recv(size - len(data))
+        if not packet:
+            raise ConnectionError(f"Expected {size} bytes, received {len(data)}")
+        data.extend(packet)
     return bytes(data)
-
-# SESSION_TIMEOUT: Time in seconds after which the session times out
-SESSION_TIMEOUT = 30
 
 def handle_session_timeout(network: 'BaseNetwork', last_activity: float, timeout: int) -> bool:
     """
@@ -283,66 +306,37 @@ def handle_session_timeout(network: 'BaseNetwork', last_activity: float, timeout
 
     Args:
         network: Network object with end_session method.
-        last_activity: Timestamp of the last activity (in seconds since epoch).
+        last_activity: Timestamp of the last activity (in seconds).
         timeout: Timeout duration in seconds.
 
     Returns:
-        True if the session timed out, False otherwise.
+        bool: True if session timed out, False otherwise.
     """
     if time.time() - last_activity > timeout:
         network.end_session(f"Session timed out after {timeout} seconds")
         return True
     return False
 
-def prompt_cipher_suite(cipher_suite) -> str:
+def prompt_ip_port(is_server: bool = False, logger: logging.Logger = None) -> Tuple[str, int]:
     """
-    Prompt the server user to select a cipher suite from available options sent by the client.
-
-    Returns:
-        str: The selected cipher suite.
-    """
-    # Display the available cipher suites to the user
-    print("\nClient supported cipher suites::")
-    for i, suite in enumerate(cipher_suite, 1):
-        print(f"{i}. {suite}")
-    
-    # Loop until a valid choice is made
-    while True:
-        try:
-            # Prompt the user for a choice, defaulting to 1
-            choice = input(f"Choose a cipher suite (1-{len(cipher_suite)}) [default: 1]: ").strip() or "1"
-            
-            # Convert the choice to an integer
-            choice = int(choice)
-            
-            # Check if the choice is within the valid range
-            if 1 <= choice <= len(cipher_suite):
-                # Return the selected cipher suite
-                return cipher_suite[choice - 1]
-            
-            # Log a warning for an invalid choice
-            logger.warning(f"Invalid choice. Enter a number between 1 and {len(cipher_suite)}.")
-        except ValueError:
-            # Log a warning for invalid input
-            logger.warning("Invalid input. Please enter a number.")
-
-def prompt_ip_port(is_server: bool = False, logger: logging.Logger | None = None) -> Tuple[str, int]:
-    """
-    Prompt the user for an IP address and port number with input validation.
+    Prompt the user for an IP address and port number.
 
     Args:
-        is_server: True if binding (server mode), False if connecting (client mode).
-        logger: Optional logger for warning messages.
+        is_server: If True, prompt for binding IP (server); otherwise, server IP (client).
+        logger: Optional logger for error messages.
 
     Returns:
-        Tuple containing validated IP address and port number.
+        Tuple[str, int]: IP address and port number.
+
+    Raises:
+        ValueError: If input is invalid (handled within the loop).
     """
     prompt = "Enter IP address to bind" if is_server else "Enter server IP address"
     while True:
         try:
-            ip = input(f"{prompt} [default: 127.0.0.1]: ").strip() or "127.0.0.1"
+            ip = input(f"{prompt} [default: {DEFAULT_IP}]: ").strip() or DEFAULT_IP
             socket.inet_aton(ip)  # Validate IP address
-            port = int(input("Enter port number [default: 65432]: ").strip() or 65432)
+            port = int(input(f"Enter port number [default: {DEFAULT_PORT}]: ").strip() or DEFAULT_PORT)
             if 1 <= port <= 65535:
                 return ip, port
             if logger:
@@ -352,54 +346,44 @@ def prompt_ip_port(is_server: bool = False, logger: logging.Logger | None = None
                 logger.warning(f"Invalid input: {e}")
 
 class BaseNetwork:
-    """
-    Base class providing common network communication utilities, including alert handling.
-
-    Attributes:
-        logger: Logger for network events.
-        sock: Socket for communication (set by subclasses).
-        crypto: Cryptographic object for encryption/decryption (set by subclasses).
-        MSG_TYPE_HANDSHAKE: Constant for handshake message type (0x16).
-        MSG_TYPE_APPLICATION: Constant for application data type (0x17).
-        ALERT_TYPE: Constant for alert message type (0x15).
-        LEGACY_VERSION: TLS 1.2 version bytes (0x0303) for record layer compatibility.
-    """
-    MSG_TYPE_HANDSHAKE = 0x16
-    MSG_TYPE_APPLICATION = 0x17
-    ALERT_TYPE = 0x15
-    LEGACY_VERSION = b"\x03\x03"
+    """Base class for network operations in TLS 1.3 communication."""
 
     def __init__(self, logger: logging.Logger):
+        """
+        Initialize the BaseNetwork instance.
+
+        Args:
+            logger: Logger instance for logging network events.
+        """
         self.logger = logger
         self.sock = None
         self.crypto = None
 
     def send_alert(self, alert_type: int, description: str = "", encrypt: bool = False) -> None:
         """
-        Send an alert message to the peer.
+        Send a TLS alert message.
 
         Args:
-            alert_type (int): Alert type code (e.g., ALERT_CLOSE_NOTIFY).
-            description (str): Optional description for debugging.
-            encrypt (bool): True to encrypt the alert (post-handshake).
+            alert_type: TLS alert type code (e.g., ALERT_CLOSE_NOTIFY).
+            description: Human-readable description of the alert.
+            encrypt: If True, encrypt the alert (used after handshake).
         """
         alert_data = bytes([alert_type]) + description.encode('utf-8')
         try:
+            start_time = time.perf_counter()
             if self.crypto and not self.crypto.is_handshake_phase and encrypt:
                 seq_bytes, iv, ct = self.crypto.encrypt_message(alert_data)
-                message = bytes([self.ALERT_TYPE]) + LEGACY_VERSION + len(seq_bytes + iv + ct).to_bytes(4, 'big') + seq_bytes + iv + ct
-                self.logger.debug(f"Sending encrypted alert: seq={seq_bytes.hex()}, IV={iv.hex()}, CT={ct.hex()}")
+                message = bytes([ALERT_TYPE]) + LEGACY_VERSION + len(seq_bytes + iv + ct).to_bytes(2, 'big') + seq_bytes + iv + ct
             else:
-                message = bytes([self.ALERT_TYPE]) + LEGACY_VERSION + len(alert_data).to_bytes(4, 'big') + alert_data
-                self.logger.debug(f"Sending unencrypted alert: {alert_data.hex()}")
+                message = bytes([ALERT_TYPE]) + LEGACY_VERSION + len(alert_data).to_bytes(2, 'big') + alert_data
             self.sock.send(message)
-            self.logger.info(f"Sent alert: {ALERT_DESCRIPTIONS.get(alert_type, 'Unknown')} ({alert_type:02x}) - {description}")
+            self.logger.debug(f"Sent alert in {time.perf_counter() - start_time:.6f}s: {ALERT_DESCRIPTIONS.get(alert_type, 'Unknown')} ({alert_type:02x}) - {description}")
         except socket.error as e:
             self.logger.warning(f"Failed to send alert: {e}")
 
     def receive_alert(self) -> Tuple[int, str]:
         """
-        Receive an alert message from the peer.
+        Receive and process a TLS alert message.
 
         Returns:
             Tuple[int, str]: Alert type and description.
@@ -407,47 +391,33 @@ class BaseNetwork:
         Raises:
             TLSError: If the message is not an alert or is malformed.
         """
-        from errors import TLSError  # Local import to avoid circular dependency
-        try:
-            header = receive_exact(self.sock, 1)
-            if header[0] != self.ALERT_TYPE:
-                raise TLSError(f"Expected alert, got {header[0]:02x}", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
-            version = receive_exact(self.sock, 2)
-            if version != LEGACY_VERSION:
-                raise TLSError(f"Invalid alert version: {version.hex()}", ALERT_PROTOCOL_VERSION, self.logger, self)
-            length = int.from_bytes(receive_exact(self.sock, 4), 'big')
-            data = receive_exact(self.sock, length)
-
-            if self.crypto and not self.crypto.is_handshake_phase:
-                if length < 8 + 12:
-                    raise TLSError("Encrypted alert too short", ALERT_DECODE_ERROR, self.logger, self)
-                seq_bytes = data[:8]
-                iv = data[8:20]
-                ct = data[20:]
-                alert_data = self.crypto.decrypt_message(seq_bytes, iv, ct)
-                self.logger.debug(f"Decrypted alert with seq_bytes: {seq_bytes.hex()}")
-            else:
-                alert_data = data
-                self.logger.debug(f"Received unencrypted alert: {alert_data.hex()}")
-
-            alert_type = alert_data[0]
-            description = alert_data[1:].decode('utf-8', errors='ignore')
-            self.logger.info(f"Received alert: {ALERT_DESCRIPTIONS.get(alert_type, 'Unknown')} ({alert_type:02x}) - {description}")
-            return alert_type, description
-        except ConnectionError:
-            self.logger.info("Connection closed during alert reception")
-            return ALERT_CLOSE_NOTIFY, "Connection closed"
-        except TLSError as e:
-            raise
-        except Exception as e:
-            raise TLSError(f"Alert processing failed: {e}", ALERT_DECODE_ERROR, self.logger, self)
+        from errors import TLSError  # Late import to avoid circular dependency
+        header = receive_exact(self.sock, HANDSHAKE_TYPE_LENGTH)
+        if header[0] != ALERT_TYPE:
+            raise TLSError(f"Expected alert, got {header[0]:02x}", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
+        version = receive_exact(self.sock, VERSION_LENGTH)
+        if version != LEGACY_VERSION:
+            raise TLSError(f"Invalid alert version: {version.hex()}", ALERT_PROTOCOL_VERSION, self.logger, self)
+        length = int.from_bytes(receive_exact(self.sock, LENGTH_FIELD_2_BYTES), 'big')
+        data = receive_exact(self.sock, length)
+        if self.crypto and not self.crypto.is_handshake_phase:
+            seq_bytes = data[:SEQ_BYTES_LENGTH]
+            iv = data[SEQ_BYTES_LENGTH:SEQ_BYTES_LENGTH + IV_LENGTH]
+            ct = data[SEQ_BYTES_LENGTH + IV_LENGTH:]
+            alert_data = self.crypto.decrypt_message(seq_bytes, iv, ct)
+        else:
+            alert_data = data
+        alert_type = alert_data[0]
+        description = alert_data[1:].decode('utf-8', errors='ignore')
+        self.logger.info(f"Received alert: {ALERT_DESCRIPTIONS.get(alert_type, 'Unknown')} ({alert_type:02x}) - {description}")
+        return alert_type, description
 
     def end_session(self, log_message: str) -> None:
         """
-        Terminate the session by sending a CLOSE_NOTIFY alert.
+        Terminate the session by sending a close_notify alert.
 
         Args:
-            log_message (str): Message to log upon session closure.
+            log_message: Message to log upon session termination.
         """
         self.logger.info(log_message)
         self.send_alert(ALERT_CLOSE_NOTIFY, "Session terminated", encrypt=(self.crypto and not self.crypto.is_handshake_phase))

@@ -1,0 +1,48 @@
+2025-04-15 11:44:33,014 [INFO] Loaded server certificate and private key
+2025-04-15 11:44:33,015 [INFO] Server certificate and private key match verified
+2025-04-15 11:44:33,016 [INFO] Server certificate verified against CA
+2025-04-15 11:44:33,018 [INFO] Connected by ('127.0.0.1', 26832)
+2025-04-15 11:44:33,020 [DEBUG] Starting server-client handshake
+2025-04-15 11:44:33,059 [DEBUG] Received client random: ac8cac9ee41c02258b2d759a75328f3ceda91148ae6e0a2d2b3e1eedda5b9f1b
+2025-04-15 11:44:33,061 [DEBUG] Received client session Id: b''
+2025-04-15 11:44:33,062 [DEBUG] Received client cipher_suites: b'\x13\x01\xff\x01\xff\x02\xff\x03'
+2025-04-15 11:44:33,063 [DEBUG] Received client compression_methods: b'\x00'
+2025-04-15 11:44:33,066 [DEBUG] Received client extensions hash: b'"2\x85[C\xcd>:\xef\x97\x88\xc2\x8f\xdb\xae\xaf\x97\x97L1 f\x13\xb8\x9d\x1b\xed6\xb1\xb6z\x02d\xe3]\xde%\x83\xacEf$\x0eh\xd6\xd5}\xa7'
+2025-04-15 11:44:33,067 [DEBUG] Received client handshake_message hash: b'\':\xfah\xc2\x91\x1e\x8a\x1e\x08j\xaaK~6\xf8\x90\x86\xabf.\x87\xe6a\xda\xc0\xb1\x0cb\x9e0>!\xd2}3-\x89\x1c\xa3\x16\r\x00\xb6"\xfaZ\xba'
+2025-04-15 11:44:33,071 [DEBUG] Received client handshake_transcript hash: b'\':\xfah\xc2\x91\x1e\x8a\x1e\x08j\xaaK~6\xf8\x90\x86\xabf.\x87\xe6a\xda\xc0\xb1\x0cb\x9e0>!\xd2}3-\x89\x1c\xa3\x16\r\x00\xb6"\xfaZ\xba'
+2025-04-15 11:44:33,072 [DEBUG] Received ClientHello
+2025-04-15 11:44:33,074 [INFO] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber1024
+2025-04-15 11:44:33,082 [DEBUG] Generated ECC keys in 0.007015 seconds
+2025-04-15 11:44:33,092 [DEBUG] Generated Kyber1024 keys in 0.006806 seconds
+2025-04-15 11:44:33,096 [DEBUG] Encapsulated Kyber shared secret in 0.003696s
+2025-04-15 11:44:33,106 [DEBUG] Derived handshake keys in 0.008415s
+2025-04-15 11:44:33,107 [DEBUG] Send server handshake_message hash: b"F\xdcis\xaf\x1e\xb4'\x89C+\xf8\xf9\xa3@\x9c[x\xb4\x8e\xf2nS6\xf2M\xd6\xedk\xaeJ\xbf\xc8S\xe4\x07\x9d\x17S\x05bz\x88\x8a\x07\x1bh\xbc"
+2025-04-15 11:44:33,109 [DEBUG] Send server random: 84d9ad1d8ee9bacf0b61f8743a49f2c51411feb8398e1d52b3d36f125440a6cc
+2025-04-15 11:44:33,111 [DEBUG] Send server session Id: b''
+2025-04-15 11:44:33,112 [DEBUG] Send server selected code: b'\xff\x03'
+2025-04-15 11:44:33,113 [DEBUG] Send server compression_method: b'\x00'
+2025-04-15 11:44:33,115 [DEBUG] Send server extensions hash: b"\x0eT+\x19\x11\xd6[\xc9I\x88\xf8\xc4\x19\x81\xd3\xeda\x94\x83\x11\x04\xa5\xff\xa5\xcbd\xd6@\x82\xdc\xdd8\xa7\xf1\x00\x1f\xa7\xb1\xbd'\xc9\x1aw\xc0\xb0\x9b\xbbM"
+2025-04-15 11:44:33,118 [DEBUG] Send server handshake_transcript hash: b'\xd6\x8a4\xe6l\xd1\xcaE\x1f\xc9\x0f+a,\xd17\xd0I\xcbe\x11\xaa\xe2n=(\x9a>\x1e\xdfm\x8dxU\xf9\x1e\xb6\x1cya:\\?\r\x8b\\+d'
+2025-04-15 11:44:33,120 [DEBUG] Sent ServerHello
+2025-04-15 11:44:33,123 [DEBUG] Sent Server EncryptedExtensions
+2025-04-15 11:44:33,125 [DEBUG] Sent Server CertificateRequest
+2025-04-15 11:44:33,127 [DEBUG] Sent Server Certificate
+2025-04-15 11:44:33,128 [INFO] Server transcript_hash: f12393ecf497c6fe86f7a46614afd38f83a49dda5c295a70712bbd449d1a8b8d2ec9e72d713de667da3bf838a0785b98
+2025-04-15 11:44:33,142 [DEBUG] Computed CertificateVerify in 0.013579s
+2025-04-15 11:44:33,143 [DEBUG] Sent Server CertificateVerify
+2025-04-15 11:44:33,146 [DEBUG] Computed Finished message in 0.000162s
+2025-04-15 11:44:33,149 [DEBUG] Sent Server Finished
+2025-04-15 11:44:33,237 [INFO] Client certificate verified against CA
+2025-04-15 11:44:33,244 [INFO] Server transcript_hash for verification: 30d8a8df617210aaf8a63a9aed469d79235c5f5e71bf42b2d33466687da8774fa17a65a0deeec0000a9eb2b74d31fe27
+2025-04-15 11:44:33,254 [DEBUG] Verified CertificateVerify in 0.010997s
+2025-04-15 11:44:33,258 [DEBUG] Computed Finished message in 0.000144s
+2025-04-15 11:44:33,258 [DEBUG] Finished message verification: success
+2025-04-15 11:44:33,262 [DEBUG] Derived application key in 0.000418s, send_seq=0, recv_seq=0
+2025-04-15 11:44:33,263 [INFO] Handshake completed in 0.243380 seconds
+2025-04-15 11:44:33,264 [INFO] Handshake completed, starting message exchange
+2025-04-15 11:44:33,265 [DEBUG] Starting message exchange loop
+2025-04-15 11:45:03,281 [ERROR] Socket timeout
+2025-04-15 11:45:03,283 [DEBUG] Sent alert in 0.000658s: close_notify (00) - Socket timeout
+2025-04-15 11:45:03,284 [DEBUG] Cleared sensitive cryptographic data
+2025-04-15 11:45:03,285 [DEBUG] Cleared server-specific sensitive data
+2025-04-15 11:45:03,286 [INFO] Server connection closed

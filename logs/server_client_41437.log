@@ -1,0 +1,44 @@
+2025-04-13 13:56:52,946 [INFO] Loaded server certificate and private key
+2025-04-13 13:56:52,948 [INFO] Connected by ('127.0.0.1', 41437)
+2025-04-13 13:56:52,949 [DEBUG] Starting server-client handshake
+2025-04-13 13:56:52,977 [DEBUG] received client random: 7a16ac58c3ad4334d89135cf69d2ea0c8b7f3bf48af88f462eaaa892558ce6e1
+2025-04-13 13:56:52,979 [DEBUG] received client session Id: b''
+2025-04-13 13:56:52,980 [DEBUG] received client cipher_suites: b'\x13\x01\xff\x01\xff\x02\xff\x03'
+2025-04-13 13:56:52,982 [DEBUG] received client compression_methods: b'\x00'
+2025-04-13 13:56:52,985 [DEBUG] received client extensions hash: b'\x9f3\xbc\xdf\x8e\x91\xe4\xe0DZb&R\xbc\xefIs\xa4\xd3\x98uH\xa3\x9f|\xab\xb2\xcc\x07gd\x9d\x02\xbf\x17\xe8\xd8\x04\xbbO\x84d\t7Y\xb0\xf4\xe0'
+2025-04-13 13:56:52,989 [DEBUG] received client handshake_message hash: b"\rK\x99O\x8c\x05Vd'\x9f\xaf\x15\xe8\x9c\xb8\x1b\x9fa[\xbaf\x01c\xbfn.v\x92;\x02:&Q\x04_\xb9\xbd|\xd8\xa6u\xb8\xa1\xc1\xdd\x89Jr"
+2025-04-13 13:56:52,991 [DEBUG] received client handshake_transcript hash: b"\rK\x99O\x8c\x05Vd'\x9f\xaf\x15\xe8\x9c\xb8\x1b\x9fa[\xbaf\x01c\xbfn.v\x92;\x02:&Q\x04_\xb9\xbd|\xd8\xa6u\xb8\xa1\xc1\xdd\x89Jr"
+2025-04-13 13:56:52,992 [DEBUG] Received ClientHello
+2025-04-13 13:56:52,993 [INFO] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber512
+2025-04-13 13:56:53,006 [DEBUG] Generated ECC keys in 0.011731 seconds
+2025-04-13 13:56:53,012 [DEBUG] Generated Kyber512 keys in 0.004494 seconds
+2025-04-13 13:56:53,027 [DEBUG] send server handshake_message hash: b'\xb1\x0c\xa9\xeeXF\xda\x02\xe3\xda\xf2\x88(D\x81\xf1\xbf\x0cz\xe4\xea@\x18\xd4\x1dW\x01\xdel\xdemS\x05\xea$\xf2\xc0\xed\xd2\x81\x90\x040\x13=2\x0b1'
+2025-04-13 13:56:53,029 [DEBUG] send server random: be1848e7402c9f02aa857690e9e436e818a623e9d78f1093146363570b640bd2
+2025-04-13 13:56:53,030 [DEBUG] send server session Id: b''
+2025-04-13 13:56:53,032 [DEBUG] send server selected code: b'\xff\x01'
+2025-04-13 13:56:53,033 [DEBUG] send server compression_method: b'\x00'
+2025-04-13 13:56:53,034 [DEBUG] send server extensions hash: b'\xaef\x1d|\xbd\xa3\xc2\xc5-\xde34\r\x9d\xfa#\xff9\xad}\x92\x85\xa8\xad\x86o`#\x17H\xed{\xa17\xfa\x1bM\xf7\xbd\xc2\xac\x0eHN\xef\x06\xe5\x0b'
+2025-04-13 13:56:53,039 [DEBUG] send server handshake_transcript hash: b'dx\xb7\x15\xa5M\xf3+k\x01\xee\xee\xdf2}\x94R\x12l9G\xaa\xc9\x8fh\x07\xd6\x94\xcb_\x03\x06.6\x87\x80\xbb\xbd\xba\xa7<t\xcc\xaa\x85"\x07\xb4'
+2025-04-13 13:56:53,041 [DEBUG] Sent ServerHello
+2025-04-13 13:56:53,044 [DEBUG] Sent Server encrypted_extensions
+2025-04-13 13:56:53,046 [DEBUG] Sent Server certificate_request
+2025-04-13 13:56:53,049 [DEBUG] Sent Server certificate
+2025-04-13 13:56:53,052 [INFO] server transcript_hash: c98694d70f721cc487a6c714f1aa85e57f6f1ec3d870918becb3f4148a560a80e03843d3e0bfbddae4acec992295a1da
+2025-04-13 13:56:53,095 [DEBUG] Sent Server certificate verify
+2025-04-13 13:56:53,096 [DEBUG] Sent Server finished
+2025-04-13 13:56:53,167 [INFO] Client certificate verified against CA
+2025-04-13 13:56:53,175 [INFO] server transcript_hash: bbe2a93bad3446fe74321e810bf4af199b6f2cf99e2bda2f4902eef3b37cd771dbe3044f91bdec0014f2e2fd79c44469
+2025-04-13 13:56:53,185 [DEBUG] Application key derived, send_seq=0, recv_seq=0
+2025-04-13 13:56:53,186 [INFO] Handshake completed in 0.236590 seconds
+2025-04-13 13:56:53,189 [INFO] Handshake completed, starting message exchange
+2025-04-13 13:56:53,191 [DEBUG] Starting message exchange loop
+2025-04-13 13:56:57,145 [INFO] received plainText: bytearray(b'Hello')...
+2025-04-13 13:56:57,147 [INFO] sent application data: b'Message received suc'...
+2025-04-13 13:56:59,077 [INFO] received plainText: bytearray(b'{"record_0": {"id": ')...
+2025-04-13 13:56:59,084 [INFO] sent application data: b'Message received suc'...
+2025-04-13 13:57:00,517 [INFO] Received alert: close_notify (00) - Session terminated
+2025-04-13 13:57:00,518 [INFO] Client terminated session
+2025-04-13 13:57:00,520 [INFO] Sent alert: close_notify (00) - Session terminated
+2025-04-13 13:57:00,521 [DEBUG] Cleared sensitive cryptographic data
+2025-04-13 13:57:00,523 [DEBUG] Cleared server-specific sensitive data
+2025-04-13 13:57:00,524 [INFO] Server connection closed

@@ -1,0 +1,45 @@
+2025-04-14 18:13:36,012 [INFO] Loaded server certificate and private key
+2025-04-14 18:13:36,013 [INFO] Connected by ('127.0.0.1', 40469)
+2025-04-14 18:13:36,015 [DEBUG] Starting server-client handshake
+2025-04-14 18:13:36,043 [DEBUG] received client random: e749e1f53285a7a17f7bcc6831ee5fe7caf91816642e339bbec896a4cfe42072
+2025-04-14 18:13:36,044 [DEBUG] received client session Id: b''
+2025-04-14 18:13:36,045 [DEBUG] received client cipher_suites: b'\x13\x01\xff\x01\xff\x02\xff\x03'
+2025-04-14 18:13:36,048 [DEBUG] received client compression_methods: b'\x00'
+2025-04-14 18:13:36,049 [DEBUG] received client extensions hash: b"\xf8%:\xb3\xcec'\xfcf\xbc\xa6)\x1e\xa8\xb8\x05y\x16R[eko\xd5,M+\xeb>'9c\xa9\x94\x9c\xed8\xa5\xde\x83\xc1\xbf\x06\x1co\x90\xb8)"
+2025-04-14 18:13:36,052 [DEBUG] received client handshake_message hash: b'6\x1f\xb7\x92\xdc\xcd \xd2\x1ab\x17\x8d\xc7t\x1d\xcetT\x00C\x7f\x8aRp:\xe6\xe2i\xfb6\x0c\x00m\xc7\xbdz\x08\x1b\x12W\xb7\x90\x98\xfcp\xb7*8'
+2025-04-14 18:13:36,053 [DEBUG] received client handshake_transcript hash: b'6\x1f\xb7\x92\xdc\xcd \xd2\x1ab\x17\x8d\xc7t\x1d\xcetT\x00C\x7f\x8aRp:\xe6\xe2i\xfb6\x0c\x00m\xc7\xbdz\x08\x1b\x12W\xb7\x90\x98\xfcp\xb7*8'
+2025-04-14 18:13:36,054 [DEBUG] Received ClientHello
+2025-04-14 18:13:36,055 [INFO] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber1024
+2025-04-14 18:13:36,061 [DEBUG] Generated ECC keys in 0.004972 seconds
+2025-04-14 18:13:36,067 [DEBUG] Generated Kyber1024 keys in 0.005646 seconds
+2025-04-14 18:13:36,084 [DEBUG] send server handshake_message hash: b'\xfe\x1d\x0e\x15\x9a\x02\xec\x9f\xbd\x8es\x95\x99\xce\x9a?\xd5>+\xa3\xac\x1fw\x82\x9a\xfc\x87\x1a\x82\xd2H\x17\xb2\x04\xbc\xf0|@T>\x1d\x10\x12\x1b\xf0\xca\x98\xc2'
+2025-04-14 18:13:36,086 [DEBUG] send server random: 04757db93b7d9298952ff8f4f354ed5144326742f8a1727bc7e171e155f80db3
+2025-04-14 18:13:36,088 [DEBUG] send server session Id: b''
+2025-04-14 18:13:36,089 [DEBUG] send server selected code: b'\xff\x03'
+2025-04-14 18:13:36,089 [DEBUG] send server compression_method: b'\x00'
+2025-04-14 18:13:36,091 [DEBUG] send server extensions hash: b'\x8by(\x8b\x84\xc21\xa9?\xd0\xe5\xe6\x95R\xbd\xb5\x0c\xaa\x8d\xf7\xa5\x909\xef\xbc6\x8d\xe8\x07C\x10\xff\xbbb\xff\x88\xbe0r\x89)\x1b)1\xf6\xf6l\xf8'
+2025-04-14 18:13:36,092 [DEBUG] send server handshake_transcript hash: b'\xef\x81J\x8e|\xff$\xbb&z\xdcR\xb7,\xf9\x9c\x89\xa1)\xaa5^`\x82\xe8\xb7\xba,\xaa\xae\xb4\xc0l\x03\xfd\x01\xf3\r+\x1c\xd0\x14\xc6C\xb2\xebO\xd8'
+2025-04-14 18:13:36,094 [DEBUG] Sent ServerHello
+2025-04-14 18:13:36,096 [DEBUG] Sent Server encrypted_extensions
+2025-04-14 18:13:36,104 [DEBUG] Sent Server certificate
+2025-04-14 18:13:36,105 [INFO] server transcript_hash: 73c09effe77d5aa72e5aaf1105f8137ed4bbc3d0b186384e99d02300a66602828111498176abacf964bae81a036133e7
+2025-04-14 18:13:36,205 [DEBUG] Sent Server certificate verify
+2025-04-14 18:13:36,205 [DEBUG] Sent Server finished
+2025-04-14 18:13:36,250 [DEBUG] Application key derived, send_seq=0, recv_seq=0
+2025-04-14 18:13:36,253 [INFO] Handshake completed in 0.238364 seconds
+2025-04-14 18:13:36,254 [INFO] Handshake completed, starting message exchange
+2025-04-14 18:13:36,254 [DEBUG] Starting message exchange loop
+2025-04-14 18:13:41,535 [INFO] received plainText: bytearray(b'Hello')...
+2025-04-14 18:13:41,537 [INFO] sent application data: b'Message received suc'...
+2025-04-14 18:13:46,657 [INFO] received plainText: bytearray(b'flgjh sdlghl')...
+2025-04-14 18:13:46,658 [INFO] sent application data: b'Message received suc'...
+2025-04-14 18:13:50,072 [INFO] received plainText: bytearray(b'lsdsn wajadbglj')...
+2025-04-14 18:13:50,076 [INFO] sent application data: b'Message received suc'...
+2025-04-14 18:13:53,128 [INFO] received plainText: bytearray(b'{"record_0": {"id": ')...
+2025-04-14 18:13:53,135 [INFO] sent application data: b'Message received suc'...
+2025-04-14 18:13:56,298 [INFO] Received alert: close_notify (00) - Session terminated
+2025-04-14 18:13:56,300 [INFO] Client terminated session
+2025-04-14 18:13:56,301 [INFO] Sent alert: close_notify (00) - Session terminated
+2025-04-14 18:13:56,304 [DEBUG] Cleared sensitive cryptographic data
+2025-04-14 18:13:56,305 [DEBUG] Cleared server-specific sensitive data
+2025-04-14 18:13:56,306 [INFO] Server connection closed

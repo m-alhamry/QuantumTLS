@@ -3,42 +3,42 @@ import socket
 import logging
 import struct
 import time
-from typing import Dict, List, Tuple
+from typing import Dict, Tuple
 
-from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives.serialization import Encoding
-from cryptography.hazmat.primitives import hashes
-from cryptography.x509 import load_pem_x509_certificate
-
 from client_crypto import ClientCrypto
 from errors import TLSError
 from utils import (
-    ALERT_ACCESS_DENIED, ALERT_BAD_CERTIFICATE, ALERT_DECODE_ERROR, ALERT_DESCRIPTIONS,
-    ALERT_HANDSHAKE_FAILURE, ALERT_ILLEGAL_PARAMETER, ALERT_PROTOCOL_VERSION, ALERT_UNEXPECTED_MESSAGE, ALERT_CLOSE_NOTIFY, ALERT_INTERNAL_ERROR,
-    EXTENSION_KEY_SHARE, EXTENSION_SIGNATURE_ALGORITHMS, EXTENSION_SUPPORTED_VERSIONS,
-    LEGACY_VERSION, MAX_PLAINTEXT_SIZE, STATE_CLIENT_APPLICATION, STATE_CLIENT_INIT,
-    STATE_CLIENT_RECEIVED_SERVER_CERT_VERIFY, STATE_CLIENT_RECEIVED_SERVER_FINISHED,
-    STATE_CLIENT_RECEIVED_SERVER_HELLO, STATE_CLIENT_SENT_CERT_VERIFY, STATE_CLIENT_SENT_FINISHED,
-    STATE_CLIENT_SENT_HELLO, SUPPORTED_SIGNATURE_ALGORITHMS, TLS_VERSION_1_3, BaseNetwork,
-    encode_key_share_client_hello, encode_signature_algorithms, receive_exact,
-    EXTENSION_SERVER_NAME, EXTENSION_SUPPORTED_GROUPS, EXTENSION_ALPN, GROUP_SECP384R1,
-    GROUP_KYBER512, GROUP_KYBER768, GROUP_KYBER1024, encode_extension, decode_extensions
+    ALERT_ACCESS_DENIED, ALERT_DECODE_ERROR, ALERT_DESCRIPTIONS, ALERT_ILLEGAL_PARAMETER, 
+    ALERT_INTERNAL_ERROR, ALERT_PROTOCOL_VERSION, ALERT_TYPE, ALERT_UNEXPECTED_MESSAGE, 
+    ALERT_CLOSE_NOTIFY, CIPHER_SUITE_CODES, CIPHER_SUITE_NAMES, CIPHER_SUITES, 
+    EXTENSION_KEY_SHARE, EXTENSION_SIGNATURE_ALGORITHMS, EXTENSION_SUPPORTED_VERSIONS, 
+    HANDSHAKE_TYPE_CERTIFICATE, HANDSHAKE_TYPE_CERTIFICATE_VERIFY, HANDSHAKE_TYPE_FINISHED, 
+    LEGACY_VERSION, LENGTH_FIELD_2_BYTES, MAX_PLAINTEXT_SIZE, MSG_TYPE_APPLICATION, 
+    MSG_TYPE_HANDSHAKE, SEQ_BYTES_LENGTH, SIGNATURE_ECDSA_SECP384R1_SHA384, STATE_CLIENT_APPLICATION, 
+    STATE_CLIENT_INIT, HANDSHAKE_TYPE_CLIENT_HELLO, HANDSHAKE_TYPE_SERVER_HELLO, 
+    EXTENSION_SERVER_NAME, EXTENSION_SUPPORTED_GROUPS, EXTENSION_ALPN, GROUP_SECP384R1, 
+    GROUP_KYBER512, GROUP_KYBER768, GROUP_KYBER1024, STATE_CLIENT_RECEIVED_SERVER_HELLO, 
+    STATE_CLIENT_SENT_HELLO, TLS_VERSION_1_3, SUPPORTED_SIGNATURE_ALGORITHMS, VERSION_LENGTH,
+    BaseNetwork, encode_key_share_client_hello, encode_signature_algorithms, 
+    receive_exact, encode_extension, decode_extensions,
+    SOCKET_RECV_BUFFER_SIZE, SOCKET_CONNECT_TIMEOUT, CONNECTION_RETRY_ATTEMPTS, 
+    RETRY_SLEEP_SECONDS, RANDOM_BYTES_LENGTH, DEFAULT_SNI, ALPN_HTTP, IV_LENGTH
 )
 
 class ClientNetwork(BaseNetwork):
-    """
-    Manages client-side network communication for a TLS 1.3-like protocol.
+    """Client-specific network operations for TLS 1.3 communication."""
 
-    Attributes:
-        ip (str): Server IP address.
-        port (int): Server port number.
-        ca_cert: CA certificate for server verification.
-        crypto (ClientCrypto, optional): Cryptographic object (set during operations).
-        sock (socket.socket, optional): Socket for network communication.
-        logger (logging.Logger): Logger inherited from BaseNetwork.
-        handshake_state (int): Current state of the handshake process.
-    """
     def __init__(self, ip: str, port: int, logger: logging.Logger, ca_cert):
+        """
+        Initialize the ClientNetwork instance.
+
+        Args:
+            ip: Server IP address.
+            port: Server port number.
+            logger: Logger instance for logging network events.
+            ca_cert: CA certificate for verifying server certificates.
+        """
         super().__init__(logger)
         self.ip = ip
         self.port = port
@@ -46,578 +46,335 @@ class ClientNetwork(BaseNetwork):
         self.crypto = None
         self.sock = None
         self.handshake_state = STATE_CLIENT_INIT
+        self.is_handshake_encrypted = False
 
     def connect(self) -> None:
         """
         Establish a connection to the server with retry logic.
 
         Raises:
-            TLSError: If connection fails due to socket errors or timeout after retries.
+            TLSError: If connection fails after retries.
         """
-        for attempt in range(3):
+        for attempt in range(CONNECTION_RETRY_ATTEMPTS):
             try:
                 self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 16384)
-                self.sock.settimeout(10.0)
+                self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, SOCKET_RECV_BUFFER_SIZE)
+                self.sock.settimeout(SOCKET_CONNECT_TIMEOUT)
                 self.sock.connect((self.ip, self.port))
                 self.sock.settimeout(None)
                 self.logger.info(f"Connected to {self.ip}:{self.port}")
                 return
-            except socket.gaierror as e:
-                raise TLSError(f"Address resolution failed: {e}", ALERT_INTERNAL_ERROR, self.logger, None)
-            except socket.timeout as e:
-                if attempt < 2:
-                    self.logger.debug(f"Connection attempt {attempt + 1} timed out, retrying in 1 second")
-                    time.sleep(1)
-                else:
-                    raise TLSError(f"Connection timed out after 3 attempts: {e}", ALERT_ACCESS_DENIED, self.logger, None)
-            except ConnectionRefusedError as e:
-                if attempt < 2:
-                    self.logger.debug(f"Connection attempt {attempt + 1} refused, retrying in 1 second")
-                    time.sleep(1)
-                else:
-                    raise TLSError(f"Connection refused after 3 attempts: {e}", ALERT_ACCESS_DENIED, self.logger, None)
             except socket.error as e:
-                raise TLSError(f"Socket error during connection: {e}", ALERT_INTERNAL_ERROR, self.logger, None)
+                if attempt < CONNECTION_RETRY_ATTEMPTS - 1:
+                    self.logger.debug(f"Connection attempt {attempt + 1} failed, retrying")
+                    time.sleep(RETRY_SLEEP_SECONDS)
+                else:
+                    raise TLSError(f"Connection failed after {CONNECTION_RETRY_ATTEMPTS} attempts: {e}", ALERT_ACCESS_DENIED, self.logger, None)
 
-    def negotiate_cipher_suite(self, supported_suites: List[str]) -> str:
+    def send_client_hello(self, crypto: ClientCrypto) -> None:
         """
-        Negotiate the cipher suite with the server.
+        Send the ClientHello message to initiate the TLS handshake.
 
         Args:
-            supported_suites (List[str]): List of supported cipher suites.
-
-        Returns:
-            str: Server's chosen cipher suite.
+            crypto: ClientCrypto instance for cryptographic operations.
 
         Raises:
-            TLSError: If negotiation fails due to network or parsing errors.
-        """
-        start = time.perf_counter()
-        suites_str = ",".join(supported_suites)
-        data = suites_str.encode('utf-8')
-        self.logger.debug(f"Sending supported cipher suites: {supported_suites}")
-
-        try:
-            self.sock.send(bytes([self.MSG_TYPE_HANDSHAKE]) + LEGACY_VERSION + len(data).to_bytes(4, 'big') + data)
-        except socket.error as e:
-            raise TLSError(f"Failed to send cipher suites: {e}", ALERT_INTERNAL_ERROR, self.logger, self)
-
-        try:
-            header = receive_exact(self.sock, 1)
-            if header[0] != self.MSG_TYPE_HANDSHAKE:
-                raise TLSError(f"Expected handshake response, got {header[0]:02x}", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
-            receive_exact(self.sock, 2)  # Skip version
-            length = int.from_bytes(receive_exact(self.sock, 4), 'big')
-            server_choice = receive_exact(self.sock, length).decode('utf-8')
-            self.logger.debug(f"Server chose cipher suite: {server_choice}")
-        except ConnectionError as e:
-            raise TLSError(f"Connection closed during cipher suite negotiation: {e}", ALERT_CLOSE_NOTIFY, self.logger, self)
-        except socket.error as e:
-            raise TLSError(f"Socket error during cipher suite negotiation: {e}", ALERT_INTERNAL_ERROR, self.logger, self)
-        except UnicodeDecodeError as e:
-            raise TLSError(f"Failed to decode server choice: {e}", ALERT_DECODE_ERROR, self.logger, self)
-
-        if server_choice not in supported_suites:
-            raise TLSError(f"Server chose an unsupported suite: {server_choice}", ALERT_ILLEGAL_PARAMETER, self.logger, self)
-
-        self.logger.info(f"Negotiated cipher suite: {server_choice} in {time.perf_counter() - start:.6f} seconds")
-        return server_choice
-
-    def send_client_hello(self, crypto: ClientCrypto, use_hybrid: bool) -> None:
-        """
-        Send the ClientHello message to initiate the handshake.
-
-        Args:
-            crypto (ClientCrypto): Provides keys and certificate.
-            use_hybrid (bool): True to include Kyber key share.
-
-        Raises:
-            TLSError: If state is invalid or sending fails.
+            TLSError: If the handshake state is invalid.
         """
         if self.handshake_state != STATE_CLIENT_INIT:
-            raise TLSError("Attempted to send ClientHello out of order", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
-
-        self.logger.debug("Sending ClientHello")
-        random = os.urandom(32)
-        cert_bytes = crypto.cert.public_bytes(Encoding.PEM)
-
-        # Build extensions
-        extensions = bytearray()
-        try:
-            # Supported versions extension
-            extensions.extend(encode_extension(EXTENSION_SUPPORTED_VERSIONS, b"\x02" + TLS_VERSION_1_3))
-            # Server Name Indication (SNI) extension
-            sni = b"example.com"
-            sni_data = b"\x00\x00" + len(sni).to_bytes(2, 'big') + sni
-            extensions.extend(encode_extension(EXTENSION_SERVER_NAME, sni_data))
-            # Supported groups extension
-            groups = [GROUP_SECP384R1]
-            if use_hybrid:
-                groups.extend([GROUP_KYBER512, GROUP_KYBER768, GROUP_KYBER1024])
-            group_data = b"".join(g.to_bytes(2, 'big') for g in groups)
-            extensions.extend(encode_extension(EXTENSION_SUPPORTED_GROUPS, group_data))
-            # ALPN extension
-            alpn_protocols = b"\x04http"
-            extensions.extend(encode_extension(EXTENSION_ALPN, alpn_protocols))
-            # Signature Algorithms extension
-            sig_alg_data = encode_signature_algorithms(SUPPORTED_SIGNATURE_ALGORITHMS)
-            extensions.extend(encode_extension(EXTENSION_SIGNATURE_ALGORITHMS, sig_alg_data))
-            # Key Share extension
-            key_shares = [(GROUP_SECP384R1, crypto.ecc_public_key_bytes)]
-            if use_hybrid:
-                kyber_group = {
-                    "TLS_AES_256_GCM_SHA384_Kyber512": GROUP_KYBER512,
-                    "TLS_AES_256_GCM_SHA384_Kyber768": GROUP_KYBER768,
-                    "TLS_AES_256_GCM_SHA384_Kyber1024": GROUP_KYBER1024,
-                }.get(crypto.cipher_suite)
-                key_shares.append((kyber_group, crypto.kyber_pk))
-            key_share_extension = encode_key_share_client_hello(key_shares)
-            extensions.extend(key_share_extension)
-        except Exception as e:
-            raise TLSError(f"Failed to build ClientHello extensions: {e}", ALERT_INTERNAL_ERROR, self.logger, self)
-
-        # Combine data
-        ext_length = len(extensions).to_bytes(2, 'big')
-        data = random + len(cert_bytes).to_bytes(4, 'big') + cert_bytes + ext_length + extensions
-        message = bytes([self.MSG_TYPE_HANDSHAKE]) + LEGACY_VERSION + len(data).to_bytes(4, 'big') + data
+            raise TLSError("ClientHello out of order", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
         
-        try:
-            self.sock.send(message)
-        except socket.error as e:
-            raise TLSError(f"Failed to send ClientHello: {e}", ALERT_INTERNAL_ERROR, self.logger, self)
-
-        crypto.handshake_transcript.extend(data)
+        random = os.urandom(RANDOM_BYTES_LENGTH)
+        session_id = b"\x00"
+        cipher_suites = b"".join(CIPHER_SUITE_CODES[suite] for suite in CIPHER_SUITES)
+        cipher_suites_length = len(cipher_suites).to_bytes(LENGTH_FIELD_2_BYTES, 'big')
+        compression_methods = b"\x01\x00"
+        extensions = bytearray()
+        
+        extensions.extend(encode_extension(EXTENSION_SUPPORTED_VERSIONS, b"\x02" + TLS_VERSION_1_3))
+        sni = DEFAULT_SNI
+        sni_data = b"\x00\x00" + len(sni).to_bytes(LENGTH_FIELD_2_BYTES, 'big') + sni
+        extensions.extend(encode_extension(EXTENSION_SERVER_NAME, sni_data))
+        groups = [GROUP_SECP384R1, GROUP_KYBER512, GROUP_KYBER768, GROUP_KYBER1024]
+        group_data = b"".join(g.to_bytes(LENGTH_FIELD_2_BYTES, 'big') for g in groups)
+        extensions.extend(encode_extension(EXTENSION_SUPPORTED_GROUPS, group_data))
+        extensions.extend(encode_extension(EXTENSION_ALPN, ALPN_HTTP))
+        sig_alg_data = encode_signature_algorithms(SUPPORTED_SIGNATURE_ALGORITHMS)
+        extensions.extend(encode_extension(EXTENSION_SIGNATURE_ALGORITHMS, sig_alg_data))
+        key_shares = [(GROUP_SECP384R1, crypto.ecc_public_key_bytes)]
+        for variant, group in zip([1, 2, 3], [GROUP_KYBER512, GROUP_KYBER768, GROUP_KYBER1024]):
+            if variant in crypto.kyber_pks:
+                key_shares.append((group, crypto.kyber_pks[variant]))
+        extensions.extend(encode_key_share_client_hello(key_shares))
+        ext_length = len(extensions).to_bytes(LENGTH_FIELD_2_BYTES, 'big')
+        client_hello_body = (
+            LEGACY_VERSION +
+            random +
+            session_id +
+            cipher_suites_length + cipher_suites +
+            compression_methods +
+            ext_length + extensions
+        )
+        handshake_message = bytes([HANDSHAKE_TYPE_CLIENT_HELLO]) + len(client_hello_body).to_bytes(3, 'big') + client_hello_body
+        record_layer = bytes([MSG_TYPE_HANDSHAKE]) + LEGACY_VERSION + len(handshake_message).to_bytes(2, 'big') + handshake_message
+        self.sock.send(record_layer)
+        crypto.handshake_transcript.extend(handshake_message)
         self.handshake_state = STATE_CLIENT_SENT_HELLO
+        self.logger.debug("Sent ClientHello with %d cipher suites and %d key shares", len(CIPHER_SUITES), len(key_shares))
 
-    def receive_server_hello(self, crypto: ClientCrypto, use_hybrid: bool) -> Dict[str, bytes]:
+    def receive_server_hello(self, crypto: ClientCrypto) -> Dict[str, bytes]:
         """
         Receive and process the ServerHello message.
 
         Args:
-            crypto (ClientCrypto): Updates transcript and verifies certificate.
-            use_hybrid (bool): True to expect Kyber ciphertext.
+            crypto: ClientCrypto instance for cryptographic operations.
 
         Returns:
-            Dict[str, bytes]: Server's handshake data (random, ecc_pk, kyber_ct, cert).
+            Dict[str, bytes]: Parsed ServerHello data.
 
         Raises:
-            TLSError: If message is invalid, state is incorrect, or verification fails.
+            TLSError: If the message is invalid or unexpected.
         """
-        if self.handshake_state != STATE_CLIENT_SENT_HELLO:
-            raise TLSError("Received ServerHello out of order", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
-
-        self.crypto = crypto
-        self.logger.debug("Receiving ServerHello")
-
-        try:
-            header = receive_exact(self.sock, 1)
-        except ConnectionError as e:
-            raise TLSError(f"Server closed connection unexpectedly: {e}", ALERT_CLOSE_NOTIFY, self.logger, self)
-        except socket.error as e:
-            raise TLSError(f"Socket error receiving ServerHello header: {e}", ALERT_INTERNAL_ERROR, self.logger, self)
-
-        if header[0] == self.ALERT_TYPE:
-            alert_type, desc = self._receive_alert_with_header(header)
-            raise TLSError(f"Server alert: {desc}", alert_type, self.logger, self)
-        if header[0] != self.MSG_TYPE_HANDSHAKE:
-            raise TLSError(f"Expected ServerHello, got {header[0]:02x}", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
-
-        try:
-            version = receive_exact(self.sock, 2)
-            if version != LEGACY_VERSION:
-                raise TLSError(f"Expected legacy version 0x0303, got {version.hex()}", ALERT_PROTOCOL_VERSION, self.logger, self)
-            length = int.from_bytes(receive_exact(self.sock, 4), 'big')
-            data = receive_exact(self.sock, length)
-        except ConnectionError as e:
-            raise TLSError(f"Connection closed during ServerHello: {e}", ALERT_CLOSE_NOTIFY, self.logger, self)
-        except socket.error as e:
-            raise TLSError(f"Socket error receiving ServerHello: {e}", ALERT_INTERNAL_ERROR, self.logger, self)
-
-        crypto.handshake_transcript.extend(data)
+        header = receive_exact(self.sock, 1)
+        if header[0] != MSG_TYPE_HANDSHAKE:
+            raise TLSError(f"Expected handshake, got {header[0]:02x}", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
+        version = receive_exact(self.sock, VERSION_LENGTH)
+        if version != LEGACY_VERSION:
+            raise TLSError(f"Expected legacy version 0x0303, got {version.hex()}", ALERT_PROTOCOL_VERSION, self.logger, self)
+        length = int.from_bytes(receive_exact(self.sock, LENGTH_FIELD_2_BYTES), 'big')
+        data_with_type = receive_exact(self.sock, length)
+        if data_with_type[0] != HANDSHAKE_TYPE_SERVER_HELLO:
+            raise TLSError(f"Expected ServerHello, got {data_with_type[0]:02x}", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
+        data = data_with_type[4:]
         
-        # Parse ServerHello data
-        try:
-            random = data[:32]
-            pos = 32
-            cert_len = int.from_bytes(data[pos:pos + 4], 'big')
-            pos += 4
-            cert_bytes = data[pos:pos + cert_len]
-            pos += cert_len
-            ext_len = int.from_bytes(data[pos:pos + 2], 'big')
-            pos += 2
-            ext_data = data[pos:pos + ext_len]
-            extensions = decode_extensions(ext_data)
-        except Exception as e:
-            raise TLSError(f"Failed to parse ServerHello: {e}", ALERT_DECODE_ERROR, self.logger, self)
-
-        # Extract and validate Key Share extension
-        key_shares = []
+        pos = 0
+        legacy_version = data[pos:pos+2]
+        if legacy_version != LEGACY_VERSION:
+            raise TLSError(f"Invalid legacy version: {legacy_version.hex()}", ALERT_PROTOCOL_VERSION, self.logger, self)
+        pos += 2
+        random = data[pos:pos+RANDOM_BYTES_LENGTH]
+        pos += RANDOM_BYTES_LENGTH
+        session_id_len = data[pos]
+        pos += 1
+        session_id = data[pos:pos+session_id_len]
+        pos += session_id_len
+        cipher_suite = data[pos:pos+2]
+        pos += 2
+        compression_method = data[pos]
+        if compression_method != 0:
+            raise TLSError(f"Unsupported compression method: {compression_method}", ALERT_ILLEGAL_PARAMETER, self.logger, self)
+        pos += 1
+        extensions_len = int.from_bytes(data[pos:pos+2], 'big')
+        pos += 2
+        extensions_data = data[pos:pos+extensions_len]
+        extensions = decode_extensions(extensions_data)
+        if cipher_suite not in CIPHER_SUITE_NAMES:
+            raise TLSError(f"Server selected unsupported cipher suite: {cipher_suite.hex()}", ALERT_ILLEGAL_PARAMETER, self.logger, self)
+        crypto.cipher_suite = CIPHER_SUITE_NAMES[cipher_suite]
+        
+        kyber_ct = ecc_pk = b""
+        use_hybrid = "Kyber" in crypto.cipher_suite
+        kyber_group = {"TLS_AES_256_GCM_SHA384_Kyber512": GROUP_KYBER512, "TLS_AES_256_GCM_SHA384_Kyber768": GROUP_KYBER768, "TLS_AES_256_GCM_SHA384_Kyber1024": GROUP_KYBER1024}.get(crypto.cipher_suite)
+        
         for ext_type, ext_value in extensions:
             if ext_type == EXTENSION_KEY_SHARE:
                 offset = 0
                 while offset < len(ext_value):
-                    try:
-                        group, key_len = struct.unpack("!HH", ext_value[offset:offset+4])
-                        key_exchange = ext_value[offset+4:offset+4+key_len]
-                        key_shares.append((group, key_exchange))
-                        offset += 4 + key_len
-                    except struct.error as e:
-                        raise TLSError(f"Failed to unpack Key Share extension: {e}", ALERT_DECODE_ERROR, self.logger, self)
-                break
-        if not key_shares:
-            raise TLSError("ServerHello missing Key Share extension", ALERT_HANDSHAKE_FAILURE, self.logger, self)
-
-        # Process key shares
-        ecc_pk = b""
-        kyber_ct = b""
-        if use_hybrid:
-            if len(key_shares) != 2:
-                raise TLSError("Expected two key shares for hybrid mode", ALERT_HANDSHAKE_FAILURE, self.logger, self)
-            for group, key_exchange in key_shares:
-                if group == GROUP_SECP384R1:
-                    ecc_pk = key_exchange
-                elif group in [GROUP_KYBER512, GROUP_KYBER768, GROUP_KYBER1024]:
-                    kyber_ct = key_exchange
-            if not ecc_pk or not kyber_ct:
-                raise TLSError("Missing ECC or Kyber key share in hybrid mode", ALERT_HANDSHAKE_FAILURE, self.logger, self)
-        else:
-            if len(key_shares) != 1 or key_shares[0][0] != GROUP_SECP384R1:
-                raise TLSError("Expected single ECC key share for non-hybrid mode", ALERT_HANDSHAKE_FAILURE, self.logger, self)
-            ecc_pk = key_shares[0][1]
-
-        # Verify server certificate
-        server_cert = load_pem_x509_certificate(cert_bytes)
-        try:
-            ca_public_key = self.ca_cert.public_key()
-            ca_public_key.verify(server_cert.signature, server_cert.tbs_certificate_bytes, ec.ECDSA(hashes.SHA384()))
-            self.logger.info("Verified server certificate against CA")
-        except Exception as e:
-            raise TLSError(f"Invalid server certificate: {e}", ALERT_BAD_CERTIFICATE, self.logger, self)
-
-        # Check supported versions
-        selected_version = None
-        for ext_type, ext_value in extensions:
-            if ext_type == EXTENSION_SUPPORTED_VERSIONS:
-                if len(ext_value) != 2 or ext_value != TLS_VERSION_1_3:
-                    raise TLSError(f"Server selected unsupported version: {ext_value.hex()}", ALERT_PROTOCOL_VERSION, self.logger, self)
-                selected_version = ext_value
-        if not selected_version:
-            raise TLSError("ServerHello missing supported_versions extension", ALERT_HANDSHAKE_FAILURE, self.logger, self)
-
+                    group, key_len = struct.unpack("!HH", ext_value[offset:offset+4])
+                    key_exchange = ext_value[offset+4:offset+4+key_len]
+                    if group == GROUP_SECP384R1:
+                        ecc_pk = key_exchange
+                    elif use_hybrid and group == kyber_group:
+                        kyber_ct = key_exchange
+                    offset += 4 + key_len
+        crypto.handshake_transcript.extend(data_with_type)
         self.handshake_state = STATE_CLIENT_RECEIVED_SERVER_HELLO
-        return {"random": random, "ecc_pk": ecc_pk, "kyber_ct": kyber_ct, "cert": cert_bytes}
+        return {"random": random, "ecc_pk": ecc_pk, "kyber_ct": kyber_ct, "session_id": session_id}
 
-    def send_certificate_verify(self, crypto: ClientCrypto) -> None:
+    def send_encrypted_handshake_message(self, crypto: ClientCrypto, handshake_type: int, body: bytes) -> None:
         """
-        Send the CertificateVerify message to the server.
+        Send an encrypted handshake message.
 
         Args:
-            crypto (ClientCrypto): Provides the signature.
-
-        Raises:
-            TLSError: If state is invalid or sending fails.
+            crypto: ClientCrypto instance for encryption.
+            handshake_type: Type of the handshake message.
+            body: Body of the handshake message.
         """
-        if self.handshake_state != STATE_CLIENT_RECEIVED_SERVER_CERT_VERIFY:
-            raise TLSError("Attempted to send CertificateVerify out of order", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
+        handshake_message = bytes([handshake_type]) + len(body).to_bytes(3, 'big') + body
+        crypto.handshake_transcript.extend(handshake_message)
+        plaintext = handshake_message + b"\x16"  # Append content type byte (0x16 for handshake)
+        _, iv, ct = crypto.encrypt_message(plaintext)
+        record_layer = bytes([MSG_TYPE_APPLICATION]) + LEGACY_VERSION + len(iv + ct).to_bytes(2, 'big') + iv + ct
+        self.sock.send(record_layer)
 
-        self.logger.debug("Sending CertificateVerify")
-        try:
-            signature = crypto.compute_certificate_verify()
-        except TLSError as e:
-            raise  # Propagate TLSError from compute_certificate_verify
-
-        data = len(signature).to_bytes(2, 'big') + signature
-        message = bytes([self.MSG_TYPE_HANDSHAKE]) + LEGACY_VERSION + len(data).to_bytes(4, 'big') + data
-
-        try:
-            self.sock.send(message)
-        except socket.error as e:
-            raise TLSError(f"Failed to send CertificateVerify: {e}", ALERT_INTERNAL_ERROR, self.logger, self)
-
-        crypto.handshake_transcript.extend(message)
-        self.handshake_state = STATE_CLIENT_SENT_CERT_VERIFY
-
-    def receive_server_certificate_verify(self, crypto: ClientCrypto, server_cert: bytes) -> None:
+    def receive_encrypted_handshake_message(self, crypto: ClientCrypto) -> Tuple[int, bytes]:
         """
-        Receive and verify the server's CertificateVerify message.
+        Receive and decrypt an encrypted handshake message.
 
         Args:
-            crypto (ClientCrypto): Verifies the signature.
-            server_cert (bytes): Server's certificate for verification.
+            crypto: ClientCrypto instance for decryption.
+
+        Returns:
+            Tuple[int, bytes]: Handshake type and body.
 
         Raises:
-            TLSError: If message is invalid or verification fails.
+            TLSError: If the message is invalid or decryption fails.
         """
-        if self.handshake_state != STATE_CLIENT_RECEIVED_SERVER_HELLO:
-            raise TLSError("Received CertificateVerify out of order", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
+        header = receive_exact(self.sock, 1)
+        if header[0] != MSG_TYPE_APPLICATION:
+            raise TLSError(f"Expected application_data (0x17), got {header[0]:02x}", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
+        version = receive_exact(self.sock, VERSION_LENGTH)
+        if version != LEGACY_VERSION:
+            raise TLSError(f"Expected legacy version 0x0303, got {version.hex()}", ALERT_PROTOCOL_VERSION, self.logger, self)
+        length = int.from_bytes(receive_exact(self.sock, LENGTH_FIELD_2_BYTES), 'big')
+        data = receive_exact(self.sock, length)
+        iv, ct = data[:IV_LENGTH], data[IV_LENGTH:]
+        decrypted = crypto.decrypt_message(b'', iv, ct)
+        if len(decrypted) < 5 or decrypted[-1] != 0x16:
+            raise TLSError("Invalid decrypted handshake message: missing or incorrect content type byte", ALERT_DECODE_ERROR, self.logger, self)
+        handshake_message = decrypted[:-1]  # Strip content type byte
+        handshake_type = handshake_message[0]
+        msg_length = int.from_bytes(handshake_message[1:4], 'big')
+        if len(handshake_message) != 4 + msg_length:
+            raise TLSError("Invalid handshake message length", ALERT_DECODE_ERROR, self.logger, self)
+        body = handshake_message[4:]
+        return handshake_type, body
 
-        self.logger.debug("Receiving CertificateVerify")
-        try:
-            header = receive_exact(self.sock, 1)
-        except ConnectionError as e:
-            raise TLSError(f"Connection closed receiving CertificateVerify: {e}", ALERT_CLOSE_NOTIFY, self.logger, self)
-        except socket.error as e:
-            raise TLSError(f"Socket error receiving CertificateVerify: {e}", ALERT_INTERNAL_ERROR, self.logger, self)
+    def send_client_certificate(self, crypto: ClientCrypto) -> None:
+        """
+        Send the client's certificate to the server.
 
-        if header[0] == self.ALERT_TYPE:
-            alert_type, desc = self._receive_alert_with_header(header)
-            raise TLSError(f"Server alert: {desc}", alert_type, self.logger, self)
-        if header[0] != self.MSG_TYPE_HANDSHAKE:
-            raise TLSError(f"Expected CertificateVerify, got {header[0]:02x}", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
+        Args:
+            crypto: ClientCrypto instance containing the certificate.
 
-        try:
-            receive_exact(self.sock, 2)  # Skip version
-            length = int.from_bytes(receive_exact(self.sock, 4), 'big')
-            data = receive_exact(self.sock, length)
-            sig_len = int.from_bytes(data[:2], 'big')
-            signature = data[2:2 + sig_len]
-        except ConnectionError as e:
-            raise TLSError(f"Connection closed during CertificateVerify: {e}", ALERT_CLOSE_NOTIFY, self.logger, self)
-        except socket.error as e:
-            raise TLSError(f"Socket error receiving CertificateVerify data: {e}", ALERT_INTERNAL_ERROR, self.logger, self)
-        except ValueError as e:
-            raise TLSError(f"Malformed CertificateVerify message: {e}", ALERT_DECODE_ERROR, self.logger, self)
+        Raises:
+            TLSError: If no certificate is loaded.
+        """
+        if crypto.cert is None:
+            raise TLSError("No client certificate loaded", ALERT_INTERNAL_ERROR, self.logger, self)
+        cert_bytes = crypto.cert.public_bytes(Encoding.DER)
+        # Construct CertificateEntry for X.509 with no extensions
+        certificate_entry = b"\x00" + len(cert_bytes).to_bytes(3, 'big') + cert_bytes + b"\x00\x00"
+        certificate_list_length = len(certificate_entry)
+        body = b"\x00" + certificate_list_length.to_bytes(3, 'big') + certificate_entry
+        self.send_encrypted_handshake_message(crypto, HANDSHAKE_TYPE_CERTIFICATE, body)
 
-        transcript_snapshot = bytes(crypto.handshake_transcript)
-        message = header + LEGACY_VERSION + len(data).to_bytes(4, 'big') + data
-        crypto.handshake_transcript.extend(message)
+    def send_client_certificate_verify(self, crypto: ClientCrypto) -> None:
+        """
+        Send the client's CertificateVerify message.
 
-        try:
-            if not crypto.verify_certificate_verify(signature, server_cert, transcript_snapshot):
-                raise TLSError("Server CertificateVerify verification failed", ALERT_BAD_CERTIFICATE, self.logger, self)
-        except TLSError as e:
-            raise  # Propagate TLSError from verify_certificate_verify
+        Args:
+            crypto: ClientCrypto instance for computing the signature.
+        """
+        signature = crypto.compute_certificate_verify()
+        body = SIGNATURE_ECDSA_SECP384R1_SHA384 + len(signature).to_bytes(2, 'big') + signature
+        self.send_encrypted_handshake_message(crypto, HANDSHAKE_TYPE_CERTIFICATE_VERIFY, body)
 
-        self.handshake_state = STATE_CLIENT_RECEIVED_SERVER_CERT_VERIFY
+    def send_empty_certificate(self, crypto: ClientCrypto) -> None:
+        """
+        Send an empty Certificate message (for when no certificate is available).
+
+        Args:
+            crypto: ClientCrypto instance (unused in this method).
+        """
+        body = b"\x00\x00\x00\x00"  # Empty context and certificate list
+        self.send_encrypted_handshake_message(crypto, HANDSHAKE_TYPE_CERTIFICATE, body)
 
     def send_finished(self, crypto: ClientCrypto) -> None:
         """
-        Send the encrypted Finished message to the server.
+        Send the Finished message to complete the handshake.
 
         Args:
-            crypto (ClientCrypto): Provides the Finished message and encryption.
-
-        Raises:
-            TLSError: If state is invalid or sending fails.
+            crypto: ClientCrypto instance for computing the Finished message.
         """
-        if self.handshake_state != STATE_CLIENT_SENT_CERT_VERIFY:
-            raise TLSError("Attempted to send Finished out of order", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
-
-        self.logger.debug("Sending Finished")
-        try:
-            finished = crypto.compute_finished_message()
-            seq_bytes, iv, ct = crypto.encrypt_message(finished)
-        except TLSError as e:
-            raise  # Propagate TLSError from crypto methods
-
-        message = bytes([self.MSG_TYPE_HANDSHAKE]) + LEGACY_VERSION + len(iv + ct).to_bytes(4, 'big') + iv + ct
-
-        try:
-            self.sock.send(message)
-        except socket.error as e:
-            raise TLSError(f"Failed to send Finished message: {e}", ALERT_INTERNAL_ERROR, self.logger, self)
-
-        crypto.handshake_transcript.extend(message)
-        self.handshake_state = STATE_CLIENT_SENT_FINISHED
-
-    def receive_server_finished(self, crypto: ClientCrypto) -> None:
-        """
-        Receive and verify the server's Finished message.
-
-        Args:
-            crypto (ClientCrypto): Decrypts and verifies the message.
-
-        Raises:
-            TLSError: If message is invalid or verification fails.
-        """
-        if self.handshake_state != STATE_CLIENT_SENT_FINISHED:
-            raise TLSError("Received Server Finished out of order", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
-
-        self.logger.debug("Receiving Finished")
-        try:
-            header = receive_exact(self.sock, 1)
-        except ConnectionError as e:
-            raise TLSError(f"Connection closed receiving Finished: {e}", ALERT_CLOSE_NOTIFY, self.logger, self)
-        except socket.error as e:
-            raise TLSError(f"Socket error receiving Finished: {e}", ALERT_INTERNAL_ERROR, self.logger, self)
-
-        if header[0] == self.ALERT_TYPE:
-            alert_type, desc = self._receive_alert_with_header(header)
-            raise TLSError(f"Server alert: {desc}", alert_type, self.logger, self)
-        if header[0] != self.MSG_TYPE_HANDSHAKE:
-            raise TLSError(f"Expected ServerFinished, got {header[0]:02x}", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
-
-        try:
-            receive_exact(self.sock, 2)  # Skip version
-            length = int.from_bytes(receive_exact(self.sock, 4), 'big')
-            data = receive_exact(self.sock, length)
-            iv, ct = data[:12], data[12:]
-        except ConnectionError as e:
-            raise TLSError(f"Connection closed during Finished: {e}", ALERT_CLOSE_NOTIFY, self.logger, self)
-        except socket.error as e:
-            raise TLSError(f"Socket error receiving Finished data: {e}", ALERT_INTERNAL_ERROR, self.logger, self)
-        except ValueError as e:
-            raise TLSError(f"Malformed Finished message: {e}", ALERT_DECODE_ERROR, self.logger, self)
-
-        try:
-            decrypted = crypto.decrypt_message(b'', iv, ct)
-            if not crypto.verify_finished_message(decrypted):
-                raise TLSError("Server Finished verification failed", ALERT_HANDSHAKE_FAILURE, self.logger, self)
-        except TLSError as e:
-            raise  # Propagate TLSError from decrypt_message or verify_finished_message
-
-        crypto.handshake_transcript.extend(header + LEGACY_VERSION + len(data).to_bytes(4, 'big') + data)
-        self.handshake_state = STATE_CLIENT_RECEIVED_SERVER_FINISHED
-        crypto.is_handshake_phase = False
+        finished = crypto.compute_finished_message()
+        self.send_encrypted_handshake_message(crypto, HANDSHAKE_TYPE_FINISHED, finished)
 
     def send_application_data(self, crypto: ClientCrypto, plaintext: bytes) -> None:
         """
-        Send encrypted application data to the server.
+        Send application data to the server.
 
         Args:
-            crypto (ClientCrypto): Encrypts the data.
-            plaintext (bytes): Data to send.
+            crypto: ClientCrypto instance for encryption.
+            plaintext: Data to send.
 
         Raises:
-            TLSError: If state is invalid or sending fails.
+            TLSError: If attempting to send data before handshake completion.
         """
         if self.handshake_state != STATE_CLIENT_APPLICATION:
-            raise TLSError("Attempted to send application data before handshake completion",
-                           ALERT_UNEXPECTED_MESSAGE, self.logger, self)
-
-        self.logger.debug(f"Sending application data (length: {len(plaintext)} bytes)")
+            raise TLSError("Attempted to send application data before handshake completion", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
         chunks = [plaintext[i:i + MAX_PLAINTEXT_SIZE] for i in range(0, len(plaintext), MAX_PLAINTEXT_SIZE)]
-
+        start = time.perf_counter()
         for i, chunk in enumerate(chunks):
             is_last = 1 if i == len(chunks) - 1 else 0
-            try:
-                seq_bytes, iv, ct = crypto.encrypt_message(chunk)
-            except TLSError as e:
-                raise  # Propagate TLSError from encrypt_message
-
+            seq_bytes, iv, ct = crypto.encrypt_message(chunk)
             flag = bytes([is_last])
             data = seq_bytes + iv + ct + flag
-            try:
-                self.sock.send(bytes([self.MSG_TYPE_APPLICATION]) + LEGACY_VERSION + len(data).to_bytes(2, 'big') + data)
-            except socket.error as e:
-                raise TLSError(f"Failed to send application data: {e}", ALERT_INTERNAL_ERROR, self.logger, self)
+            self.sock.send(bytes([MSG_TYPE_APPLICATION]) + LEGACY_VERSION + len(data).to_bytes(2, 'big') + data)
+        duration = time.perf_counter() - start
+        crypto.compute_time += duration
+        self.logger.debug(f"Encrypted message ({len(plaintext)} bytes) in {duration:.6f}s")
+        self.logger.info(f"Sent application data: {plaintext[:20]}...")
 
     def receive_application_data(self, crypto: ClientCrypto) -> bytes:
         """
-        Receive and decrypt application data from the server.
+        Receive application data from the server.
 
         Args:
-            crypto (ClientCrypto): Decrypts the data.
+            crypto: ClientCrypto instance for decryption.
 
         Returns:
-            bytes: Decrypted response.
+            bytes: Received plaintext data.
 
         Raises:
-            TLSError: If message is invalid or decryption fails.
+            TLSError: If data is received before handshake completion or if there's an error.
         """
         if self.handshake_state != STATE_CLIENT_APPLICATION:
-            raise TLSError("Received application data before handshake completion",
-                           ALERT_UNEXPECTED_MESSAGE, self.logger, self)
-
+            raise TLSError("Received application data before handshake completion", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
         full_plaintext = bytearray()
+        start = time.perf_counter()
         while True:
-            try:
-                header = receive_exact(self.sock, 1)
-            except ConnectionError as e:
-                raise TLSError(f"Server closed connection unexpectedly: {e}", ALERT_CLOSE_NOTIFY, self.logger, self)
-            except socket.error as e:
-                raise TLSError(f"Socket error receiving application data: {e}", ALERT_INTERNAL_ERROR, self.logger, self)
+            header = receive_exact(self.sock, 5)
+            content_type = header[0]
+            version = header[1:3]
+            length = int.from_bytes(header[3:5], 'big')
+            if version != LEGACY_VERSION:
+                raise TLSError(f"Invalid version: {version.hex()}", ALERT_PROTOCOL_VERSION, self.logger, self)
+            data = receive_exact(self.sock, length)
 
-            if header[0] == self.ALERT_TYPE:
-                alert_type, desc = self._receive_alert_with_header(header)
+            if content_type == ALERT_TYPE:
+                if self.crypto and not self.crypto.is_handshake_phase:
+                    seq_bytes = data[:SEQ_BYTES_LENGTH]
+                    iv = data[SEQ_BYTES_LENGTH:SEQ_BYTES_LENGTH + IV_LENGTH]
+                    ct = data[SEQ_BYTES_LENGTH + IV_LENGTH:]
+                    alert_data = self.crypto.decrypt_message(seq_bytes, iv, ct)
+                else:
+                    alert_data = data
+                alert_type = alert_data[0]
+                description = alert_data[1:].decode('utf-8', errors='ignore')
+                self.logger.info(f"Received alert: {ALERT_DESCRIPTIONS.get(alert_type, 'Unknown')} ({alert_type:02x}) - {description}")
                 if alert_type == ALERT_CLOSE_NOTIFY:
                     return b"END_SESSION"
-                raise TLSError(f"Server alert: {desc}", alert_type, self.logger, self)
-            if header[0] != self.MSG_TYPE_APPLICATION:
-                raise TLSError(f"Expected application data, got {header[0]:02x}", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
-
-            try:
-                receive_exact(self.sock, 2)  # Skip version
-                length = int.from_bytes(receive_exact(self.sock, 2), 'big')
-                data = receive_exact(self.sock, length)
-                seq_bytes = data[:8]
-                iv = data[8:20]
+                raise TLSError(f"Server alert: {description}", alert_type, self.logger, self)
+            elif content_type == MSG_TYPE_APPLICATION:
+                seq_bytes = data[:SEQ_BYTES_LENGTH]
+                iv = data[SEQ_BYTES_LENGTH:SEQ_BYTES_LENGTH + IV_LENGTH]
                 flag = data[-1:]
-                ct = data[20:-1]
-            except ConnectionError as e:
-                raise TLSError(f"Connection closed during application data: {e}", ALERT_CLOSE_NOTIFY, self.logger, self)
-            except socket.error as e:
-                raise TLSError(f"Socket error receiving application data: {e}", ALERT_INTERNAL_ERROR, self.logger, self)
-            except ValueError as e:
-                raise TLSError(f"Malformed application data: {e}", ALERT_DECODE_ERROR, self.logger, self)
-
-            try:
+                ct = data[SEQ_BYTES_LENGTH + IV_LENGTH:-1]
                 plaintext_chunk = crypto.decrypt_message(seq_bytes, iv, ct)
-            except TLSError as e:
-                raise  # Propagate TLSError from decrypt_message
-
-            full_plaintext.extend(plaintext_chunk)
-            if flag == b"\x01":
-                break
-
+                full_plaintext.extend(plaintext_chunk)
+                if flag == b"\x01":
+                    break
+            else:
+                raise TLSError(f"Unexpected content type: {content_type:02x}", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
+        duration = time.perf_counter() - start
+        crypto.compute_time += duration
+        self.logger.debug(f"Decrypted message ({len(full_plaintext)} bytes) in {duration:.6f}s")
+        self.logger.info(f"Received application data: {full_plaintext[:20]}...")
         return bytes(full_plaintext)
 
-    def _receive_alert_with_header(self, header: bytes) -> Tuple[int, str]:
-        """
-        Helper method to receive an alert when the header is already read.
-
-        Args:
-            header (bytes): Pre-read alert header.
-
-        Returns:
-            Tuple[int, str]: Alert type and description.
-
-        Raises:
-            TLSError: If alert is malformed or decryption fails.
-        """
-        if header[0] != self.ALERT_TYPE:
-            raise TLSError(f"Expected alert, got {header[0]:02x}", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
-
-        try:
-            version = receive_exact(self.sock, 2)
-            if version != LEGACY_VERSION:
-                raise TLSError(f"Invalid alert version: {version.hex()}", ALERT_PROTOCOL_VERSION, self.logger, self)
-            length = int.from_bytes(receive_exact(self.sock, 4), 'big')
-            data = receive_exact(self.sock, length)
-        except ConnectionError as e:
-            self.logger.info("Connection closed during alert")
-            return ALERT_CLOSE_NOTIFY, "Connection closed"
-        except socket.error as e:
-            raise TLSError(f"Socket error receiving alert: {e}", ALERT_INTERNAL_ERROR, self.logger, self)
-
-        try:
-            if self.crypto and not self.crypto.is_handshake_phase:
-                if length < 8 + 12:
-                    raise TLSError("Encrypted alert too short", ALERT_DECODE_ERROR, self.logger, self)
-                seq_bytes = data[:8]
-                iv = data[8:20]
-                ct = data[20:]
-                alert_data = self.crypto.decrypt_message(seq_bytes, iv, ct)
-                self.logger.debug(f"Decrypted alert with seq_bytes: {seq_bytes.hex()}")
-            else:
-                alert_data = data
-                self.logger.debug(f"Received unencrypted alert: {alert_data.hex()}")
-            alert_type = alert_data[0]
-            description = alert_data[1:].decode('utf-8', errors='ignore')
-        except TLSError as e:
-            raise  # Propagate TLSError from decrypt_message
-        except Exception as e:
-            raise TLSError(f"Failed to process alert: {e}", ALERT_DECODE_ERROR, self.logger, self)
-
-        self.logger.info(f"Received alert: {ALERT_DESCRIPTIONS.get(alert_type, 'Unknown')} ({alert_type:02x}) - {description}")
-        return alert_type, description
-
     def close(self) -> None:
-        """Close the client socket connection."""
+        """Close the client connection."""
         if self.sock:
-            try:
-                self.sock.close()
-            except socket.error as e:
-                self.logger.warning(f"Error closing socket: {e}")
-        self.logger.info("Client connection closed")
+            self.sock.close()
+            self.logger.info("Client connection closed")

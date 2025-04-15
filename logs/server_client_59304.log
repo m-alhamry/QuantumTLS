@@ -1,0 +1,36 @@
+2025-04-15 12:37:54,771 [INFO] Loaded server certificate and private key
+2025-04-15 12:37:54,773 [INFO] Server certificate and private key match verified
+2025-04-15 12:37:54,774 [INFO] Server certificate verified against CA
+2025-04-15 12:37:54,776 [INFO] Connected by ('127.0.0.1', 59304)
+2025-04-15 12:37:54,778 [DEBUG] Starting server-client handshake
+2025-04-15 12:37:54,807 [DEBUG] Received ClientHello
+2025-04-15 12:37:54,808 [INFO] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber1024
+2025-04-15 12:37:54,818 [DEBUG] Generated ECC keys in 0.007489 seconds
+2025-04-15 12:37:54,824 [DEBUG] Generated Kyber1024 keys in 0.004834 seconds
+2025-04-15 12:37:54,834 [DEBUG] Encapsulated Kyber shared secret in 0.006378s
+2025-04-15 12:37:54,842 [DEBUG] Derived handshake keys in 0.007141s
+2025-04-15 12:37:54,845 [DEBUG] Sent ServerHello
+2025-04-15 12:37:54,848 [DEBUG] Sent Server EncryptedExtensions
+2025-04-15 12:37:54,850 [DEBUG] Sent Server CertificateRequest
+2025-04-15 12:37:54,852 [DEBUG] Sent Server Certificate
+2025-04-15 12:37:54,861 [DEBUG] Computed CertificateVerify in 0.007642s
+2025-04-15 12:37:54,864 [DEBUG] Sent Server CertificateVerify
+2025-04-15 12:37:54,866 [DEBUG] Computed Finished message in 0.000220s
+2025-04-15 12:37:54,869 [DEBUG] Sent Server Finished
+2025-04-15 12:37:54,939 [DEBUG] Recived client certificate
+2025-04-15 12:37:54,948 [INFO] Client certificate verified against CA
+2025-04-15 12:37:54,951 [DEBUG] Recived client certificate verify
+2025-04-15 12:37:54,960 [DEBUG] Verified CertificateVerify in 0.008611s
+2025-04-15 12:37:54,963 [DEBUG] Recived client Finished
+2025-04-15 12:37:54,965 [DEBUG] Computed Finished message in 0.000199s
+2025-04-15 12:37:54,966 [DEBUG] Finished message verification: success
+2025-04-15 12:37:54,968 [DEBUG] Verified client Finished
+2025-04-15 12:37:54,970 [DEBUG] Derived application key in 0.000559s, send_seq=0, recv_seq=0
+2025-04-15 12:37:54,971 [INFO] Handshake completed in 0.193785 seconds
+2025-04-15 12:37:54,973 [INFO] Handshake completed, starting message exchange
+2025-04-15 12:37:54,974 [DEBUG] Starting message exchange loop
+2025-04-15 12:38:24,976 [ERROR] Socket timeout
+2025-04-15 12:38:24,978 [DEBUG] Sent alert in 0.000830s: close_notify (00) - Socket timeout
+2025-04-15 12:38:24,980 [DEBUG] Cleared sensitive cryptographic data
+2025-04-15 12:38:24,981 [DEBUG] Cleared server-specific sensitive data
+2025-04-15 12:38:24,983 [INFO] Server connection closed
