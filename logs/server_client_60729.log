@@ -1,0 +1,30 @@
+2025-04-17 22:58:21,765 [INFO] Loaded server certificate and private key
+2025-04-17 22:58:21,766 [INFO] Server certificate and private key match verified
+2025-04-17 22:58:21,767 [INFO] Server certificate verified against CA
+2025-04-17 22:58:21,767 [INFO] Connected by ('127.0.0.1', 60729)
+2025-04-17 22:58:21,767 [DEBUG] Starting server-client handshake
+2025-04-17 22:58:21,778 [DEBUG] Received ClientHello
+2025-04-17 22:58:21,778 [INFO] Selected cipher suite: TLS_AES_256_GCM_SHA384
+2025-04-17 22:58:21,787 [DEBUG] Generated ECC keys in 0.007947 seconds
+2025-04-17 22:58:21,792 [DEBUG] Derived handshake keys in 0.005232s
+2025-04-17 22:58:21,794 [DEBUG] Sent ServerHello
+2025-04-17 22:58:21,795 [DEBUG] Sent Server EncryptedExtensions
+2025-04-17 22:58:21,796 [DEBUG] Sent Server Certificate
+2025-04-17 22:58:21,824 [DEBUG] Computed CertificateVerify in 0.027336s
+2025-04-17 22:58:21,825 [DEBUG] Sent Server CertificateVerify
+2025-04-17 22:58:21,825 [DEBUG] Computed Finished message in 0.000078s
+2025-04-17 22:58:21,825 [DEBUG] Sent Server Finished
+2025-04-17 22:58:21,834 [DEBUG] Recived client Finished
+2025-04-17 22:58:21,835 [DEBUG] Computed Finished message in 0.000229s
+2025-04-17 22:58:21,835 [DEBUG] Finished message verification: success
+2025-04-17 22:58:21,835 [DEBUG] Verified client Finished
+2025-04-17 22:58:21,836 [DEBUG] Derived application key in 0.000243s, send_seq=0, recv_seq=0
+2025-04-17 22:58:21,836 [INFO] Handshake completed in 0.069450 seconds
+2025-04-17 22:58:21,837 [INFO] Handshake completed, starting message exchange
+2025-04-17 22:58:21,837 [DEBUG] Starting message exchange loop
+2025-04-17 22:58:21,943 [INFO] Received alert: close_notify (00) - Session terminated
+2025-04-17 22:58:21,943 [INFO] Client terminated session
+2025-04-17 22:58:21,944 [DEBUG] Sent alert in 0.000356s: close_notify (00) - Session terminated
+2025-04-17 22:58:21,944 [DEBUG] Cleared sensitive cryptographic data
+2025-04-17 22:58:21,944 [DEBUG] Cleared server-specific sensitive data
+2025-04-17 22:58:21,945 [INFO] Server connection closed

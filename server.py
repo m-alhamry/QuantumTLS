@@ -13,8 +13,8 @@ from server_network import ServerNetwork
 from server_crypto import ServerCrypto
 from errors import TLSError
 from utils import (
-    ALERT_BAD_CERTIFICATE, ALERT_CLOSE_NOTIFY, ALERT_DECODE_ERROR, ALERT_HANDSHAKE_FAILURE, ALERT_INTERNAL_ERROR, 
-    ALERT_UNEXPECTED_MESSAGE, CIPHER_SUITE_CODES, CIPHER_SUITE_NAMES, CIPHER_SUITES, DEFAULT_CA_CERT, GROUP_KYBER1024, 
+    ALERT_BAD_CERTIFICATE, ALERT_CERTIFICATE_EXPIRED, ALERT_CLOSE_NOTIFY, ALERT_DECODE_ERROR, ALERT_HANDSHAKE_FAILURE, ALERT_INTERNAL_ERROR, 
+    ALERT_UNEXPECTED_MESSAGE, ALERT_UNKNOWN_CA, CIPHER_SUITE_CODES, CIPHER_SUITE_NAMES, CIPHER_SUITES, DEFAULT_CA_CERT, GROUP_KYBER1024, 
     GROUP_KYBER512, GROUP_KYBER768, GROUP_SECP384R1, HANDSHAKE_TYPE_CERTIFICATE, HANDSHAKE_TYPE_CERTIFICATE_VERIFY,
     HANDSHAKE_TYPE_FINISHED, SIGNATURE_ECDSA_SECP384R1_SHA384, SESSION_TIMEOUT, STATE_SERVER_APPLICATION, setup_logging,
     DEFAULT_IP, DEFAULT_PORT, handle_session_timeout
@@ -53,7 +53,7 @@ def handle_client(conn: socket.socket, addr: tuple[str, int], mutual_auth: bool,
     
     except TLSError as e:
         client_logger.error(f"TLS error with {addr}: {e}")
-        network.close()
+        # network.send_alert(e.alert_type, str(e))
     except socket.error as e:
         client_logger.error(f"Network error with {addr}: {e}")
         network.send_alert(ALERT_CLOSE_NOTIFY, f"Network error: {e}")
@@ -203,7 +203,6 @@ def client_server_handshake(crypto: ServerCrypto, network: ServerNetwork, mutual
 
                         # -- Receive Client handshake messages -- #
     if mutual_auth:
-
         # Receive client's Certificate
         handshake_type, body = network.receive_encrypted_handshake_message(crypto)
         network.logger.debug("Recived client certificate")
@@ -355,11 +354,26 @@ def parse_and_validate_client_certificate(body: bytes, network: ServerNetwork) -
     if extensions_length != 0:
         raise TLSError("Certificate extensions not supported", ALERT_HANDSHAKE_FAILURE, network.logger, network)
     # Validate certificate
-    client_cert_obj = load_der_x509_certificate(client_cert_bytes)
+    try:
+        client_cert_obj = load_der_x509_certificate(client_cert_bytes)
+    except ValueError as e:
+        raise TLSError(f"Failed to parse certificate: {e}", ALERT_BAD_CERTIFICATE, network.logger, network)
     with open(DEFAULT_CA_CERT, "rb") as f:
         ca_cert = load_pem_x509_certificate(f.read())
+    # Verify signature   
     ca_public_key = ca_cert.public_key()
-    ca_public_key.verify(client_cert_obj.signature, client_cert_obj.tbs_certificate_bytes, ec.ECDSA(hashes.SHA384()))
+    try:
+        ca_public_key.verify(client_cert_obj.signature, client_cert_obj.tbs_certificate_bytes, ec.ECDSA(hashes.SHA384()))
+    except Exception:
+        raise TLSError("Client certificate verification failed", ALERT_BAD_CERTIFICATE, network.logger, network)
+    # Add validity period check
+    import datetime
+    current_time = datetime.datetime.now(datetime.timezone.utc)
+    if current_time < client_cert_obj.not_valid_before_utc:
+        raise TLSError("Certificate not yet valid", ALERT_BAD_CERTIFICATE, network.logger, network)
+    elif current_time > client_cert_obj.not_valid_after_utc:
+        raise TLSError("Certificate has expired", ALERT_CERTIFICATE_EXPIRED, network.logger, network)
+    
     network.logger.info("Client certificate verified against CA")
     return client_cert_bytes
 

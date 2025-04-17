@@ -20,50 +20,56 @@ class TestHandshake(unittest.TestCase):
         """Test that handshake fails if Kyber shared secret is missing in hybrid mode."""
         use_hybrid = True
         kyber_variant = 2  # Kyber768
-        self.client_crypto.generate_keys(use_hybrid, kyber_variant)
+        self.client_crypto.generate_keys()
+        self.client_crypto.load_certificate()  # Load the certificate
         self.server_crypto.generate_keys(use_hybrid, kyber_variant)
         client_hello = {
             "ecc_pk": self.client_crypto.ecc_public_key_bytes,
-            "kyber_pk": self.client_crypto.kyber_pks,
+            "kyber_pk": self.client_crypto.kyber_pks[kyber_variant],
             "cert": self.client_crypto.cert.public_bytes(Encoding.PEM),
             "transcript": b"client_hello"
         }
         with self.assertRaises(TLSError) as cm:
             self.server_crypto.derive_handshake_keys(client_hello, use_hybrid, None)
-        self.assertEqual(str(cm.exception), "Missing Kyber shared secret for hybrid mode")
+        self.assertEqual(str(cm.exception), "Missing Kyber shared secret")
         self.assertEqual(cm.exception.alert_type, ALERT_HANDSHAKE_FAILURE)
 
     def test_certificate_validation(self):
         """Test that handshake fails with an invalid certificate."""
         use_hybrid = True
         kyber_variant = 2  # Kyber768
-        self.client_crypto.generate_keys(use_hybrid, kyber_variant)
+        self.client_crypto.generate_keys()
         self.server_crypto.generate_keys(use_hybrid, kyber_variant)
         client_hello = {
             "ecc_pk": self.client_crypto.ecc_public_key_bytes,
-            "kyber_pk": self.client_crypto.kyber_pks,
+            "kyber_pk": self.client_crypto.kyber_pks[kyber_variant],
             "cert": b"invalid_cert",  # Invalid certificate
             "transcript": b"client_hello"
         }
-        # Generate and provide a valid Kyber shared secret
         kyber_ct, kyber_ss = self.server_crypto.encapsulate_kyber(client_hello["kyber_pk"])
         self.server_crypto.derive_handshake_keys(client_hello, use_hybrid, kyber_ss)
         self.server_crypto.handshake_transcript = bytearray(b"client_hello")
-        signature = b"dummy_signature"  # Signature is not the focus
+        signature = b"dummy_signature"
         with self.assertRaises(TLSError) as cm:
             self.server_crypto.verify_certificate_verify(signature, client_hello["cert"])
         self.assertIn("Failed to parse client certificate", str(cm.exception))
         self.assertEqual(cm.exception.alert_type, ALERT_BAD_CERTIFICATE)
 
     def test_key_derivation_all_kyber_variants(self):
-        """Test key derivation across all Kyber variants (existing test)."""
-        for kyber_variant, suite in [(1, "Kyber512"), (2, "Kyber768"), (3, "Kyber1024")]:
+        """Test key derivation across all Kyber variants."""
+        for kyber_variant, suite in [
+            (1, "TLS_AES_256_GCM_SHA384_Kyber512"),
+            (2, "TLS_AES_256_GCM_SHA384_Kyber768"),
+            (3, "TLS_AES_256_GCM_SHA384_Kyber1024")
+        ]:
             use_hybrid = True
-            self.client_crypto.generate_keys(use_hybrid, kyber_variant)
+            self.client_crypto.generate_keys()
+            self.client_crypto.load_certificate()  # Load the certificate
+            self.client_crypto.cipher_suite = suite
             self.server_crypto.generate_keys(use_hybrid, kyber_variant)
             client_hello = {
                 "ecc_pk": self.client_crypto.ecc_public_key_bytes,
-                "kyber_pk": self.client_crypto.kyber_pks,
+                "kyber_pk": self.client_crypto.kyber_pks[kyber_variant],
                 "cert": self.client_crypto.cert.public_bytes(Encoding.PEM),
                 "transcript": b"client_hello"
             }

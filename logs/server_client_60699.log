@@ -1,0 +1,43 @@
+2025-04-17 22:57:48,633 [INFO] Loaded server certificate and private key
+2025-04-17 22:57:48,636 [INFO] Server certificate and private key match verified
+2025-04-17 22:57:48,637 [INFO] Server certificate verified against CA
+2025-04-17 22:57:48,638 [INFO] Connected by ('127.0.0.1', 60699)
+2025-04-17 22:57:48,638 [DEBUG] Starting server-client handshake
+2025-04-17 22:57:48,707 [DEBUG] Received ClientHello
+2025-04-17 22:57:48,708 [INFO] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber768
+2025-04-17 22:57:48,729 [DEBUG] Generated ECC keys in 0.019331 seconds
+2025-04-17 22:57:48,736 [DEBUG] Generated Kyber768 keys in 0.006324 seconds
+2025-04-17 22:57:48,741 [DEBUG] Encapsulated Kyber shared secret in 0.004183s
+2025-04-17 22:57:48,766 [DEBUG] Derived handshake keys in 0.011682s
+2025-04-17 22:57:48,767 [DEBUG] Sent ServerHello
+2025-04-17 22:57:48,771 [DEBUG] Sent Server EncryptedExtensions
+2025-04-17 22:57:48,773 [DEBUG] Sent Server Certificate
+2025-04-17 22:57:48,832 [DEBUG] Computed CertificateVerify in 0.058619s
+2025-04-17 22:57:48,833 [DEBUG] Sent Server CertificateVerify
+2025-04-17 22:57:48,840 [DEBUG] Computed Finished message in 0.000371s
+2025-04-17 22:57:48,841 [DEBUG] Sent Server Finished
+2025-04-17 22:57:48,858 [DEBUG] Recived client Finished
+2025-04-17 22:57:48,859 [DEBUG] Computed Finished message in 0.000143s
+2025-04-17 22:57:48,859 [DEBUG] Finished message verification: success
+2025-04-17 22:57:48,860 [DEBUG] Verified client Finished
+2025-04-17 22:57:48,861 [DEBUG] Derived application key in 0.000493s, send_seq=0, recv_seq=0
+2025-04-17 22:57:48,861 [INFO] Handshake completed in 0.222370 seconds
+2025-04-17 22:57:48,861 [INFO] Handshake completed, starting message exchange
+2025-04-17 22:57:48,862 [DEBUG] Starting message exchange loop
+2025-04-17 22:57:48,966 [DEBUG] Decrypted message (16 bytes) in 0.103758s
+2025-04-17 22:57:48,966 [INFO] Received plaintext: bytearray(b'{"data": "test"}')...
+2025-04-17 22:57:48,968 [DEBUG] Encrypted message (29 bytes) in 0.000742s
+2025-04-17 22:57:48,969 [INFO] Sent application data: b'Message received suc'...
+2025-04-17 22:57:48,971 [ERROR] Message exchange failed: Expected 1 bytes, received 0
+Traceback (most recent call last):
+  File "C:\Shared\githup_project\QuantumTLS\server.py", line 268, in message_exchange
+    message_data = network.receive_application_data(crypto)
+  File "C:\Shared\githup_project\QuantumTLS\server_network.py", line 294, in receive_application_data
+    header = receive_exact(self.conn, 1)
+  File "C:\Shared\githup_project\QuantumTLS\utils.py", line 299, in receive_exact
+    raise ConnectionError(f"Expected {size} bytes, received {len(data)}")
+ConnectionError: Expected 1 bytes, received 0
+2025-04-17 22:57:48,978 [DEBUG] Sent alert in 0.000479s: internal_error (50) - Expected 1 bytes, received 0
+2025-04-17 22:57:48,978 [DEBUG] Cleared sensitive cryptographic data
+2025-04-17 22:57:48,978 [DEBUG] Cleared server-specific sensitive data
+2025-04-17 22:57:48,978 [INFO] Server connection closed

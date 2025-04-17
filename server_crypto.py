@@ -92,7 +92,10 @@ class ServerCrypto(TLSCrypto):
             TLSError: If verification fails.
         """
         start = time.perf_counter()
-        client_cert_obj = load_der_x509_certificate(client_cert)
+        try:
+            client_cert_obj = load_der_x509_certificate(client_cert)
+        except ValueError as e:
+            raise TLSError(f"Failed to parse client certificate: {e}", ALERT_BAD_CERTIFICATE, self.logger, self.network)
         client_public_key = client_cert_obj.public_key()
         transcript_to_use = transcript if transcript is not None else self.handshake_transcript
         context = CERT_VERIFY_CONTEXT_PADDING + TLS13_CLIENT_CERT_VERIFY_CONTEXT + b"\x00"

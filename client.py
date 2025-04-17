@@ -1,21 +1,26 @@
 import argparse
+import datetime
 import logging
+import select
 import socket
 import time
 from typing import Optional
 from unittest.mock import patch
 
-from cryptography.x509 import load_pem_x509_certificate
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.primitives import hashes
+from cryptography.x509 import load_pem_x509_certificate, load_der_x509_certificate
 from client_network import ClientNetwork
 from client_crypto import ClientCrypto
 from errors import TLSError
 from utils import (
-    ALERT_BAD_CERTIFICATE, ALERT_CERTIFICATE_REQUIRED, ALERT_CLOSE_NOTIFY, ALERT_DECODE_ERROR, ALERT_HANDSHAKE_FAILURE,
-    ALERT_ILLEGAL_PARAMETER, ALERT_INTERNAL_ERROR, ALERT_UNEXPECTED_MESSAGE,
+    ALERT_BAD_CERTIFICATE, ALERT_CERTIFICATE_EXPIRED, ALERT_CERTIFICATE_REQUIRED, ALERT_CLOSE_NOTIFY, ALERT_DECODE_ERROR, ALERT_HANDSHAKE_FAILURE,
+    ALERT_ILLEGAL_PARAMETER, ALERT_INTERNAL_ERROR, ALERT_TYPE, ALERT_UNEXPECTED_MESSAGE,
     DEFAULT_CA_CERT, DEFAULT_IP, DEFAULT_JSON_FILE, DEFAULT_PORT, HANDSHAKE_TYPE_CERTIFICATE,
     HANDSHAKE_TYPE_CERTIFICATE_REQUEST, HANDSHAKE_TYPE_CERTIFICATE_VERIFY, HANDSHAKE_TYPE_ENCRYPTED_EXTENSIONS,
     HANDSHAKE_TYPE_FINISHED, SIGNATURE_ECDSA_SECP384R1_SHA384, SESSION_TIMEOUT, STATE_CLIENT_APPLICATION,
-    setup_logging, prompt_ip_port, handle_session_timeout
+    setup_logging, prompt_ip_port, handle_session_timeout,
 )
 
 logger = setup_logging("client", "client.log", logging.DEBUG)
@@ -75,9 +80,12 @@ def main(ip: str = None, port: int = None, send_cert: Optional[bool] = None, tes
             message_exchange(crypto, network, test_mode)
 
     except TLSError as e:
+        # network.send_alert(e.alert_type, str(e))
         logger.error(f"TLS error: {e}")
     except ConnectionAbortedError as e:
         logger.error(e)
+        network.send_alert(ALERT_CLOSE_NOTIFY, f"Connection error: {e}")
+        raise
     except ConnectionError as e:
         logger.error(f"Connection failed: {e}")
         network.send_alert(ALERT_CLOSE_NOTIFY, f"Connection error: {e}")
@@ -148,7 +156,7 @@ def client_server_handshake(crypto: ClientCrypto, network: ClientNetwork, send_c
     if handshake_type != HANDSHAKE_TYPE_CERTIFICATE:
         raise TLSError(f"Expected Certificate (0x0b), got {handshake_type:02x}", ALERT_UNEXPECTED_MESSAGE, logger, network)
     
-    server_cert_bytes = parse_server_certificate(body)
+    server_cert_bytes = parse_server_certificate(body, network, crypto)
 
     # Receive CertificateVerify
     logger.debug("Received Server CertificateVerify")
@@ -189,10 +197,48 @@ def client_server_handshake(crypto: ClientCrypto, network: ClientNetwork, send_c
         else:
             network.send_empty_certificate(crypto)
             raise TLSError("CertificateRequest received but no client certificate available", ALERT_CERTIFICATE_REQUIRED, logger, network)
+        # Check for server response or connection closure
+        try:
+            ready = select.select([network.sock], [], [], 0.1)  # Short timeout to check for data
+            if ready[0]:
+                # Attempt to peek at incoming data
+                header = network.sock.recv(1, socket.MSG_PEEK)
+                if not header:
+                    # Empty response means the server closed the connection
+                    logger.error("Server closed connection unexpectedly after sending Certificate/CertificateVerify")
+                    raise TLSError("Server terminated connection", ALERT_CLOSE_NOTIFY, logger, network)
+                elif header[0] == ALERT_TYPE:
+                    # Server sent an alert
+                    alert_type, desc = network.receive_alert()
+                    logger.error(f"Server sent alert: {desc}")
+                    raise TLSError(f"Server sent alert: {desc}", alert_type, logger, network)
+                else:
+                    logger.debug("No alert received from server, proceeding with handshake")
+        except ConnectionResetError as e:
+            logger.error(f"Server closed connection: {e}")
+            raise TLSError("Server terminated connection", ALERT_INTERNAL_ERROR, logger, network)
+        except TLSError as e:
+            raise
+        except Exception as e:
+            logger.debug(f"Checked for server response, none detected: {e}")
 
     # Send finished
     network.send_finished(crypto)
     logger.debug("Sent client Finished")
+
+    # Check for immediate server alerts (e.g., client certificate or Finished verification failure)
+    try:
+        ready = select.select([network.sock], [], [], 0.1)  # Short timeout to check for data
+        if ready[0]:
+            response = network.receive_application_data(crypto)
+            if response == b"END_SESSION":
+                logger.info("Server terminated session during handshake")
+            # If an alert was received, receive_application_data would raise TLSError
+    except TLSError as e:
+        logger.error(f"Server sent alert post-handshake: {e}")
+        raise
+    except Exception as e:
+        logger.debug(f"No immediate server response detected: {e}")
 
     # Derive application key
     crypto.derive_application_key()
@@ -308,9 +354,30 @@ def _get_message(message_type: str) -> Optional[bytes]:
     logger.warning(f"Invalid message type: {message_type}")
     return None
 
-def parse_server_certificate(body: bytes) -> bytes:
+def parse_server_certificate(body: bytes, network: ClientNetwork, crypto: ClientCrypto) -> bytes:
     cert_len = int.from_bytes(body[1:4], 'big')
     server_cert_bytes = body[4:4 + cert_len]
+    # Validate server certificate
+    try:
+        server_cert_obj = load_der_x509_certificate(server_cert_bytes, default_backend())
+    except ValueError as e:
+        raise TLSError(f"Failed to parse certificate: {e}", ALERT_BAD_CERTIFICATE, network.logger, network)
+    ca_public_key = crypto.ca_cert.public_key()
+    try:
+        ca_public_key.verify(
+            server_cert_obj.signature,
+            server_cert_obj.tbs_certificate_bytes,
+            ec.ECDSA(hashes.SHA384())
+        )
+    except Exception:
+        raise TLSError("Server certificate verification failed", ALERT_BAD_CERTIFICATE, logger, network)
+    current_time = datetime.datetime.now(datetime.timezone.utc)
+    if current_time < server_cert_obj.not_valid_before_utc:
+        raise TLSError("Certificate not yet valid", ALERT_BAD_CERTIFICATE, logger, network)
+    elif current_time > server_cert_obj.not_valid_after_utc:
+        raise TLSError("Certificate has expired", ALERT_CERTIFICATE_EXPIRED, logger, network)
+    logger.debug("Server certificate validated successfully")
+
     return server_cert_bytes
 
 def parse_and_validate_server_certificate_verify(body: bytes, server_cert_bytes: bytes, network: ClientNetwork, crypto: ClientCrypto,) -> None:

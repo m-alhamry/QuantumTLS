@@ -12,11 +12,10 @@ import os
 
 from errors import TLSError
 from utils import (
-    ALERT_INTERNAL_ERROR, ALERT_HANDSHAKE_FAILURE, ALERT_BAD_RECORD_MAC, 
+    ALERT_ILLEGAL_PARAMETER, ALERT_INTERNAL_ERROR, ALERT_HANDSHAKE_FAILURE, ALERT_BAD_RECORD_MAC, 
     IV_LENGTH, HKDF_INFO_MASTER_SECRET, HKDF_INFO_APPLICATION_KEY,
     KEY_LENGTH, SEQ_BYTES_LENGTH
 )
-
 def generate_ecc_keys(logger: logging.Logger) -> Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey, bytes]:
     """
     Generate ECC private and public keys using the secp384r1 curve.
@@ -49,6 +48,8 @@ def generate_kyber_keys(variant: int | None, logger: logging.Logger) -> Tuple[oq
     """
     start = time.perf_counter()
     kem_map = {1: "Kyber512", 2: "Kyber768", 3: "Kyber1024"}
+    if variant not in kem_map:
+        raise TLSError(f"Invalid Kyber variant: {variant}", ALERT_ILLEGAL_PARAMETER, logger)
     kem_alg = kem_map.get(variant, "Kyber768")
     kem = oqs.KeyEncapsulation(kem_alg) # Kyber private key stored inside kem
     public_key = kem.generate_keypair()

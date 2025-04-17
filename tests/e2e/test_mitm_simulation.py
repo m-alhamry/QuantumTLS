@@ -1,0 +1,92 @@
+import unittest
+import logging
+from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.primitives.serialization import Encoding, load_pem_private_key
+from cryptography.x509 import load_pem_x509_certificate
+from cryptography.hazmat.primitives import hashes
+from server_crypto import ServerCrypto  # Adjust import based on your module structure
+from errors import TLSError
+from crypto import get_hash
+from utils import ALERT_BAD_CERTIFICATE, CERT_VERIFY_CONTEXT_PADDING, TLS13_CLIENT_CERT_VERIFY_CONTEXT
+
+class TestMitmSimulation(unittest.TestCase):
+    def setUp(self):
+        self.logger = logging.getLogger('test')
+        self.crypto = ServerCrypto(self.logger)
+        with open("client.crt", "rb") as f:
+            self.client_cert = load_pem_x509_certificate(f.read())
+        with open("client.key", "rb") as f:
+            self.client_private_key = load_pem_private_key(f.read(), password=None)
+        # Validate key-certificate match
+        public_key_from_private = self.client_private_key.public_key()
+        cert_public_key = self.client_cert.public_key()
+        self.assertEqual(
+            public_key_from_private.public_numbers(),
+            cert_public_key.public_numbers(),
+            "Client private key does not match certificate"
+        )
+        # Validate curve
+        self.assertIsInstance(self.client_cert.public_key(), ec.EllipticCurvePublicKey)
+        self.assertEqual(self.client_cert.public_key().curve.name, "secp384r1",
+                        "Certificate must use secp384r1 curve")
+        self.crypto.handshake_transcript = b"sample handshake transcript"
+
+    def compute_signature(self, transcript):
+        """Helper method to compute a CertificateVerify signature over a transcript."""
+        # Mimic the signature input computation from verify_certificate_verify
+        transcript_hash = get_hash(transcript)  # Use the same hash function as ServerCrypto
+        context = CERT_VERIFY_CONTEXT_PADDING + TLS13_CLIENT_CERT_VERIFY_CONTEXT + b"\x00"
+        signature_input = context + transcript_hash
+        return self.client_private_key.sign(signature_input, ec.ECDSA(hashes.SHA384()))
+
+    def test_verify_certificate_verify_valid(self):
+        signature = self.compute_signature(self.crypto.handshake_transcript)
+        client_cert_bytes = self.client_cert.public_bytes(Encoding.DER)
+        # Manual verification
+        transcript_hash = get_hash(self.crypto.handshake_transcript)
+        context = CERT_VERIFY_CONTEXT_PADDING + TLS13_CLIENT_CERT_VERIFY_CONTEXT + b"\x00"
+        signature_input = context + transcript_hash
+        client_public_key = self.client_cert.public_key()
+        try:
+            client_public_key.verify(signature, signature_input, ec.ECDSA(hashes.SHA384()))
+        except Exception as e:
+            self.fail(f"Manual signature verification failed: {e}")
+        result = self.crypto.verify_certificate_verify(signature, client_cert_bytes)
+        self.assertTrue(result, "Server should accept a valid signature")
+
+    def test_verify_certificate_verify_tampered_signature(self):
+        """Test that a tampered signature is rejected."""
+        signature = self.compute_signature(self.crypto.handshake_transcript)
+        # Tamper with the signature by altering the last byte
+        tampered_signature = signature[:-1] + b'\x00'
+        client_cert_bytes = self.client_cert.public_bytes(Encoding.DER)
+        with self.assertRaises(TLSError) as cm:
+            self.crypto.verify_certificate_verify(tampered_signature, client_cert_bytes)
+        self.assertEqual(cm.exception.alert_type, ALERT_BAD_CERTIFICATE,
+                         "Server should reject tampered signature with ALERT_BAD_CERTIFICATE")
+
+    def test_verify_certificate_verify_invalid_certificate(self):
+        """Test that an invalid certificate is rejected."""
+        signature = self.compute_signature(self.crypto.handshake_transcript)
+        invalid_cert_bytes = b"invalid cert data"  # Malformed certificate
+        with self.assertRaises(TLSError) as cm:
+            self.crypto.verify_certificate_verify(signature, invalid_cert_bytes)
+        self.assertEqual(cm.exception.alert_type, ALERT_BAD_CERTIFICATE,
+                         "Server should reject invalid certificate with ALERT_BAD_CERTIFICATE")
+        self.assertIn("Failed to parse client certificate", str(cm.exception),
+                      "Error message should indicate parsing failure")
+
+    def test_verify_certificate_verify_tampered_transcript(self):
+        """Test that a signature with a tampered transcript is rejected."""
+        original_transcript = b"original transcript"
+        signature = self.compute_signature(original_transcript)
+        # Set a different transcript to simulate tampering
+        self.crypto.handshake_transcript = b"tampered transcript"
+        client_cert_bytes = self.client_cert.public_bytes(Encoding.DER)
+        with self.assertRaises(TLSError) as cm:
+            self.crypto.verify_certificate_verify(signature, client_cert_bytes)
+        self.assertEqual(cm.exception.alert_type, ALERT_BAD_CERTIFICATE,
+                         "Server should reject signature with tampered transcript")
+
+if __name__ == '__main__':
+    unittest.main()

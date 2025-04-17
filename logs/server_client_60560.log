@@ -1,0 +1,26 @@
+2025-04-17 22:49:10,295 [INFO] Loaded server certificate and private key
+2025-04-17 22:49:10,297 [INFO] Server certificate and private key match verified
+2025-04-17 22:49:10,299 [INFO] Server certificate verified against CA
+2025-04-17 22:49:10,300 [INFO] Connected by ('127.0.0.1', 60560)
+2025-04-17 22:49:10,302 [DEBUG] Starting server-client handshake
+2025-04-17 22:49:10,330 [DEBUG] Received ClientHello
+2025-04-17 22:49:10,332 [INFO] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber768
+2025-04-17 22:49:10,339 [DEBUG] Generated ECC keys in 0.005276 seconds
+2025-04-17 22:49:10,345 [DEBUG] Generated Kyber768 keys in 0.004115 seconds
+2025-04-17 22:49:10,351 [DEBUG] Encapsulated Kyber shared secret in 0.003692s
+2025-04-17 22:49:10,360 [DEBUG] Derived handshake keys in 0.007551s
+2025-04-17 22:49:10,363 [DEBUG] Sent ServerHello
+2025-04-17 22:49:10,366 [DEBUG] Sent Server EncryptedExtensions
+2025-04-17 22:49:10,368 [DEBUG] Sent Server CertificateRequest
+2025-04-17 22:49:10,370 [DEBUG] Sent Server Certificate
+2025-04-17 22:49:10,378 [DEBUG] Computed CertificateVerify in 0.004928s
+2025-04-17 22:49:10,380 [DEBUG] Sent Server CertificateVerify
+2025-04-17 22:49:10,382 [DEBUG] Computed Finished message in 0.000245s
+2025-04-17 22:49:10,384 [DEBUG] Sent Server Finished
+2025-04-17 22:49:10,439 [DEBUG] Recived client certificate
+2025-04-17 22:49:10,440 [INFO] TLSError: Certificate_list too short (Alert: decode_error, 32)
+2025-04-17 22:49:10,441 [DEBUG] Sent alert in 0.000345s: decode_error (32) - Certificate_list too short
+2025-04-17 22:49:10,444 [ERROR] TLS error with ('127.0.0.1', 60560): Certificate_list too short
+2025-04-17 22:49:10,445 [DEBUG] Cleared sensitive cryptographic data
+2025-04-17 22:49:10,447 [DEBUG] Cleared server-specific sensitive data
+2025-04-17 22:49:10,449 [INFO] Server connection closed
