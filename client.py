@@ -1,5 +1,4 @@
 import argparse
-import datetime
 import logging
 import select
 import socket
@@ -7,20 +6,18 @@ import time
 from typing import Optional
 from unittest.mock import patch
 
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives.asymmetric import ec
-from cryptography.hazmat.primitives import hashes
-from cryptography.x509 import load_pem_x509_certificate, load_der_x509_certificate
 from client_network import ClientNetwork
 from client_crypto import ClientCrypto
+from crypto import parse_and_validate_certificate, validate_and_verify_certificate_verify
 from errors import TLSError
+from network import handle_session_timeout
 from utils import (
-    ALERT_BAD_CERTIFICATE, ALERT_CERTIFICATE_EXPIRED, ALERT_CERTIFICATE_REQUIRED, ALERT_CLOSE_NOTIFY, ALERT_DECODE_ERROR, ALERT_HANDSHAKE_FAILURE,
-    ALERT_ILLEGAL_PARAMETER, ALERT_INTERNAL_ERROR, ALERT_TYPE, ALERT_UNEXPECTED_MESSAGE,
-    DEFAULT_CA_CERT, DEFAULT_IP, DEFAULT_JSON_FILE, DEFAULT_PORT, HANDSHAKE_TYPE_CERTIFICATE,
-    HANDSHAKE_TYPE_CERTIFICATE_REQUEST, HANDSHAKE_TYPE_CERTIFICATE_VERIFY, HANDSHAKE_TYPE_ENCRYPTED_EXTENSIONS,
-    HANDSHAKE_TYPE_FINISHED, SIGNATURE_ECDSA_SECP384R1_SHA384, SESSION_TIMEOUT, STATE_CLIENT_APPLICATION,
-    setup_logging, prompt_ip_port, handle_session_timeout,
+    ALERT_CERTIFICATE_REQUIRED, ALERT_CLOSE_NOTIFY, ALERT_DECODE_ERROR, ALERT_HANDSHAKE_FAILURE,
+    ALERT_ILLEGAL_PARAMETER, ALERT_INTERNAL_ERROR, ALERT_TYPE, ALERT_UNEXPECTED_MESSAGE, CIPHER_SUITES,
+    DEFAULT_CLIENT_CERT, DEFAULT_CLIENT_KEY, DEFAULT_IP, DEFAULT_JSON_FILE, DEFAULT_PORT,
+    HANDSHAKE_TYPE_CERTIFICATE, HANDSHAKE_TYPE_CERTIFICATE_REQUEST, HANDSHAKE_TYPE_CERTIFICATE_VERIFY,
+    HANDSHAKE_TYPE_ENCRYPTED_EXTENSIONS, HANDSHAKE_TYPE_FINISHED, SESSION_TIMEOUT, STATE_CLIENT_APPLICATION, 
+    setup_logging
 )
 
 logger = setup_logging("client", "client.log", logging.DEBUG)
@@ -30,15 +27,18 @@ def main(ip: str = None, port: int = None, send_cert: Optional[bool] = None, tes
     Main function to run the TLS 1.3 client.
 
     Args:
-        ip: Server IP address (overrides command-line argument).
-        port: Server port number (overrides command-line argument).
-        send_cert: Whether to send client certificate for mutual authentication.
-        test_inputs: List of inputs for test mode (overrides user input).
+        ip (str, optional): Server IP address (overrides CLI).
+        port (int, optional): Server port number (overrides CLI).
+        send_cert (bool, optional): Whether to send client certificate.
+        test_inputs (list, optional): Inputs for test mode.
+
+    Raises:
+        TLSError: Propagated from handshake or message exchange.
     """
     parser = argparse.ArgumentParser(description="TLS 1.3 Client")
-    parser.add_argument("--ip", type=str, default=DEFAULT_IP, help="Server IP address (default: 127.0.0.1)")
-    parser.add_argument("--port", type=int, default=DEFAULT_PORT, help="Server port number (default: 65432)")
-    parser.add_argument("--send-cert", type=str, choices=["enable", "disable"], default="disable", help="Send Client Cert for Mutual Auth (default: disable)")
+    parser.add_argument("--ip", type=str, default=DEFAULT_IP, help=f"Server IP address (default: {DEFAULT_IP})")
+    parser.add_argument("--port", type=int, default=DEFAULT_PORT, help=f"Server port number (default: {DEFAULT_PORT})")
+    parser.add_argument("--send-cert", type=str, choices=["enable", "disable"], default="disable", help="Send client cert (default: disable)")
     parser.add_argument("--test-mode", action="store_true", help="Run in test mode")
     parser.add_argument("--message-type", type=str, choices=["1", "2", "3"], help="Message type (1: text, 2: JSON, 3: exit)")
     parser.add_argument("--message", type=str, help="Message content or file path")
@@ -54,50 +54,42 @@ def main(ip: str = None, port: int = None, send_cert: Optional[bool] = None, tes
         port = port if port else (args.port if args else DEFAULT_PORT)
         send_cert = send_cert if send_cert is not None else (args.send_cert == "enable" if args else False)
         test_mode = False
-        if not args:
-            ip, port = prompt_ip_port(logger=logger)
 
     try:
-        with open(DEFAULT_CA_CERT, "rb") as f:
-            ca_cert = load_pem_x509_certificate(f.read())
-        logger.info("Loaded CA certificate")
-
-        network = ClientNetwork(ip, port, logger, ca_cert)
-        crypto = ClientCrypto(logger, ca_cert, network)
+        network = ClientNetwork(ip, port, logger)
+        crypto = ClientCrypto(logger, network)
         network.crypto = crypto
 
-        logger.debug("Connecting to server")
+        logger.info("Connecting to server")
         network.connect()
-        
+        logger.info(f"Connected to {ip}:{port}")
+
+        logger.info("Starting client-server handshake")
         client_server_handshake(crypto, network, send_cert)
         network.sock.settimeout(SESSION_TIMEOUT)
-        logger.info("Handshake completed, starting message exchange")
-
+        logger.info("starting message exchange")
         if test_inputs:
             with patch('builtins.input', side_effect=test_inputs):
                 message_exchange(crypto, network, test_mode)
         else:
             message_exchange(crypto, network, test_mode)
-
     except TLSError as e:
-        # network.send_alert(e.alert_type, str(e))
         logger.error(f"TLS error: {e}")
-    except ConnectionAbortedError as e:
-        logger.error(e)
-        network.send_alert(ALERT_CLOSE_NOTIFY, f"Connection error: {e}")
-        raise
-    except ConnectionError as e:
-        logger.error(f"Connection failed: {e}")
-        network.send_alert(ALERT_CLOSE_NOTIFY, f"Connection error: {e}")
-        raise
+    except socket.error as e:
+        logger.error(f"Socket error: {e}")
+        network.send_alert(ALERT_CLOSE_NOTIFY, f"Socket error: {e}")
     except ValueError as e:
         logger.error(f"Invalid data: {e}")
-        network.send_alert(ALERT_ILLEGAL_PARAMETER, str(e))
-        raise
+        network.send_alert(ALERT_ILLEGAL_PARAMETER, f"Invalid data: {e}")
+    except ConnectionAbortedError as e:
+        logger.error(e)
+        network.send_alert(ALERT_CLOSE_NOTIFY, f"ConnectionAbortedError: {e}")
+    except ConnectionError as e:
+        logger.error(f"Connection failed: {e}")
+        network.send_alert(ALERT_CLOSE_NOTIFY, f"Connection error: {e}",)
     except Exception as e:
         logger.error(f"Unexpected error: {e}", exc_info=True)
         network.send_alert(ALERT_INTERNAL_ERROR, f"Unexpected error: {e}")
-        raise
     finally:
         crypto.clear_sensitive_data()
         network.close()
@@ -107,159 +99,128 @@ def client_server_handshake(crypto: ClientCrypto, network: ClientNetwork, send_c
     Perform the TLS 1.3 handshake with the server.
 
     Args:
-        crypto: ClientCrypto instance for cryptographic operations.
-        network: ClientNetwork instance for network operations.
-        send_cert: Whether to send client certificate for mutual authentication.
+        crypto (ClientCrypto): Crypto instance for operations.
+        network (ClientNetwork): Network instance for communication.
+        send_cert (bool): Whether to send client certificate.
+
+    Raises:
+        TLSError: If handshake fails at any step.
     """
-    logger.debug("Starting client-server handshake")
-    handshake_start_time = time.perf_counter()
-
-    # Send ClientHello
-    crypto.generate_keys()
-    network.send_client_hello(crypto)
-
-    # Receive ServerHello
-    server_hello = network.receive_server_hello(crypto)
-    logger.debug("Received ServerHello")
-    logger.debug(f"selected cipher suite: {crypto.cipher_suite}")
-    use_hybrid = "Kyber" in crypto.cipher_suite
-
-    crypto.derive_handshake_keys(server_hello, use_hybrid)
-    
-    network.is_handshake_encrypted = True
-
-    # Receive EncryptedExtensions
-    handshake_type, body = network.receive_encrypted_handshake_message(crypto)
-    if handshake_type != HANDSHAKE_TYPE_ENCRYPTED_EXTENSIONS:
-        raise TLSError(f"Expected EncryptedExtensions (0x08), got {handshake_type:02x}", ALERT_UNEXPECTED_MESSAGE, logger, network)
-    handshake_message = bytes([handshake_type]) + len(body).to_bytes(3, 'big') + body
-    crypto.handshake_transcript.extend(handshake_message)
-    logger.debug("Received and decrypted EncryptedExtensions")
-
-    # Check for CertificateRequest
-    handshake_type, body = network.receive_encrypted_handshake_message(crypto)
-    handshake_message = bytes([handshake_type]) + len(body).to_bytes(3, 'big') + body
-    crypto.handshake_transcript.extend(handshake_message)
-    
-    mutual_auth = False
-    if handshake_type == HANDSHAKE_TYPE_CERTIFICATE_REQUEST:
-        mutual_auth = True
-        logger.debug("Received CertificateRequest")
+    try:
+        start = time.perf_counter()
+        # Generate ECC and all Kyber variants keys
+        crypto.generate_keys()
+        # Send ClientHello
+        network.send_client_hello(crypto)
+        logger.debug(f"Sent ClientHello with {len(CIPHER_SUITES)} cipher suites and {len(CIPHER_SUITES)} key shares")
+        # Receive ServerHello
+        server_hello = network.receive_server_hello(crypto)
+        logger.debug("Received ServerHello")
+        logger.debug(f"Selected cipher suite: {crypto.cipher_suite}")
+        # Set use_hybred: True when Kyber there, False otherwise
+        use_hybrid = "Kyber" in crypto.cipher_suite
+        # Derive handshake keys
+        crypto.derive_handshake_keys(server_hello, use_hybrid)
+        # Receive EncryptedExtensions
+        handshake_type, body = network.receive_encrypted_handshake_message(crypto)
+        if handshake_type != HANDSHAKE_TYPE_ENCRYPTED_EXTENSIONS:
+            raise TLSError(f"Expected EncryptedExtensions (0x08), got {handshake_type:02x}", ALERT_UNEXPECTED_MESSAGE, logger, network)
+        handshake_message = bytes([handshake_type]) + len(body).to_bytes(3, 'big') + body
+        crypto.handshake_transcript.extend(handshake_message)
+        logger.debug("Received EncryptedExtensions")
+        # Check for CertificateRequest
         handshake_type, body = network.receive_encrypted_handshake_message(crypto)
         handshake_message = bytes([handshake_type]) + len(body).to_bytes(3, 'big') + body
         crypto.handshake_transcript.extend(handshake_message)
-    else:
-        logger.debug("No CertificateRequest received")
-    
-    # Handle server's Certificate
-    logger.debug("Received server Certificate")
-    if handshake_type != HANDSHAKE_TYPE_CERTIFICATE:
-        raise TLSError(f"Expected Certificate (0x0b), got {handshake_type:02x}", ALERT_UNEXPECTED_MESSAGE, logger, network)
-    
-    server_cert_bytes = parse_server_certificate(body, network, crypto)
-
-    # Receive CertificateVerify
-    logger.debug("Received Server CertificateVerify")
-    handshake_type, body = network.receive_encrypted_handshake_message(crypto)
-    if handshake_type != HANDSHAKE_TYPE_CERTIFICATE_VERIFY:
-        raise TLSError(f"Expected CertificateVerify (0x0f), got {handshake_type:02x}", ALERT_UNEXPECTED_MESSAGE, logger, network)
-
-    parse_and_validate_server_certificate_verify(body, server_cert_bytes, network, crypto)
-
-    # Update transcript after verification
-    handshake_message = bytes([handshake_type]) + len(body).to_bytes(3, 'big') + body
-    crypto.handshake_transcript.extend(handshake_message)
-
-    # Receive server's Finished
-    handshake_type, body = network.receive_encrypted_handshake_message(crypto)
-    if handshake_type != HANDSHAKE_TYPE_FINISHED:
-        raise TLSError(f"Expected Finished (0x14), got {handshake_type:02x}", ALERT_UNEXPECTED_MESSAGE, logger, network)
-    
-    # Verify Finished using the current transcript (before extending)
-    if not crypto.verify_finished_message(body):
-        raise TLSError("Server Finished verification failed", ALERT_HANDSHAKE_FAILURE, logger, network)
-    logger.debug("Verified server Finished")
-    
-    # Extend the transcript with the Finished message
-    handshake_message = bytes([handshake_type]) + len(body).to_bytes(3, 'big') + body
-    crypto.handshake_transcript.extend(handshake_message)
-
-    if mutual_auth:
-        if send_cert:
-            if crypto.cert is None:
-                crypto.load_certificate()
-            # Send client certificate
-            network.send_client_certificate(crypto)
-            logger.debug("Sent client Certificate")
-            # Send client certificate verify
-            network.send_client_certificate_verify(crypto)
-            logger.debug("Sent client CertificateVerify")
+        mutual_auth = False
+        if handshake_type == HANDSHAKE_TYPE_CERTIFICATE_REQUEST:
+            mutual_auth = True
+            logger.debug("Received CertificateRequest")
+            handshake_type, body = network.receive_encrypted_handshake_message(crypto)
+            handshake_message = bytes([handshake_type]) + len(body).to_bytes(3, 'big') + body
+            crypto.handshake_transcript.extend(handshake_message)
         else:
-            network.send_empty_certificate(crypto)
-            raise TLSError("CertificateRequest received but no client certificate available", ALERT_CERTIFICATE_REQUIRED, logger, network)
-        # Check for server response or connection closure
-        try:
-            ready = select.select([network.sock], [], [], 0.1)  # Short timeout to check for data
-            if ready[0]:
-                # Attempt to peek at incoming data
-                header = network.sock.recv(1, socket.MSG_PEEK)
-                if not header:
-                    # Empty response means the server closed the connection
-                    logger.error("Server closed connection unexpectedly after sending Certificate/CertificateVerify")
-                    raise TLSError("Server terminated connection", ALERT_CLOSE_NOTIFY, logger, network)
-                elif header[0] == ALERT_TYPE:
-                    # Server sent an alert
-                    alert_type, desc = network.receive_alert()
-                    logger.error(f"Server sent alert: {desc}")
-                    raise TLSError(f"Server sent alert: {desc}", alert_type, logger, network)
-                else:
-                    logger.debug("No alert received from server, proceeding with handshake")
-        except ConnectionResetError as e:
-            logger.error(f"Server closed connection: {e}")
-            raise TLSError("Server terminated connection", ALERT_INTERNAL_ERROR, logger, network)
-        except TLSError as e:
-            raise
-        except Exception as e:
-            logger.debug(f"Checked for server response, none detected: {e}")
-
-    # Send finished
-    network.send_finished(crypto)
-    logger.debug("Sent client Finished")
-
-    # Check for immediate server alerts (e.g., client certificate or Finished verification failure)
-    try:
-        ready = select.select([network.sock], [], [], 0.1)  # Short timeout to check for data
-        if ready[0]:
-            response = network.receive_application_data(crypto)
-            if response == b"END_SESSION":
-                logger.info("Server terminated session during handshake")
-            # If an alert was received, receive_application_data would raise TLSError
+            logger.debug("No CertificateRequest received")
+        # Receive & Handle server's Certificate
+        if handshake_type != HANDSHAKE_TYPE_CERTIFICATE:
+            raise TLSError(f"Expected Certificate (0x0b), got {handshake_type:02x}", ALERT_UNEXPECTED_MESSAGE, logger, network)
+        logger.debug("Received server Certificate")
+        server_cert_bytes = parse_and_validate_certificate(body, network, "Server")
+        # Receive & Handle server's Certificate Verify
+        handshake_type, body = network.receive_encrypted_handshake_message(crypto)
+        if handshake_type != HANDSHAKE_TYPE_CERTIFICATE_VERIFY:
+            raise TLSError(f"Expected CertificateVerify (0x0f), got {handshake_type:02x}", ALERT_UNEXPECTED_MESSAGE, logger, network)
+        logger.debug("Received Server CertificateVerify")
+        validate_and_verify_certificate_verify(body, server_cert_bytes, network, crypto, logger)
+        handshake_message = bytes([handshake_type]) + len(body).to_bytes(3, 'big') + body
+        crypto.handshake_transcript.extend(handshake_message)
+        logger.debug("Verified server CertificateVerify")
+        # Receive & Verify server's Finished
+        handshake_type, body = network.receive_encrypted_handshake_message(crypto)
+        if handshake_type != HANDSHAKE_TYPE_FINISHED:
+            raise TLSError(f"Expected Finished (0x14), got {handshake_type:02x}", ALERT_UNEXPECTED_MESSAGE, logger, network)
+        logger.debug("Received Server Finished")
+        if not crypto.verify_finished_message(body):
+            raise TLSError("Server Finished verification failed", ALERT_HANDSHAKE_FAILURE, logger, network)
+        logger.debug("Verified server Finished")
+        handshake_message = bytes([handshake_type]) + len(body).to_bytes(3, 'big') + body
+        crypto.handshake_transcript.extend(handshake_message)
+        # Send Client Certificat if Mutual auth enabled
+        if mutual_auth:
+            if send_cert:
+                if crypto.cert is None:
+                    crypto.load_certificate(DEFAULT_CLIENT_CERT, DEFAULT_CLIENT_KEY)
+                # Send client certificate
+                network.send_client_certificate(crypto)
+                logger.debug("Sent client Certificate")
+                # Send client certificate verify
+                network.send_client_certificate_verify(crypto)
+                logger.debug("Sent client CertificateVerify")
+            else:
+                network.send_empty_certificate(crypto)
+                logger.debug("Sent empty Certificate")
+                raise TLSError("Certificate required but not provided", ALERT_CERTIFICATE_REQUIRED, logger, network)
+            
+            try:
+                # Wait for server responce if client cert not acceptable 
+                ready = select.select([network.sock], [], [], 0.1)
+                if ready[0]:
+                    header = network.sock.recv(1, socket.MSG_PEEK)
+                    if not header:
+                        raise TLSError("Server closed connection unexpectedly", ALERT_CLOSE_NOTIFY, logger, network)
+                    elif header[0] == ALERT_TYPE:
+                        alert_type, desc = network.receive_alert()
+                        raise TLSError(f"Server sent alert: {desc}", alert_type, logger, network)
+            except socket.error as e:
+                raise TLSError(f"Server connection error: {e}", ALERT_INTERNAL_ERROR, logger, network)
+        # Send Client Finished
+        network.send_finished(crypto)
+        logger.debug("Sent client Finished")
+        # Dereive app keys
+        crypto.derive_application_key()
+        # Be ready for message exchange phase
+        network.handshake_state = STATE_CLIENT_APPLICATION
+        duration = time.perf_counter() - start
+        logger.debug(f"Handshake completed in {duration:.6f} seconds")
+        logger.info(f"Handshake completed")
     except TLSError as e:
-        logger.error(f"Server sent alert post-handshake: {e}")
         raise
     except Exception as e:
-        logger.debug(f"No immediate server response detected: {e}")
-
-    # Derive application key
-    crypto.derive_application_key()
-
-    network.handshake_state = STATE_CLIENT_APPLICATION
-
-    duration = time.perf_counter() - handshake_start_time
-    logger.info(f"Handshake completed in {duration:.6f} seconds")
+        raise TLSError(f"Handshake failed: {e}", ALERT_INTERNAL_ERROR, logger, network)
 
 def message_exchange(crypto: ClientCrypto, network: ClientNetwork, test_mode: bool = False) -> None:
     """
-    Handle message exchange with the server after the handshake.
+    Handle message exchange with the server after handshake.
 
     Args:
-        crypto: ClientCrypto instance for cryptographic operations.
-        network: ClientNetwork instance for network operations.
-        test_mode: If True, run in test mode with predefined inputs.
+        crypto (ClientCrypto): Crypto instance for operations.
+        network (ClientNetwork): Network instance for communication.
+        test_mode (bool): If True, use test inputs.
+
+    Raises:
+        TLSError: If message exchange fails.
     """
     last_activity = time.time()
-    logger.debug("Starting message exchange loop")
-
     if test_mode:
         message_type = input("Type message (1), load from JSON (2), or exit (3): ").strip()
         if message_type == "3":
@@ -275,7 +236,7 @@ def message_exchange(crypto: ClientCrypto, network: ClientNetwork, test_mode: bo
         try:
             network.send_application_data(crypto, plaintext)
             response = network.receive_application_data(crypto)
-            logger.info(f"Received response: {response.decode('utf-8')[:50]}... (length: {len(response)} bytes)")
+            logger.debug(f"Received response: {response.decode('utf-8')[:50]}... (length: {len(response)} bytes)")
             return
         except Exception as e:
             raise
@@ -325,13 +286,16 @@ def message_exchange(crypto: ClientCrypto, network: ClientNetwork, test_mode: bo
 
 def _get_message(message_type: str) -> Optional[bytes]:
     """
-    Retrieve the message content based on the message type.
+    Retrieve message content based on type.
 
     Args:
-        message_type: Type of message ("1" for text, "2" for JSON file).
+        message_type (str): "1" for text, "2" for JSON file.
 
     Returns:
-        Optional[bytes]: Message content or None if invalid.
+        Optional[bytes]: Message content or None if invalid/empty.
+
+    Raises:
+        ValueError: If file reading fails (caught externally).
     """
     if message_type == "1":
         try:
@@ -353,53 +317,6 @@ def _get_message(message_type: str) -> Optional[bytes]:
             return None
     logger.warning(f"Invalid message type: {message_type}")
     return None
-
-def parse_server_certificate(body: bytes, network: ClientNetwork, crypto: ClientCrypto) -> bytes:
-    cert_len = int.from_bytes(body[1:4], 'big')
-    server_cert_bytes = body[4:4 + cert_len]
-    # Validate server certificate
-    try:
-        server_cert_obj = load_der_x509_certificate(server_cert_bytes, default_backend())
-    except ValueError as e:
-        raise TLSError(f"Failed to parse certificate: {e}", ALERT_BAD_CERTIFICATE, network.logger, network)
-    ca_public_key = crypto.ca_cert.public_key()
-    try:
-        ca_public_key.verify(
-            server_cert_obj.signature,
-            server_cert_obj.tbs_certificate_bytes,
-            ec.ECDSA(hashes.SHA384())
-        )
-    except Exception:
-        raise TLSError("Server certificate verification failed", ALERT_BAD_CERTIFICATE, logger, network)
-    current_time = datetime.datetime.now(datetime.timezone.utc)
-    if current_time < server_cert_obj.not_valid_before_utc:
-        raise TLSError("Certificate not yet valid", ALERT_BAD_CERTIFICATE, logger, network)
-    elif current_time > server_cert_obj.not_valid_after_utc:
-        raise TLSError("Certificate has expired", ALERT_CERTIFICATE_EXPIRED, logger, network)
-    logger.debug("Server certificate validated successfully")
-
-    return server_cert_bytes
-
-def parse_and_validate_server_certificate_verify(body: bytes, server_cert_bytes: bytes, network: ClientNetwork, crypto: ClientCrypto,) -> None:
-    # Validate message length
-    if len(body) < 4:
-        raise TLSError("Invalid CertificateVerify message", ALERT_DECODE_ERROR, logger, network)
-
-    # Parse CertificateVerify: algorithm (2 bytes), sig_len (2 bytes), signature
-    algorithm = body[0:2]
-    sig_len = int.from_bytes(body[2:4], 'big')
-    if len(body) != 4 + sig_len:
-        raise TLSError("Invalid signature length in CertificateVerify", ALERT_DECODE_ERROR, logger, network)
-    signature = body[4:4 + sig_len]
-
-    # Verify the algorithm matches the expected value
-    if algorithm != SIGNATURE_ECDSA_SECP384R1_SHA384:
-        raise TLSError("Unsupported signature algorithm", ALERT_HANDSHAKE_FAILURE, logger, network)
-
-    # Verify the signature using the transcript snapshot
-    transcript_snapshot = bytes(crypto.handshake_transcript)
-    if not crypto.verify_certificate_verify(signature, server_cert_bytes, transcript_snapshot):
-        raise TLSError("Server CertificateVerify verification failed", ALERT_BAD_CERTIFICATE, logger, network)
 
 if __name__ == "__main__":
     main()

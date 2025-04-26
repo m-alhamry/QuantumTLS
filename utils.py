@@ -1,7 +1,5 @@
 import logging
-import socket
 import struct
-import time
 from typing import Tuple, List
 
 # Network settings
@@ -154,15 +152,21 @@ EXTENSION_KEY_SHARE = 0x0033
 TLS_VERSION_1_3 = b"\x03\x04"
 LEGACY_VERSION = b"\x03\x03"
 
+# Signature algorithms
+SIGNATURE_ECDSA_SECP384R1_SHA384 = b"\x05\x03"
+SUPPORTED_SIGNATURE_ALGORITHMS = [SIGNATURE_ECDSA_SECP384R1_SHA384]
+
 # Supported groups
 GROUP_SECP384R1 = 0x0018
 GROUP_KYBER512 = 0xFF01
 GROUP_KYBER768 = 0xFF02
 GROUP_KYBER1024 = 0xFF03
 
-# Signature algorithms
-SIGNATURE_ECDSA_SECP384R1_SHA384 = b"\x05\x03"
-SUPPORTED_SIGNATURE_ALGORITHMS = [SIGNATURE_ECDSA_SECP384R1_SHA384]
+KYBER_GROUPS = {
+    "TLS_AES_256_GCM_SHA384_Kyber512": GROUP_KYBER512,
+    "TLS_AES_256_GCM_SHA384_Kyber768": GROUP_KYBER768,
+    "TLS_AES_256_GCM_SHA384_Kyber1024": GROUP_KYBER1024
+}
 
 # Cipher suites
 CIPHER_SUITES = [
@@ -186,7 +190,7 @@ def encode_signature_algorithms(algorithms: List[bytes]) -> bytes:
     Encode a list of signature algorithms into a byte string for the TLS extension.
 
     Args:
-        algorithms: List of signature algorithm identifiers (each 2 bytes).
+        algorithms (List[bytes]): List of signature algorithm identifiers (each 2 bytes).
 
     Returns:
         bytes: Encoded byte string with length prefix.
@@ -194,43 +198,31 @@ def encode_signature_algorithms(algorithms: List[bytes]) -> bytes:
     sig_alg_list = b"".join(algorithms)
     return struct.pack("!H", len(sig_alg_list)) + sig_alg_list
 
-def encode_key_share_client_hello(key_shares: List[Tuple[int, bytes]]) -> bytes:
+def encode_key_shares(key_shares: List[Tuple[int, bytes]], is_client: bool) -> bytes:
     """
-    Encode the key share extension for the ClientHello message.
+    Encode key shares for the KeyShare extension.
 
     Args:
-        key_shares: List of tuples containing (group, key_exchange).
+        key_shares (List[Tuple[int, bytes]]): List of (group, key_exchange) tuples.
+        is_client (bool): True if encoding for ClientHello, False for ServerHello.
 
     Returns:
-        bytes: Encoded extension byte string.
+        bytes: Encoded KeyShare extension data.
     """
-    client_shares = b""
+    shares_data = b""
     for group, key_exchange in key_shares:
-        client_shares += struct.pack("!H", group) + struct.pack("!H", len(key_exchange)) + key_exchange
-    return encode_extension(EXTENSION_KEY_SHARE, struct.pack("!H", len(client_shares)) + client_shares)
-
-def encode_key_share_server_hello(key_shares: List[Tuple[int, bytes]]) -> bytes:
-    """
-    Encode the key share extension for the ServerHello message.
-
-    Args:
-        key_shares: List of tuples containing (group, key_exchange).
-
-    Returns:
-        bytes: Encoded extension byte string.
-    """
-    server_shares = b""
-    for group, key_exchange in key_shares:
-        server_shares += struct.pack("!H", group) + struct.pack("!H", len(key_exchange)) + key_exchange
-    return encode_extension(EXTENSION_KEY_SHARE, server_shares)
+        shares_data += struct.pack("!H", group) + struct.pack("!H", len(key_exchange)) + key_exchange
+    if is_client:
+        return encode_extension(EXTENSION_KEY_SHARE, struct.pack("!H", len(shares_data)) + shares_data)
+    return encode_extension(EXTENSION_KEY_SHARE, shares_data)
 
 def encode_extension(ext_type: int, ext_data: bytes) -> bytes:
     """
     Encode a single TLS extension with type and data.
 
     Args:
-        ext_type: Extension type (2 bytes).
-        ext_data: Extension data.
+        ext_type (int): Extension type (2 bytes).
+        ext_data (bytes): Extension data.
 
     Returns:
         bytes: Encoded extension (type, length, data).
@@ -242,18 +234,26 @@ def decode_extensions(data: bytes) -> List[Tuple[int, bytes]]:
     Decode a byte string containing multiple TLS extensions.
 
     Args:
-        data: Byte string containing extensions.
+        data (bytes): Byte string containing extensions.
 
     Returns:
         List[Tuple[int, bytes]]: List of (extension_type, extension_data) tuples.
+
+    Raises:
+        ValueError: If extension data is malformed.
     """
     extensions = []
     offset = 0
     while offset < len(data):
+        if offset + 4 > len(data):
+            raise ValueError("Malformed extension: insufficient length for type and length fields")
         ext_type, ext_len = struct.unpack("!HH", data[offset:offset + LENGTH_FIELD_4_BYTES])
-        ext_data = data[offset + LENGTH_FIELD_4_BYTES:offset + LENGTH_FIELD_4_BYTES + ext_len]
+        ext_end = offset + LENGTH_FIELD_4_BYTES + ext_len
+        if ext_end > len(data):
+            raise ValueError(f"Malformed extension: length {ext_len} exceeds data size at offset {offset}")
+        ext_data = data[offset + LENGTH_FIELD_4_BYTES:ext_end]
         extensions.append((ext_type, ext_data))
-        offset += LENGTH_FIELD_4_BYTES + ext_len
+        offset = ext_end
     return extensions
 
 def setup_logging(name: str, log_file: str, level: int = logging.INFO) -> logging.Logger:
@@ -261,163 +261,27 @@ def setup_logging(name: str, log_file: str, level: int = logging.INFO) -> loggin
     Configure and return a logger with file and console handlers.
 
     Args:
-        name: Name of the logger.
-        log_file: Path to the log file.
-        level: Logging level (default: INFO).
+        name (str): Name of the logger.
+        log_file (str): Path to the log file.
+        level (int, optional): Logging level (default: INFO).
 
     Returns:
         logging.Logger: Configured logger instance.
+
+    Raises:
+        IOError: If log file cannot be created or written to.
     """
     logger = logging.getLogger(name)
+    if logger.handlers:  # Prevent duplicate handlers
+        logger.handlers.clear()
     logger.setLevel(level)
-    file_handler = logging.FileHandler(log_file, encoding='utf-8')
-    file_handler.setFormatter(logging.Formatter('%(asctime)s [%(levelname)s] %(message)s'))
-    console_handler = logging.StreamHandler()
-    console_handler.setFormatter(logging.Formatter(f'({name}) %(levelname)s: %(message)s'))
-    logger.addHandler(file_handler)
-    logger.addHandler(console_handler)
+    try:
+        file_handler = logging.FileHandler(log_file, encoding='utf-8')
+        file_handler.setFormatter(logging.Formatter('%(asctime)s [%(levelname)s] %(message)s'))
+        console_handler = logging.StreamHandler()
+        console_handler.setFormatter(logging.Formatter(f'({name}) %(levelname)s: %(message)s'))
+        logger.addHandler(file_handler)
+        logger.addHandler(console_handler)
+    except IOError as e:
+        raise IOError(f"Failed to set up logging to {log_file}: {e}")
     return logger
-
-def receive_exact(sock: socket.socket, size: int) -> bytes:
-    """
-    Receive exactly the specified number of bytes from a socket.
-
-    Args:
-        sock: Socket object.
-        size: Number of bytes to receive.
-
-    Returns:
-        bytes: Received data.
-
-    Raises:
-        ConnectionError: If the connection closes before all data is received.
-    """
-    data = bytearray()
-    while len(data) < size:
-        packet = sock.recv(size - len(data))
-        if not packet:
-            raise ConnectionError(f"Expected {size} bytes, received {len(data)}")
-        data.extend(packet)
-    return bytes(data)
-
-def handle_session_timeout(network: 'BaseNetwork', last_activity: float, timeout: int) -> bool:
-    """
-    Check if the session has timed out and terminate it if necessary.
-
-    Args:
-        network: Network object with end_session method.
-        last_activity: Timestamp of the last activity (in seconds).
-        timeout: Timeout duration in seconds.
-
-    Returns:
-        bool: True if session timed out, False otherwise.
-    """
-    if time.time() - last_activity > timeout:
-        network.end_session(f"Session timed out after {timeout} seconds")
-        return True
-    return False
-
-def prompt_ip_port(is_server: bool = False, logger: logging.Logger = None) -> Tuple[str, int]:
-    """
-    Prompt the user for an IP address and port number.
-
-    Args:
-        is_server: If True, prompt for binding IP (server); otherwise, server IP (client).
-        logger: Optional logger for error messages.
-
-    Returns:
-        Tuple[str, int]: IP address and port number.
-
-    Raises:
-        ValueError: If input is invalid (handled within the loop).
-    """
-    prompt = "Enter IP address to bind" if is_server else "Enter server IP address"
-    while True:
-        try:
-            ip = input(f"{prompt} [default: {DEFAULT_IP}]: ").strip() or DEFAULT_IP
-            socket.inet_aton(ip)  # Validate IP address
-            port = int(input(f"Enter port number [default: {DEFAULT_PORT}]: ").strip() or DEFAULT_PORT)
-            if 1 <= port <= 65535:
-                return ip, port
-            if logger:
-                logger.warning("Port must be between 1 and 65535")
-        except (ValueError, socket.error) as e:
-            if logger:
-                logger.warning(f"Invalid input: {e}")
-
-class BaseNetwork:
-    """Base class for network operations in TLS 1.3 communication."""
-
-    def __init__(self, logger: logging.Logger):
-        """
-        Initialize the BaseNetwork instance.
-
-        Args:
-            logger: Logger instance for logging network events.
-        """
-        self.logger = logger
-        self.sock = None
-        self.crypto = None
-
-    def send_alert(self, alert_type: int, description: str = "", encrypt: bool = False) -> None:
-        """
-        Send a TLS alert message.
-
-        Args:
-            alert_type: TLS alert type code (e.g., ALERT_CLOSE_NOTIFY).
-            description: Human-readable description of the alert.
-            encrypt: If True, encrypt the alert (used after handshake).
-        """
-        alert_data = bytes([alert_type]) + description.encode('utf-8')
-        try:
-            start_time = time.perf_counter()
-            if self.crypto and not self.crypto.is_handshake_phase and encrypt:
-                seq_bytes, iv, ct = self.crypto.encrypt_message(alert_data)
-                message = bytes([ALERT_TYPE]) + LEGACY_VERSION + len(seq_bytes + iv + ct).to_bytes(2, 'big') + seq_bytes + iv + ct
-            else:
-                message = bytes([ALERT_TYPE]) + LEGACY_VERSION + len(alert_data).to_bytes(2, 'big') + alert_data
-            self.sock.send(message)
-            self.logger.debug(f"Sent alert in {time.perf_counter() - start_time:.6f}s: {ALERT_DESCRIPTIONS.get(alert_type, 'Unknown')} ({alert_type:02x}) - {description}")
-        except socket.error as e:
-            self.logger.warning(f"Failed to send alert: {e}")
-
-    def receive_alert(self) -> Tuple[int, str]:
-        """
-        Receive and process a TLS alert message.
-
-        Returns:
-            Tuple[int, str]: Alert type and description.
-
-        Raises:
-            TLSError: If the message is not an alert or is malformed.
-        """
-        from errors import TLSError  # Late import to avoid circular dependency
-        header = receive_exact(self.sock, HANDSHAKE_TYPE_LENGTH)
-        if header[0] != ALERT_TYPE:
-            raise TLSError(f"Expected alert, got {header[0]:02x}", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
-        version = receive_exact(self.sock, VERSION_LENGTH)
-        if version != LEGACY_VERSION:
-            raise TLSError(f"Invalid alert version: {version.hex()}", ALERT_PROTOCOL_VERSION, self.logger, self)
-        length = int.from_bytes(receive_exact(self.sock, LENGTH_FIELD_2_BYTES), 'big')
-        data = receive_exact(self.sock, length)
-        if self.crypto and not self.crypto.is_handshake_phase:
-            seq_bytes = data[:SEQ_BYTES_LENGTH]
-            iv = data[SEQ_BYTES_LENGTH:SEQ_BYTES_LENGTH + IV_LENGTH]
-            ct = data[SEQ_BYTES_LENGTH + IV_LENGTH:]
-            alert_data = self.crypto.decrypt_message(seq_bytes, iv, ct)
-        else:
-            alert_data = data
-        alert_type = alert_data[0]
-        description = alert_data[1:].decode('utf-8', errors='ignore')
-        self.logger.info(f"Received alert: {ALERT_DESCRIPTIONS.get(alert_type, 'Unknown')} ({alert_type:02x}) - {description}")
-        return alert_type, description
-
-    def end_session(self, log_message: str) -> None:
-        """
-        Terminate the session by sending a close_notify alert.
-
-        Args:
-            log_message: Message to log upon session termination.
-        """
-        self.logger.info(log_message)
-        self.send_alert(ALERT_CLOSE_NOTIFY, "Session terminated", encrypt=(self.crypto and not self.crypto.is_handshake_phase))

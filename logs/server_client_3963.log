@@ -1,0 +1,33 @@
+2025-04-26 22:56:04,123 [DEBUG] Loaded CA certificate
+2025-04-26 22:56:04,124 [INFO] Connected by ('127.0.0.1', 3963)
+2025-04-26 22:56:04,125 [INFO] Starting server-client handshake
+2025-04-26 22:56:04,149 [DEBUG] Received ClientHello with 4 cipher suites
+2025-04-26 22:56:04,151 [DEBUG] Selected cipher suite TLS_AES_256_GCM_SHA384_Kyber512
+2025-04-26 22:56:04,165 [DEBUG] Generated ECC keys in 0.013666 seconds
+2025-04-26 22:56:04,170 [DEBUG] Generated Kyber512 keys in 0.003875 seconds
+2025-04-26 22:56:04,174 [DEBUG] Encapsulated Kyber shared secret in 0.002891 seconds
+2025-04-26 22:56:04,182 [DEBUG] Derived handshake keys in 0.000405 seconds
+2025-04-26 22:56:04,186 [DEBUG] Sent ServerHello
+2025-04-26 22:56:04,189 [DEBUG] Sent EncryptedExtensions
+2025-04-26 22:56:04,190 [DEBUG] Sent CertificateRequest
+2025-04-26 22:56:04,255 [DEBUG] Loaded and verified certificate
+2025-04-26 22:56:04,260 [DEBUG] Sent server Certificate
+2025-04-26 22:56:04,274 [DEBUG] Computed CertificateVerify
+2025-04-26 22:56:04,278 [DEBUG] Sent server CertificateVerify
+2025-04-26 22:56:04,284 [DEBUG] Computed Finished message
+2025-04-26 22:56:04,290 [DEBUG] Sent server Finished
+2025-04-26 22:56:04,353 [DEBUG] Received client Certificate
+2025-04-26 22:56:04,362 [DEBUG] Validated Client certificate
+2025-04-26 22:56:04,369 [DEBUG] Received client Certificate Verify
+2025-04-26 22:56:04,380 [DEBUG] Verified client CertificateVerify
+2025-04-26 22:56:04,475 [DEBUG] Received client Finished
+2025-04-26 22:56:04,476 [DEBUG] Computed Finished message
+2025-04-26 22:56:04,478 [DEBUG] Finished message verification: success
+2025-04-26 22:56:04,479 [DEBUG] Derived application key in 0.000539 seconds
+2025-04-26 22:56:04,480 [DEBUG] Handshake completed in 0.354685 seconds
+2025-04-26 22:56:04,481 [INFO] Handshake completed
+2025-04-26 22:56:04,482 [INFO] starting message exchange
+2025-04-26 22:56:34,492 [ERROR] TLS error: Socket error during receive: timed out
+2025-04-26 22:56:34,493 [DEBUG] Cleared sensitive cryptographic data
+2025-04-26 22:56:34,494 [DEBUG] Cleared server-specific sensitive data
+2025-04-26 22:56:34,496 [INFO] Server connection closed
