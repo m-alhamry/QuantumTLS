@@ -245,4 +245,4 @@ Feel free to fork this repository, submit issues, or send pull requests with imp
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the LICENSE file for more details.
