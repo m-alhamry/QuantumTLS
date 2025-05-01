@@ -1,13 +1,13 @@
-2025-05-01 19:10:40,407 [INFO] Starting server with IP: 127.0.0.1, Port: 65440, Mutual Auth: False, Cipher: TLS_AES_256_GCM_SHA384_Kyber768
-2025-05-01 19:10:40,410 [INFO] Server listening on 127.0.0.1:65440
-2025-05-01 19:10:40,411 [INFO] Server started, awaiting connections
-2025-05-01 19:10:41,366 [INFO] Spawned thread for client ('127.0.0.1', 41440)
-2025-05-01 19:10:42,587 [INFO] Spawned thread for client ('127.0.0.1', 41441)
-2025-05-01 19:10:43,720 [INFO] Spawned thread for client ('127.0.0.1', 41442)
-2025-05-01 19:10:44,830 [INFO] Spawned thread for client ('127.0.0.1', 41443)
-2025-05-01 19:10:45,961 [INFO] Spawned thread for client ('127.0.0.1', 41444)
-2025-05-01 19:10:47,372 [INFO] Spawned thread for client ('127.0.0.1', 41445)
-2025-05-01 19:10:48,546 [INFO] Spawned thread for client ('127.0.0.1', 41446)
-2025-05-01 19:10:49,816 [INFO] Spawned thread for client ('127.0.0.1', 41447)
-2025-05-01 19:10:50,936 [INFO] Spawned thread for client ('127.0.0.1', 41448)
-2025-05-01 19:10:52,032 [INFO] Spawned thread for client ('127.0.0.1', 41449)
+2025-05-01 20:10:17,496 [INFO] Starting server with IP: 127.0.0.1, Port: 65440, Mutual Auth: False, Cipher: TLS_AES_256_GCM_SHA384_Kyber768
+2025-05-01 20:10:17,499 [INFO] Server listening on 127.0.0.1:65440
+2025-05-01 20:10:17,500 [INFO] Server started, awaiting connections
+2025-05-01 20:10:18,614 [INFO] Spawned thread for client ('127.0.0.1', 42595)
+2025-05-01 20:10:19,830 [INFO] Spawned thread for client ('127.0.0.1', 42596)
+2025-05-01 20:10:20,975 [INFO] Spawned thread for client ('127.0.0.1', 42597)
+2025-05-01 20:10:22,118 [INFO] Spawned thread for client ('127.0.0.1', 42598)
+2025-05-01 20:10:23,422 [INFO] Spawned thread for client ('127.0.0.1', 42599)
+2025-05-01 20:10:25,092 [INFO] Spawned thread for client ('127.0.0.1', 42600)
+2025-05-01 20:10:26,699 [INFO] Spawned thread for client ('127.0.0.1', 42601)
+2025-05-01 20:10:27,968 [INFO] Spawned thread for client ('127.0.0.1', 42602)
+2025-05-01 20:10:29,266 [INFO] Spawned thread for client ('127.0.0.1', 42603)
+2025-05-01 20:10:30,850 [INFO] Spawned thread for client ('127.0.0.1', 42604)

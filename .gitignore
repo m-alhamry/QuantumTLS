@@ -1,6 +1,19 @@
-./client.log
-./server.log
-./logs/server_client*
-./CHANGELOG.md
-./version_management.sh
+# Exclude specific folder
+__pycache__
+tests/e2e/__pycache__
+tests/integration/__pycache__
+tests/unit/__pycache__
 
+# Exclude specific files
+git_automate.py
+CHANGELOG.md
+
+
+# Exclude specific log files in root
+client.log
+server.log
+
+# Exclude all files under logs directory
+logs/*
+# Allow .gitkeep to track the logs directory
+!logs/.gitkeep
