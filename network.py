@@ -301,7 +301,6 @@ class BaseNetwork:
         """
         if header[0] != ALERT_TYPE:
             raise TLSError(f"Expected alert, got {header[0]:02x}", ALERT_UNEXPECTED_MESSAGE, self.logger, self)
-
         try:
             version = receive_exact(self.sock, VERSION_LENGTH)
             if version != LEGACY_VERSION:
