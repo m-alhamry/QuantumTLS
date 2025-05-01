@@ -8,6 +8,7 @@ tests/unit/__pycache__
 git_automate.log
 git_automate.py
 CHANGELOG.md
+version_management.sh
 
 # Exclude specific log files in root
 client.log
