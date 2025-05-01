@@ -1,0 +1,25 @@
+2025-05-01 14:04:14,073 [DEBUG] Loaded CA certificate
+2025-05-01 14:04:14,074 [INFO] Connected by ('127.0.0.1', 20372)
+2025-05-01 14:04:14,074 [INFO] Starting server-client handshake
+2025-05-01 14:04:14,091 [DEBUG] Received ClientHello with 4 cipher suites
+2025-05-01 14:04:14,091 [DEBUG] Selected cipher suite TLS_AES_256_GCM_SHA384_Kyber768
+2025-05-01 14:04:14,101 [DEBUG] Generated ECC keys in 0.009602 seconds
+2025-05-01 14:04:14,105 [DEBUG] Generated Kyber768 keys in 0.002773 seconds
+2025-05-01 14:04:14,107 [DEBUG] Encapsulated Kyber shared secret in 0.001942 seconds
+2025-05-01 14:04:14,112 [DEBUG] Derived handshake keys in 0.000280 seconds
+2025-05-01 14:04:14,114 [DEBUG] Sent ServerHello
+2025-05-01 14:04:14,115 [DEBUG] Sent EncryptedExtensions
+2025-05-01 14:04:14,141 [DEBUG] Loaded and verified certificate
+2025-05-01 14:04:14,142 [DEBUG] Sent server Certificate
+2025-05-01 14:04:14,146 [DEBUG] Computed CertificateVerify
+2025-05-01 14:04:14,146 [DEBUG] Sent server CertificateVerify
+2025-05-01 14:04:14,147 [DEBUG] Computed Finished message
+2025-05-01 14:04:14,147 [DEBUG] Sent server Finished
+2025-05-01 14:04:14,168 [DEBUG] Received client Finished
+2025-05-01 14:04:14,169 [DEBUG] Computed Finished message
+2025-05-01 14:04:14,169 [DEBUG] Finished message verification: success
+2025-05-01 14:04:14,170 [DEBUG] Derived application key in 0.000245 seconds
+2025-05-01 14:04:14,170 [DEBUG] Handshake completed in 0.095983 seconds
+2025-05-01 14:04:14,170 [INFO] starting message exchange
+2025-05-01 14:04:14,171 [DEBUG] Received and decrypted application data (4 bytes) in 0.000754 seconds
+2025-05-01 14:04:14,171 [DEBUG] Received: bytearray(b'Test')... (total 4 bytes)

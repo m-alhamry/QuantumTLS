@@ -1,0 +1,23 @@
+2025-05-01 15:24:32,728 [DEBUG] Loaded CA certificate
+2025-05-01 15:24:32,728 [INFO] Connected by ('127.0.0.1', 39957)
+2025-05-01 15:24:32,729 [INFO] Starting server-client handshake
+2025-05-01 15:24:32,758 [DEBUG] Received ClientHello with 4 cipher suites
+2025-05-01 15:24:32,759 [DEBUG] Selected cipher suite TLS_AES_256_GCM_SHA384
+2025-05-01 15:24:32,773 [DEBUG] Generated ECC keys in 0.013426 seconds
+2025-05-01 15:24:32,780 [DEBUG] Derived handshake keys in 0.001255 seconds
+2025-05-01 15:24:32,781 [DEBUG] Sent ServerHello
+2025-05-01 15:24:32,782 [DEBUG] Sent EncryptedExtensions
+2025-05-01 15:24:32,785 [DEBUG] Sent CertificateRequest
+2025-05-01 15:24:32,818 [DEBUG] Loaded and verified certificate
+2025-05-01 15:24:32,819 [DEBUG] Sent server Certificate
+2025-05-01 15:24:32,830 [DEBUG] Computed CertificateVerify
+2025-05-01 15:24:32,833 [DEBUG] Sent server CertificateVerify
+2025-05-01 15:24:32,834 [DEBUG] Computed Finished message
+2025-05-01 15:24:32,835 [DEBUG] Sent server Finished
+2025-05-01 15:24:32,874 [DEBUG] Received client Certificate
+2025-05-01 15:24:32,880 [ERROR] TLSError: Client certificate has expired (Alert: certificate_expired, 2d)
+2025-05-01 15:24:32,880 [INFO] Sent alert 2d (Client certificate has expired)
+2025-05-01 15:24:32,882 [ERROR] TLS error with ('127.0.0.1', 39957): Client certificate has expired
+2025-05-01 15:24:32,882 [DEBUG] Cleared sensitive cryptographic data
+2025-05-01 15:24:32,882 [DEBUG] Cleared server-specific sensitive data
+2025-05-01 15:24:32,883 [INFO] Server connection closed

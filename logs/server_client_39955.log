@@ -1,0 +1,31 @@
+2025-05-01 15:24:27,493 [DEBUG] Loaded CA certificate
+2025-05-01 15:24:27,494 [INFO] Connected by ('127.0.0.1', 39955)
+2025-05-01 15:24:27,495 [INFO] Starting server-client handshake
+2025-05-01 15:24:27,515 [DEBUG] Received ClientHello with 4 cipher suites
+2025-05-01 15:24:27,516 [DEBUG] Selected cipher suite TLS_AES_256_GCM_SHA384
+2025-05-01 15:24:27,528 [DEBUG] Generated ECC keys in 0.011465 seconds
+2025-05-01 15:24:27,535 [DEBUG] Derived handshake keys in 0.001116 seconds
+2025-05-01 15:24:27,536 [DEBUG] Sent ServerHello
+2025-05-01 15:24:27,536 [DEBUG] Sent EncryptedExtensions
+2025-05-01 15:24:27,565 [DEBUG] Loaded and verified certificate
+2025-05-01 15:24:27,567 [DEBUG] Sent server Certificate
+2025-05-01 15:24:27,571 [DEBUG] Computed CertificateVerify
+2025-05-01 15:24:27,571 [DEBUG] Sent server CertificateVerify
+2025-05-01 15:24:27,572 [DEBUG] Computed Finished message
+2025-05-01 15:24:27,572 [DEBUG] Sent server Finished
+2025-05-01 15:24:27,599 [DEBUG] Received client Finished
+2025-05-01 15:24:27,600 [DEBUG] Computed Finished message
+2025-05-01 15:24:27,600 [DEBUG] Finished message verification: success
+2025-05-01 15:24:27,600 [DEBUG] Derived application key in 0.000243 seconds
+2025-05-01 15:24:27,601 [DEBUG] Handshake completed in 0.105293 seconds
+2025-05-01 15:24:27,601 [INFO] starting message exchange
+2025-05-01 15:24:27,602 [DEBUG] Received and decrypted application data (14 bytes) in 0.000781 seconds
+2025-05-01 15:24:27,602 [DEBUG] Received: bytearray(b'Hello, server!')... (total 14 bytes)
+2025-05-01 15:24:27,603 [INFO] Received application data
+2025-05-01 15:24:27,603 [DEBUG] Sent application data (29 bytes) in 0.000348 seconds
+2025-05-01 15:24:27,603 [DEBUG] Sent: b'Message received suc'... (total 29 bytes)
+2025-05-01 15:24:27,604 [INFO] Sent application data
+2025-05-01 15:24:27,605 [ERROR] TLS error: Connection closed: expected 1 bytes, received 0
+2025-05-01 15:24:27,606 [DEBUG] Cleared sensitive cryptographic data
+2025-05-01 15:24:27,606 [DEBUG] Cleared server-specific sensitive data
+2025-05-01 15:24:27,607 [INFO] Server connection closed

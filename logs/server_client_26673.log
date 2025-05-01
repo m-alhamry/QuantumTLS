@@ -1,0 +1,28 @@
+2025-05-01 10:28:32,408 [DEBUG] Loaded CA certificate
+2025-05-01 10:28:32,409 [INFO] Connected by ('127.0.0.1', 26673)
+2025-05-01 10:28:32,409 [INFO] Starting server-client handshake
+2025-05-01 10:28:32,441 [DEBUG] Received ClientHello with 4 cipher suites
+2025-05-01 10:28:32,442 [DEBUG] Selected cipher suite TLS_AES_256_GCM_SHA384
+2025-05-01 10:28:32,452 [DEBUG] Generated ECC keys in 0.010253 seconds
+2025-05-01 10:28:32,458 [DEBUG] Derived handshake keys in 0.001013 seconds
+2025-05-01 10:28:32,459 [DEBUG] Sent ServerHello
+2025-05-01 10:28:32,460 [DEBUG] Sent EncryptedExtensions
+2025-05-01 10:28:32,487 [DEBUG] Loaded and verified certificate
+2025-05-01 10:28:32,487 [DEBUG] Sent server Certificate
+2025-05-01 10:28:32,491 [DEBUG] Computed CertificateVerify
+2025-05-01 10:28:32,492 [DEBUG] Sent server CertificateVerify
+2025-05-01 10:28:32,492 [DEBUG] Computed Finished message
+2025-05-01 10:28:32,493 [DEBUG] Sent server Finished
+2025-05-01 10:28:32,516 [DEBUG] Received client Finished
+2025-05-01 10:28:32,516 [DEBUG] Computed Finished message
+2025-05-01 10:28:32,517 [DEBUG] Finished message verification: success
+2025-05-01 10:28:32,517 [DEBUG] Derived application key in 0.000212 seconds
+2025-05-01 10:28:32,517 [DEBUG] Handshake completed in 0.107912 seconds
+2025-05-01 10:28:32,518 [INFO] starting message exchange
+2025-05-01 10:28:32,519 [DEBUG] Decrypted alert with seq_bytes: 0000000000000001
+2025-05-01 10:28:32,519 [INFO] Received alert: close_notify (00) - Session terminated
+2025-05-01 10:28:32,519 [INFO] Client terminated session
+2025-05-01 10:28:32,520 [INFO] Sent alert 00 (Session terminated)
+2025-05-01 10:28:32,520 [DEBUG] Cleared sensitive cryptographic data
+2025-05-01 10:28:32,520 [DEBUG] Cleared server-specific sensitive data
+2025-05-01 10:28:32,521 [INFO] Server connection closed

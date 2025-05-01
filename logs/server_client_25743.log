@@ -1,0 +1,34 @@
+2025-05-01 09:29:59,488 [DEBUG] Loaded CA certificate
+2025-05-01 09:29:59,489 [INFO] Connected by ('127.0.0.1', 25743)
+2025-05-01 09:29:59,489 [INFO] Starting server-client handshake
+2025-05-01 09:29:59,503 [DEBUG] Received ClientHello with 4 cipher suites
+2025-05-01 09:29:59,503 [DEBUG] Selected cipher suite TLS_AES_256_GCM_SHA384_Kyber768
+2025-05-01 09:29:59,506 [DEBUG] Generated ECC keys in 0.002477 seconds
+2025-05-01 09:29:59,508 [DEBUG] Generated Kyber768 keys in 0.001783 seconds
+2025-05-01 09:29:59,510 [DEBUG] Encapsulated Kyber shared secret in 0.001964 seconds
+2025-05-01 09:29:59,514 [DEBUG] Derived handshake keys in 0.000163 seconds
+2025-05-01 09:29:59,515 [DEBUG] Sent ServerHello
+2025-05-01 09:29:59,515 [DEBUG] Sent EncryptedExtensions
+2025-05-01 09:29:59,520 [DEBUG] Loaded and verified certificate
+2025-05-01 09:29:59,521 [DEBUG] Sent server Certificate
+2025-05-01 09:29:59,524 [DEBUG] Computed CertificateVerify
+2025-05-01 09:29:59,524 [DEBUG] Sent server CertificateVerify
+2025-05-01 09:29:59,524 [DEBUG] Computed Finished message
+2025-05-01 09:29:59,525 [DEBUG] Sent server Finished
+2025-05-01 09:29:59,552 [DEBUG] Received client Finished
+2025-05-01 09:29:59,552 [DEBUG] Computed Finished message
+2025-05-01 09:29:59,552 [DEBUG] Finished message verification: success
+2025-05-01 09:29:59,552 [DEBUG] Derived application key in 0.000253 seconds
+2025-05-01 09:29:59,552 [DEBUG] Handshake completed in 0.063295 seconds
+2025-05-01 09:29:59,553 [INFO] Handshake completed
+2025-05-01 09:29:59,553 [INFO] starting message exchange
+2025-05-01 09:29:59,554 [DEBUG] Received and decrypted application data (9 bytes) in 0.000895 seconds
+2025-05-01 09:29:59,554 [DEBUG] Received: bytearray(b'Load test')... (total 9 bytes)
+2025-05-01 09:29:59,554 [INFO] Received application data
+2025-05-01 09:29:59,555 [DEBUG] Sent application data (29 bytes) in 0.000391 seconds
+2025-05-01 09:29:59,555 [DEBUG] Sent: b'Message received suc'... (total 29 bytes)
+2025-05-01 09:29:59,556 [INFO] Sent application data
+2025-05-01 09:29:59,556 [ERROR] TLS error: Connection closed: expected 1 bytes, received 0
+2025-05-01 09:29:59,557 [DEBUG] Cleared sensitive cryptographic data
+2025-05-01 09:29:59,557 [DEBUG] Cleared server-specific sensitive data
+2025-05-01 09:29:59,557 [INFO] Server connection closed

@@ -1,0 +1,33 @@
+2025-05-01 09:41:15,276 [DEBUG] Loaded CA certificate
+2025-05-01 09:41:15,277 [INFO] Connected by ('127.0.0.1', 25910)
+2025-05-01 09:41:15,277 [INFO] Starting server-client handshake
+2025-05-01 09:41:15,305 [DEBUG] Received ClientHello with 4 cipher suites
+2025-05-01 09:41:15,305 [DEBUG] Selected cipher suite TLS_AES_256_GCM_SHA384_Kyber768
+2025-05-01 09:41:15,310 [DEBUG] Generated ECC keys in 0.004523 seconds
+2025-05-01 09:41:15,314 [DEBUG] Generated Kyber768 keys in 0.003277 seconds
+2025-05-01 09:41:15,318 [DEBUG] Encapsulated Kyber shared secret in 0.003153 seconds
+2025-05-01 09:41:15,323 [DEBUG] Derived handshake keys in 0.000285 seconds
+2025-05-01 09:41:15,326 [DEBUG] Sent ServerHello
+2025-05-01 09:41:15,327 [DEBUG] Sent EncryptedExtensions
+2025-05-01 09:41:15,337 [DEBUG] Loaded and verified certificate
+2025-05-01 09:41:15,338 [DEBUG] Sent server Certificate
+2025-05-01 09:41:15,344 [DEBUG] Computed CertificateVerify
+2025-05-01 09:41:15,345 [DEBUG] Sent server CertificateVerify
+2025-05-01 09:41:15,346 [DEBUG] Computed Finished message
+2025-05-01 09:41:15,346 [DEBUG] Sent server Finished
+2025-05-01 09:41:15,380 [DEBUG] Received client Finished
+2025-05-01 09:41:15,381 [DEBUG] Computed Finished message
+2025-05-01 09:41:15,381 [DEBUG] Finished message verification: success
+2025-05-01 09:41:15,383 [DEBUG] Derived application key in 0.000507 seconds
+2025-05-01 09:41:15,383 [DEBUG] Handshake completed in 0.105669 seconds
+2025-05-01 09:41:15,384 [INFO] starting message exchange
+2025-05-01 09:41:15,390 [DEBUG] Received and decrypted application data (9 bytes) in 0.005256 seconds
+2025-05-01 09:41:15,390 [DEBUG] Received: bytearray(b'Load test')... (total 9 bytes)
+2025-05-01 09:41:15,391 [INFO] Received application data
+2025-05-01 09:41:15,392 [DEBUG] Sent application data (29 bytes) in 0.000590 seconds
+2025-05-01 09:41:15,392 [DEBUG] Sent: b'Message received suc'... (total 29 bytes)
+2025-05-01 09:41:15,393 [INFO] Sent application data
+2025-05-01 09:41:15,395 [ERROR] TLS error: Connection closed: expected 1 bytes, received 0
+2025-05-01 09:41:15,396 [DEBUG] Cleared sensitive cryptographic data
+2025-05-01 09:41:15,396 [DEBUG] Cleared server-specific sensitive data
+2025-05-01 09:41:15,397 [INFO] Server connection closed

@@ -1,0 +1,47 @@
+2025-05-01 14:42:22,564 [DEBUG] Loaded CA certificate
+2025-05-01 14:42:22,565 [INFO] Connected by ('127.0.0.1', 20665)
+2025-05-01 14:42:22,567 [INFO] Starting server-client handshake
+2025-05-01 14:42:22,605 [DEBUG] Received ClientHello with 4 cipher suites
+2025-05-01 14:42:22,607 [DEBUG] Selected cipher suite TLS_AES_256_GCM_SHA384_Kyber1024
+2025-05-01 14:42:22,623 [DEBUG] Generated ECC keys in 0.014589 seconds
+2025-05-01 14:42:22,631 [DEBUG] Generated Kyber1024 keys in 0.006744 seconds
+2025-05-01 14:42:22,638 [DEBUG] Encapsulated Kyber shared secret in 0.005587 seconds
+2025-05-01 14:42:22,650 [DEBUG] Derived handshake keys in 0.000463 seconds
+2025-05-01 14:42:22,652 [DEBUG] Sent ServerHello
+2025-05-01 14:42:22,655 [DEBUG] Sent EncryptedExtensions
+2025-05-01 14:42:22,657 [DEBUG] Sent CertificateRequest
+2025-05-01 14:42:22,714 [DEBUG] Loaded and verified certificate
+2025-05-01 14:42:22,716 [DEBUG] Sent server Certificate
+2025-05-01 14:42:22,727 [DEBUG] Computed CertificateVerify
+2025-05-01 14:42:22,731 [DEBUG] Sent server CertificateVerify
+2025-05-01 14:42:22,733 [DEBUG] Computed Finished message
+2025-05-01 14:42:22,737 [DEBUG] Sent server Finished
+2025-05-01 14:42:22,795 [DEBUG] Received client Certificate
+2025-05-01 14:42:22,800 [DEBUG] Validated Client certificate
+2025-05-01 14:42:22,805 [DEBUG] Received client Certificate Verify
+2025-05-01 14:42:22,810 [DEBUG] Verified client CertificateVerify
+2025-05-01 14:42:22,919 [DEBUG] Received client Finished
+2025-05-01 14:42:22,921 [DEBUG] Computed Finished message
+2025-05-01 14:42:22,922 [DEBUG] Finished message verification: success
+2025-05-01 14:42:22,923 [DEBUG] Derived application key in 0.000457 seconds
+2025-05-01 14:42:22,925 [DEBUG] Handshake completed in 0.355193 seconds
+2025-05-01 14:42:22,926 [INFO] starting message exchange
+2025-05-01 14:42:26,117 [DEBUG] Received and decrypted application data (5 bytes) in 3.190212 seconds
+2025-05-01 14:42:26,118 [DEBUG] Received: bytearray(b'Hello')... (total 5 bytes)
+2025-05-01 14:42:26,119 [INFO] Received application data
+2025-05-01 14:42:26,121 [DEBUG] Sent application data (29 bytes) in 0.000499 seconds
+2025-05-01 14:42:26,122 [DEBUG] Sent: b'Message received suc'... (total 29 bytes)
+2025-05-01 14:42:26,123 [INFO] Sent application data
+2025-05-01 14:42:27,892 [DEBUG] Received and decrypted application data (1038780 bytes) in 1.767085 seconds
+2025-05-01 14:42:27,893 [DEBUG] Received: bytearray(b'{"record_0": {"id": ')... (total 1038780 bytes)
+2025-05-01 14:42:27,896 [INFO] Received application data
+2025-05-01 14:42:27,900 [DEBUG] Sent application data (29 bytes) in 0.000547 seconds
+2025-05-01 14:42:27,901 [DEBUG] Sent: b'Message received suc'... (total 29 bytes)
+2025-05-01 14:42:27,902 [INFO] Sent application data
+2025-05-01 14:42:28,917 [DEBUG] Decrypted alert with seq_bytes: 0000000000000042
+2025-05-01 14:42:28,918 [INFO] Received alert: close_notify (00) - Session terminated
+2025-05-01 14:42:28,919 [INFO] Client terminated session
+2025-05-01 14:42:28,920 [INFO] Sent alert 00 (Session terminated)
+2025-05-01 14:42:28,922 [DEBUG] Cleared sensitive cryptographic data
+2025-05-01 14:42:28,923 [DEBUG] Cleared server-specific sensitive data
+2025-05-01 14:42:28,925 [INFO] Server connection closed
