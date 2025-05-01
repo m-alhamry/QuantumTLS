@@ -162,12 +162,6 @@ GROUP_KYBER512 = 0xFF01
 GROUP_KYBER768 = 0xFF02
 GROUP_KYBER1024 = 0xFF03
 
-KYBER_GROUPS = {
-    "TLS_AES_256_GCM_SHA384_Kyber512": GROUP_KYBER512,
-    "TLS_AES_256_GCM_SHA384_Kyber768": GROUP_KYBER768,
-    "TLS_AES_256_GCM_SHA384_Kyber1024": GROUP_KYBER1024
-}
-
 # Cipher suites
 CIPHER_SUITES = [
     "TLS_AES_256_GCM_SHA384",
@@ -184,6 +178,32 @@ CIPHER_SUITE_CODES = {
 }
 
 CIPHER_SUITE_NAMES = {v: k for k, v in CIPHER_SUITE_CODES.items()}
+
+KYBER_GROUPS = {
+    "TLS_AES_256_GCM_SHA384_Kyber512": GROUP_KYBER512,
+    "TLS_AES_256_GCM_SHA384_Kyber768": GROUP_KYBER768,
+    "TLS_AES_256_GCM_SHA384_Kyber1024": GROUP_KYBER1024
+}
+
+KYBER_VARIANTS = {
+    "TLS_AES_256_GCM_SHA384_Kyber512": 1,
+    "TLS_AES_256_GCM_SHA384_Kyber768": 2,
+    "TLS_AES_256_GCM_SHA384_Kyber1024": 3
+}
+
+KYBER_PK_SIZES = {
+    "TLS_AES_256_GCM_SHA384_Kyber512": 800,
+    "TLS_AES_256_GCM_SHA384_Kyber768": 1184,
+    "TLS_AES_256_GCM_SHA384_Kyber1024": 1568,
+}
+
+KYBER_CT_SIZES = {
+    "TLS_AES_256_GCM_SHA384_Kyber512": 768,
+    "TLS_AES_256_GCM_SHA384_Kyber768": 1088,
+    "TLS_AES_256_GCM_SHA384_Kyber1024": 1568,
+}
+
+KEM_MAP = {1: "Kyber512", 2: "Kyber768", 3: "Kyber1024"}
 
 def encode_signature_algorithms(algorithms: List[bytes]) -> bytes:
     """
@@ -272,6 +292,9 @@ def setup_logging(name: str, log_file: str, level: int = logging.INFO) -> loggin
         IOError: If log file cannot be created or written to.
     """
     logger = logging.getLogger(name)
+    # Close existing handlers before clearing to prevent resource leaks
+    for handler in logger.handlers:
+        handler.close()
     if logger.handlers:  # Prevent duplicate handlers
         logger.handlers.clear()
     logger.setLevel(level)

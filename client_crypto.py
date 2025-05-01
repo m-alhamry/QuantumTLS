@@ -5,7 +5,7 @@ from typing import Dict
 from cryptography.hazmat.primitives.asymmetric import ec
 
 from crypto import TLSCrypto, TLSError, generate_kyber_keys, get_hash
-from utils import ALERT_INTERNAL_ERROR, TLS13_CLIENT_CERT_VERIFY_CONTEXT, TLS13_SERVER_CERT_VERIFY_CONTEXT
+from utils import ALERT_ILLEGAL_PARAMETER, ALERT_INTERNAL_ERROR, KYBER_VARIANTS, TLS13_CLIENT_CERT_VERIFY_CONTEXT, TLS13_SERVER_CERT_VERIFY_CONTEXT
 
 class ClientCrypto(TLSCrypto):
     """
@@ -61,13 +61,12 @@ class ClientCrypto(TLSCrypto):
         start = time.perf_counter()
         if not self.cipher_suite:
             raise TLSError("Cipher suite not set", ALERT_INTERNAL_ERROR, self.logger, self.network)
-        variant = {
-            "TLS_AES_256_GCM_SHA384_Kyber512": 1,
-            "TLS_AES_256_GCM_SHA384_Kyber768": 2,
-            "TLS_AES_256_GCM_SHA384_Kyber1024": 3
-        }.get(self.cipher_suite)
+        variant = KYBER_VARIANTS.get(self.cipher_suite)
         if variant not in self.kyber_kems:
             raise TLSError(f"No Kyber private key for variant {variant}", ALERT_INTERNAL_ERROR, self.logger, self.network)
+        if len(kyber_ct) != self.get_expected_kyber_ct_size(self.cipher_suite):
+            raise TLSError(f"Invalid Kyber cipherText length: Expected {self.get_expected_kyber_ct_size(self.cipher_suite)} got {len(kyber_ct)}", 
+                           ALERT_ILLEGAL_PARAMETER, self.logger, self.network)
         try:
             kyber_ss = self.kyber_kems[variant].decap_secret(kyber_ct)
             duration = time.perf_counter() - start

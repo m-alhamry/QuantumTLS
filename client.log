@@ -1,1243 +1,370 @@
-2025-04-26 20:58:38,494 [DEBUG] Loaded CA certificate
-2025-04-26 20:58:38,495 [DEBUG] Connecting to server
-2025-04-26 20:58:38,498 [INFO] Connected to 127.0.0.1:65432
-2025-04-26 20:58:38,498 [DEBUG] Starting client-server handshake
-2025-04-26 20:58:38,511 [DEBUG] Generated ECC keys in 0.011684 seconds
-2025-04-26 20:58:38,515 [DEBUG] Generated Kyber512 keys in 0.003186 seconds
-2025-04-26 20:58:38,522 [DEBUG] Generated Kyber768 keys in 0.005732 seconds
-2025-04-26 20:58:38,526 [DEBUG] Generated Kyber1024 keys in 0.003550 seconds
-2025-04-26 20:58:38,528 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
-2025-04-26 20:58:38,558 [DEBUG] Received ServerHello with cipher suite TLS_AES_256_GCM_SHA384
-2025-04-26 20:58:38,559 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384
-2025-04-26 20:58:38,572 [DEBUG] Derived handshake keys in 0.003226 seconds
-2025-04-26 20:58:38,575 [DEBUG] Received EncryptedExtensions
-2025-04-26 20:58:38,614 [DEBUG] No CertificateRequest received
-2025-04-26 20:58:38,615 [DEBUG] Received server Certificate
-2025-04-26 20:58:38,650 [DEBUG] Validated Server certificate
-2025-04-26 20:58:38,652 [DEBUG] Received Server CertificateVerify
-2025-04-26 20:58:38,658 [DEBUG] Verified server CertificateVerify
-2025-04-26 20:58:38,659 [DEBUG] Received Server Finished
-2025-04-26 20:58:38,660 [DEBUG] Computed Finished message
-2025-04-26 20:58:38,661 [DEBUG] Finished message verification: success
-2025-04-26 20:58:38,661 [DEBUG] Verified server Finished
-2025-04-26 20:58:38,663 [DEBUG] Computed Finished message
-2025-04-26 20:58:38,666 [DEBUG] Sent client Finished
-2025-04-26 20:58:38,670 [DEBUG] Derived application key in 0.001632 seconds
-2025-04-26 20:58:38,671 [INFO] Handshake completed in 0.172248 seconds
-2025-04-26 20:58:38,673 [INFO] starting message exchange
-2025-04-26 20:58:38,674 [DEBUG] Starting message exchange loop
-2025-04-26 20:58:43,310 [DEBUG] Sent application data (5 bytes) in 0.000863 seconds
-2025-04-26 20:58:43,311 [INFO] Sent: b'Hello'... (total 5 bytes)
-2025-04-26 20:58:43,313 [DEBUG] Received and decrypted application data (29 bytes) in 0.001026 seconds
-2025-04-26 20:58:43,315 [INFO] Received: bytearray(b'Message received suc')... (total 29 bytes)
-2025-04-26 20:58:43,316 [INFO] Received response: Message received successfully... (length: 29 bytes)
-2025-04-26 20:58:45,004 [INFO] Session terminated by user
-2025-04-26 20:58:45,005 [DEBUG] Sent alert 00 (Session terminated)
-2025-04-26 20:58:45,009 [DEBUG] Decrypted alert with seq_bytes: 0000000000000002
-2025-04-26 20:58:45,010 [INFO] Received alert: close_notify (00) - Session terminated
-2025-04-26 20:58:45,011 [INFO] Received server termination confirmation
-2025-04-26 20:58:45,013 [DEBUG] Cleared sensitive cryptographic data
-2025-04-26 20:58:45,014 [INFO] Client connection closed
-2025-04-26 21:14:37,268 [DEBUG] Loaded CA certificate
-2025-04-26 21:14:37,269 [DEBUG] Connecting to server
-2025-04-26 21:14:37,271 [INFO] Connected to 127.0.0.1:65432
-2025-04-26 21:14:37,272 [DEBUG] Starting client-server handshake
-2025-04-26 21:14:37,285 [DEBUG] Generated ECC keys in 0.012005 seconds
-2025-04-26 21:14:37,290 [DEBUG] Generated Kyber512 keys in 0.004222 seconds
-2025-04-26 21:14:37,296 [DEBUG] Generated Kyber768 keys in 0.004804 seconds
-2025-04-26 21:14:37,301 [DEBUG] Generated Kyber1024 keys in 0.003999 seconds
-2025-04-26 21:14:37,303 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
-2025-04-26 21:14:37,358 [DEBUG] Received ServerHello with cipher suite TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 21:14:37,360 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 21:14:37,369 [DEBUG] Decapsulated Kyber shared secret in 0.001600 seconds
-2025-04-26 21:14:37,371 [DEBUG] Derived handshake keys in 0.000335 seconds
-2025-04-26 21:14:37,373 [DEBUG] Received EncryptedExtensions
-2025-04-26 21:14:37,378 [DEBUG] Received CertificateRequest
-2025-04-26 21:14:37,415 [DEBUG] Received server Certificate
-2025-04-26 21:14:37,450 [DEBUG] Validated Server certificate
-2025-04-26 21:14:37,451 [DEBUG] Received Server CertificateVerify
-2025-04-26 21:14:37,457 [DEBUG] Verified server CertificateVerify
-2025-04-26 21:14:37,459 [DEBUG] Received Server Finished
-2025-04-26 21:14:37,459 [DEBUG] Computed Finished message
-2025-04-26 21:14:37,460 [DEBUG] Finished message verification: success
-2025-04-26 21:14:37,461 [DEBUG] Verified server Finished
-2025-04-26 21:14:37,462 [DEBUG] Sent empty Certificate
-2025-04-26 21:14:37,464 [ERROR] TLSError: Certificate required but not provided (Alert: certificate_required, 74)
-2025-04-26 21:14:37,468 [INFO] Sent alert 74 (Certificate required but not provided)
-2025-04-26 21:14:37,469 [ERROR] TLS error: Certificate required but not provided
-2025-04-26 21:14:37,470 [DEBUG] Cleared sensitive cryptographic data
-2025-04-26 21:14:37,472 [INFO] Client connection closed
-2025-04-26 21:15:23,390 [DEBUG] Loaded CA certificate
-2025-04-26 21:15:23,390 [DEBUG] Connecting to server
-2025-04-26 21:15:23,392 [INFO] Connected to 127.0.0.1:65432
-2025-04-26 21:15:23,393 [DEBUG] Starting client-server handshake
-2025-04-26 21:15:23,407 [DEBUG] Generated ECC keys in 0.012919 seconds
-2025-04-26 21:15:23,414 [DEBUG] Generated Kyber512 keys in 0.005925 seconds
-2025-04-26 21:15:23,418 [DEBUG] Generated Kyber768 keys in 0.003763 seconds
-2025-04-26 21:15:23,423 [DEBUG] Generated Kyber1024 keys in 0.003856 seconds
-2025-04-26 21:15:23,425 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
-2025-04-26 21:15:23,466 [DEBUG] Received ServerHello with cipher suite TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 21:15:23,467 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 21:15:23,480 [DEBUG] Decapsulated Kyber shared secret in 0.002260 seconds
-2025-04-26 21:15:23,484 [DEBUG] Derived handshake keys in 0.000597 seconds
-2025-04-26 21:15:23,485 [DEBUG] Received EncryptedExtensions
-2025-04-26 21:15:23,488 [DEBUG] Received CertificateRequest
-2025-04-26 21:15:23,516 [DEBUG] Received server Certificate
-2025-04-26 21:15:23,552 [DEBUG] Validated Server certificate
-2025-04-26 21:15:23,554 [DEBUG] Received Server CertificateVerify
-2025-04-26 21:15:23,559 [DEBUG] Verified server CertificateVerify
-2025-04-26 21:15:23,560 [DEBUG] Received Server Finished
-2025-04-26 21:15:23,562 [DEBUG] Computed Finished message
-2025-04-26 21:15:23,563 [DEBUG] Finished message verification: success
-2025-04-26 21:15:23,563 [DEBUG] Verified server Finished
-2025-04-26 21:15:23,577 [DEBUG] Loaded and verified certificate
-2025-04-26 21:15:23,579 [DEBUG] Sent client Certificate (416 bytes)
-2025-04-26 21:15:23,588 [DEBUG] Computed CertificateVerify
-2025-04-26 21:15:23,589 [DEBUG] Sent client CertificateVerify
-2025-04-26 21:15:23,692 [DEBUG] Computed Finished message
-2025-04-26 21:15:23,694 [DEBUG] Sent client Finished
-2025-04-26 21:15:23,696 [DEBUG] Derived application key in 0.000513 seconds
-2025-04-26 21:15:23,697 [INFO] Handshake completed in 0.302111 seconds
-2025-04-26 21:15:23,698 [INFO] starting message exchange
-2025-04-26 21:15:23,699 [DEBUG] Starting message exchange loop
-2025-04-26 21:15:29,329 [DEBUG] Sent application data (5 bytes) in 0.000891 seconds
-2025-04-26 21:15:29,330 [DEBUG] Sent: b'Hello'... (total 5 bytes)
-2025-04-26 21:15:29,331 [INFO] Sent application data
-2025-04-26 21:15:29,333 [DEBUG] Received and decrypted application data (29 bytes) in 0.000856 seconds
-2025-04-26 21:15:29,334 [DEBUG] Received: bytearray(b'Message received suc')... (total 29 bytes)
-2025-04-26 21:15:29,335 [INFO] Received application data
-2025-04-26 21:15:29,336 [INFO] Received response: Message received successfully... (length: 29 bytes)
-2025-04-26 21:15:30,733 [INFO] Session terminated by user
-2025-04-26 21:15:30,735 [INFO] Sent alert 00 (Session terminated)
-2025-04-26 21:15:30,739 [DEBUG] Decrypted alert with seq_bytes: 0000000000000002
-2025-04-26 21:15:30,741 [INFO] Received alert: close_notify (00) - Session terminated
-2025-04-26 21:15:30,742 [INFO] Received server termination confirmation
-2025-04-26 21:15:30,743 [DEBUG] Cleared sensitive cryptographic data
-2025-04-26 21:15:30,745 [INFO] Client connection closed
-2025-04-26 21:19:44,926 [DEBUG] Loaded CA certificate
-2025-04-26 21:19:44,927 [INFO] Connecting to server
-2025-04-26 21:19:44,929 [INFO] Connected to 127.0.0.1:65432
-2025-04-26 21:19:44,930 [INFO] Starting client-server handshake
-2025-04-26 21:19:44,948 [DEBUG] Generated ECC keys in 0.016049 seconds
-2025-04-26 21:19:44,953 [DEBUG] Generated Kyber512 keys in 0.003622 seconds
-2025-04-26 21:19:44,960 [DEBUG] Generated Kyber768 keys in 0.005063 seconds
-2025-04-26 21:19:44,966 [DEBUG] Generated Kyber1024 keys in 0.005513 seconds
-2025-04-26 21:19:44,968 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
-2025-04-26 21:19:44,998 [DEBUG] Received ServerHello with cipher suite TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 21:19:45,000 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 21:19:45,010 [DEBUG] Decapsulated Kyber shared secret in 0.001637 seconds
-2025-04-26 21:19:45,013 [DEBUG] Derived handshake keys in 0.000368 seconds
-2025-04-26 21:19:45,014 [DEBUG] Received EncryptedExtensions
-2025-04-26 21:19:45,015 [DEBUG] Received CertificateRequest
-2025-04-26 21:19:45,018 [DEBUG] Received server Certificate
-2025-04-26 21:19:45,058 [DEBUG] Validated Server certificate
-2025-04-26 21:19:45,059 [DEBUG] Received Server CertificateVerify
-2025-04-26 21:19:45,066 [DEBUG] Verified server CertificateVerify
-2025-04-26 21:19:45,066 [DEBUG] Received Server Finished
-2025-04-26 21:19:45,068 [DEBUG] Computed Finished message
-2025-04-26 21:19:45,070 [DEBUG] Finished message verification: success
-2025-04-26 21:19:45,070 [DEBUG] Verified server Finished
-2025-04-26 21:19:45,082 [DEBUG] Loaded and verified certificate
-2025-04-26 21:19:45,084 [DEBUG] Sent client Certificate (416 bytes)
-2025-04-26 21:19:45,093 [DEBUG] Computed CertificateVerify
-2025-04-26 21:19:45,095 [DEBUG] Sent client CertificateVerify
-2025-04-26 21:19:45,203 [DEBUG] Computed Finished message
-2025-04-26 21:19:45,206 [DEBUG] Sent client Finished
-2025-04-26 21:19:45,208 [DEBUG] Derived application key in 0.000548 seconds
-2025-04-26 21:19:45,209 [DEBUG] Handshake completed in 0.277694 seconds
-2025-04-26 21:19:45,210 [INFO] Handshake completed
-2025-04-26 21:19:45,211 [INFO] starting message exchange
-2025-04-26 21:19:45,212 [DEBUG] Starting message exchange loop
-2025-04-26 21:20:05,877 [DEBUG] Sent application data (5 bytes) in 0.000949 seconds
-2025-04-26 21:20:05,879 [DEBUG] Sent: b'Hello'... (total 5 bytes)
-2025-04-26 21:20:05,880 [INFO] Sent application data
-2025-04-26 21:20:05,882 [DEBUG] Received and decrypted application data (29 bytes) in 0.000758 seconds
-2025-04-26 21:20:05,884 [DEBUG] Received: bytearray(b'Message received suc')... (total 29 bytes)
-2025-04-26 21:20:05,885 [INFO] Received application data
-2025-04-26 21:20:05,886 [INFO] Received response: Message received successfully... (length: 29 bytes)
-2025-04-26 21:20:07,629 [INFO] Session terminated by user
-2025-04-26 21:20:07,631 [INFO] Sent alert 00 (Session terminated)
-2025-04-26 21:20:07,635 [DEBUG] Decrypted alert with seq_bytes: 0000000000000002
-2025-04-26 21:20:07,636 [INFO] Received alert: close_notify (00) - Session terminated
-2025-04-26 21:20:07,637 [INFO] Received server termination confirmation
-2025-04-26 21:20:07,638 [DEBUG] Cleared sensitive cryptographic data
-2025-04-26 21:20:07,640 [INFO] Client connection closed
-2025-04-26 22:26:27,188 [DEBUG] Loaded CA certificate
-2025-04-26 22:26:27,190 [INFO] Connecting to server
-2025-04-26 22:26:27,193 [INFO] Connected to 127.0.0.1:65432
-2025-04-26 22:26:27,193 [INFO] Starting client-server handshake
-2025-04-26 22:26:27,207 [DEBUG] Generated ECC keys in 0.012808 seconds
-2025-04-26 22:26:27,212 [DEBUG] Generated Kyber512 keys in 0.003660 seconds
-2025-04-26 22:26:27,217 [DEBUG] Generated Kyber768 keys in 0.004308 seconds
-2025-04-26 22:26:27,222 [DEBUG] Generated Kyber1024 keys in 0.004136 seconds
-2025-04-26 22:26:27,224 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
-2025-04-26 22:26:27,283 [DEBUG] Received ServerHello with cipher suite TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 22:26:27,284 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 22:26:27,297 [DEBUG] Decapsulated Kyber shared secret in 0.002674 seconds
-2025-04-26 22:26:27,301 [DEBUG] Derived handshake keys in 0.000660 seconds
-2025-04-26 22:26:27,303 [DEBUG] Received EncryptedExtensions
-2025-04-26 22:26:27,305 [DEBUG] Received CertificateRequest
-2025-04-26 22:26:27,344 [DEBUG] Received server Certificate
-2025-04-26 22:26:27,377 [DEBUG] Validated Server certificate
-2025-04-26 22:26:27,379 [DEBUG] Received Server CertificateVerify
-2025-04-26 22:26:27,386 [DEBUG] Verified server CertificateVerify
-2025-04-26 22:26:27,387 [DEBUG] Received Server Finished
-2025-04-26 22:26:27,389 [DEBUG] Computed Finished message
-2025-04-26 22:26:27,390 [DEBUG] Finished message verification: success
-2025-04-26 22:26:27,390 [DEBUG] Verified server Finished
-2025-04-26 22:26:27,401 [DEBUG] Loaded and verified certificate
-2025-04-26 22:26:27,403 [DEBUG] Sent client Certificate (416 bytes)
-2025-04-26 22:26:27,410 [DEBUG] Computed CertificateVerify
-2025-04-26 22:26:27,412 [DEBUG] Sent client CertificateVerify
-2025-04-26 22:26:27,516 [DEBUG] Computed Finished message
-2025-04-26 22:26:27,518 [DEBUG] Sent client Finished
-2025-04-26 22:26:27,519 [DEBUG] Derived application key in 0.000526 seconds
-2025-04-26 22:26:27,520 [DEBUG] Handshake completed in 0.326134 seconds
-2025-04-26 22:26:27,521 [INFO] Handshake completed
-2025-04-26 22:26:27,522 [INFO] starting message exchange
-2025-04-26 22:28:23,856 [INFO] Session terminated by user
-2025-04-26 22:28:23,857 [INFO] Sent alert 00 (Session terminated)
-2025-04-26 22:28:23,859 [ERROR] TLS error: Socket error during receive: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:28:23,859 [DEBUG] Cleared sensitive cryptographic data
-2025-04-26 22:28:23,860 [INFO] Client connection closed
-2025-04-26 22:28:29,501 [DEBUG] Loaded CA certificate
-2025-04-26 22:28:29,502 [INFO] Connecting to server
-2025-04-26 22:28:29,505 [INFO] Connected to 127.0.0.1:65432
-2025-04-26 22:28:29,506 [INFO] Starting client-server handshake
-2025-04-26 22:28:29,521 [DEBUG] Generated ECC keys in 0.014208 seconds
-2025-04-26 22:28:29,526 [DEBUG] Generated Kyber512 keys in 0.003375 seconds
-2025-04-26 22:28:29,530 [DEBUG] Generated Kyber768 keys in 0.003397 seconds
-2025-04-26 22:28:29,535 [DEBUG] Generated Kyber1024 keys in 0.004120 seconds
-2025-04-26 22:28:29,538 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
-2025-04-26 22:28:29,590 [DEBUG] Received ServerHello with cipher suite TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 22:28:29,591 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 22:28:29,605 [DEBUG] Decapsulated Kyber shared secret in 0.002962 seconds
-2025-04-26 22:28:29,609 [DEBUG] Derived handshake keys in 0.000615 seconds
-2025-04-26 22:28:29,610 [DEBUG] Received EncryptedExtensions
-2025-04-26 22:28:29,613 [DEBUG] Received CertificateRequest
-2025-04-26 22:28:29,651 [DEBUG] Received server Certificate
-2025-04-26 22:28:29,687 [DEBUG] Validated Server certificate
-2025-04-26 22:28:29,690 [DEBUG] Received Server CertificateVerify
-2025-04-26 22:28:29,696 [DEBUG] Verified server CertificateVerify
-2025-04-26 22:28:29,698 [DEBUG] Received Server Finished
-2025-04-26 22:28:29,698 [DEBUG] Computed Finished message
-2025-04-26 22:28:29,700 [DEBUG] Finished message verification: success
-2025-04-26 22:28:29,701 [DEBUG] Verified server Finished
-2025-04-26 22:28:29,711 [DEBUG] Loaded and verified certificate
-2025-04-26 22:28:29,712 [DEBUG] Sent client Certificate (416 bytes)
-2025-04-26 22:28:29,722 [DEBUG] Computed CertificateVerify
-2025-04-26 22:28:29,724 [DEBUG] Sent client CertificateVerify
-2025-04-26 22:28:29,832 [DEBUG] Computed Finished message
-2025-04-26 22:28:29,833 [DEBUG] Sent client Finished
-2025-04-26 22:28:29,834 [DEBUG] Derived application key in 0.000311 seconds
-2025-04-26 22:28:29,835 [DEBUG] Handshake completed in 0.328629 seconds
-2025-04-26 22:28:29,836 [INFO] Handshake completed
-2025-04-26 22:28:29,838 [INFO] starting message exchange
-2025-04-26 22:53:29,368 [INFO] Session terminated by user
-2025-04-26 22:53:29,370 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,371 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,372 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,374 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,374 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,376 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,377 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,378 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,379 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,380 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,381 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,382 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,383 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,384 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,386 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,387 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,388 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,390 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,391 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,393 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,395 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,396 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,400 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,403 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,406 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,408 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,409 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,411 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,412 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,414 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,415 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,417 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,418 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,420 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,421 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,423 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,425 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,427 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,429 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,430 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,432 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,433 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,435 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,437 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,441 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,444 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,446 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,449 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,450 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,451 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,452 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,454 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,456 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,458 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,459 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,461 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,462 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,464 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,465 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,467 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,469 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,471 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,472 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,474 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,476 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,477 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,478 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,480 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,482 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,483 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,485 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,486 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,488 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,491 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,492 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,494 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,495 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,497 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,498 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,501 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,503 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,507 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,509 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,510 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,512 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,513 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,515 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,516 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,518 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,520 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,521 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,523 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,525 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,526 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,528 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,530 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,531 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,532 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,535 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,539 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,541 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,542 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,544 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,545 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,547 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,548 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,550 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,551 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,553 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,555 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,556 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,558 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,559 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,561 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,562 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,565 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,569 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,572 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,573 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,575 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,577 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,578 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,579 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,581 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,583 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,584 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,586 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,589 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,590 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,592 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,594 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,595 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,597 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,598 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,600 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,601 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,603 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,604 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,606 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,608 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,609 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,611 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,612 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,613 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,615 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,619 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,621 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,623 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,625 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,627 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,629 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,631 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,632 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,634 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,635 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,636 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,638 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,639 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,640 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,642 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,643 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,645 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,646 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,648 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,649 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,652 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,654 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,658 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,659 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,661 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,662 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,664 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,666 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,667 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,669 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,670 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,673 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,675 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,677 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,678 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,680 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,682 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,683 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,684 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,686 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,687 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,689 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,692 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,693 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,695 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,696 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,698 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,701 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,703 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,705 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,707 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,709 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,712 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,713 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,715 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,716 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,718 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,719 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,720 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,722 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,724 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,726 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,727 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,729 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,731 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,732 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,735 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,740 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,742 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,743 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,745 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,746 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,748 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,750 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,751 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,753 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,754 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,757 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,759 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,761 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,763 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,764 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,765 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,767 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,768 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,770 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,771 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,774 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,776 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,777 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,779 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,780 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,782 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,783 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,784 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,786 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,787 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,794 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,796 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,798 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,799 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,800 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,802 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,803 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,805 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,807 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,809 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,810 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,812 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,813 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,814 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,816 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,817 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,819 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,820 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,824 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,826 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,828 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,830 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,835 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,836 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,839 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,841 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,842 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,844 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,845 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,847 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,849 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,850 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,852 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,853 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,855 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,857 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,860 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,861 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,863 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,865 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,866 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,868 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,869 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,870 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,873 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,875 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,878 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,880 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,882 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,884 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,885 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,886 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,888 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,890 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,892 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,893 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,895 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,896 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,898 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,899 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,901 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,902 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,904 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,905 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,907 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,911 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,914 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,916 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,918 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,919 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,920 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,922 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,923 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,925 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,926 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,928 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,930 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,932 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,934 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,935 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,937 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,938 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,940 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,941 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,943 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,945 [ERROR] TLSError: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine (Alert: internal_error, 50)
-2025-04-26 22:53:29,947 [WARNING] Failed to send alert 'internal_error': maximum recursion depth exceeded
-2025-04-26 22:53:29,948 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,949 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,951 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,954 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,957 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,959 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,963 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,965 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,966 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,968 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,969 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,970 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,972 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,973 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,975 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,976 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,978 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,980 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,982 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,983 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,985 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,986 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,988 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,990 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,992 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,993 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,995 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,996 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,998 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:29,999 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,000 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,002 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,003 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,004 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,006 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,009 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,010 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,011 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,013 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,014 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,015 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,016 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,018 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,019 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,020 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,021 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,024 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,026 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,029 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,031 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,033 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,034 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,035 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,037 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,038 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,042 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,045 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,047 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,048 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,049 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,050 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,052 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,054 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,057 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,060 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,063 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,065 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,066 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,068 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,069 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,071 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,075 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,076 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,078 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,079 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,081 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,082 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,084 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,085 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,086 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,088 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,090 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,092 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,093 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,094 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,096 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,097 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,099 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,103 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,107 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,108 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,110 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,112 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,113 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,115 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,117 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,118 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,120 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,121 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,122 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,124 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,125 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,126 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,127 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,129 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,130 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,132 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,133 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,135 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,137 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,139 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,140 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,142 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,143 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,145 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,146 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,148 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,149 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,151 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,153 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,154 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,156 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,157 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,158 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,159 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,161 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,162 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,163 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,164 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,166 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,167 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,169 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,171 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,174 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,178 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,180 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,181 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,182 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,183 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,184 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,186 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,187 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,189 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,190 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,191 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,193 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,194 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,196 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,198 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,200 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,201 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,203 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,204 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,206 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,207 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,209 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,210 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,211 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,213 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,214 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,215 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,217 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,218 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,220 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,222 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,224 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,226 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,227 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,229 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,230 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,231 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,233 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,234 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,235 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,237 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,238 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,240 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,241 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,242 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,244 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,246 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,248 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,250 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,251 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,252 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,254 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,255 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,258 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,260 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,261 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,263 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,264 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,265 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,267 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,269 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,270 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,271 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,273 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,275 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,277 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,279 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,280 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,281 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,282 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,283 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,285 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,286 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,287 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,290 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,292 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,293 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,295 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,297 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,298 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,300 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,302 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,303 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,304 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,306 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,308 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,309 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,310 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,312 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,313 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,314 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,315 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,317 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,318 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,320 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,323 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,324 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,325 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,327 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,328 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,329 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,331 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,332 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,334 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,335 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,336 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,338 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,340 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,342 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,343 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,346 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,347 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,348 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,350 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,351 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,353 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,354 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,356 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,357 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,359 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,361 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,362 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,363 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,365 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,366 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,367 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,369 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,370 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,373 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,375 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,377 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,379 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,381 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,382 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,386 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,388 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,391 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,393 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,395 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,399 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,403 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,405 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,407 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,409 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,410 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,412 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,413 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,415 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,416 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,417 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,419 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,422 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,424 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,427 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,428 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,430 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,431 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,433 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,434 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,436 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,439 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,441 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,443 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,445 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,446 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,449 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,450 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,452 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,454 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,455 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,457 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,459 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,461 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,463 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,464 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,466 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,467 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,470 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,471 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,474 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,476 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,479 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,480 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,481 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,483 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,485 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,486 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,487 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,490 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,492 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,493 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,494 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,495 [WARNING] Failed to send alert 'internal_error': Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,497 [WARNING] Failed to send close_notify: Failed to send alert: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,498 [ERROR] TLS error: Socket error during receive: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:53:30,499 [DEBUG] Cleared sensitive cryptographic data
-2025-04-26 22:53:30,501 [INFO] Client connection closed
-2025-04-26 22:53:51,463 [DEBUG] Loaded CA certificate
-2025-04-26 22:53:51,464 [INFO] Connecting to server
-2025-04-26 22:53:51,466 [INFO] Connected to 127.0.0.1:65432
-2025-04-26 22:53:51,467 [INFO] Starting client-server handshake
-2025-04-26 22:53:51,479 [DEBUG] Generated ECC keys in 0.010456 seconds
-2025-04-26 22:53:51,482 [DEBUG] Generated Kyber512 keys in 0.003026 seconds
-2025-04-26 22:53:51,489 [DEBUG] Generated Kyber768 keys in 0.006035 seconds
-2025-04-26 22:53:51,494 [DEBUG] Generated Kyber1024 keys in 0.003809 seconds
-2025-04-26 22:53:51,495 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
-2025-04-26 22:53:51,542 [DEBUG] Received ServerHello
-2025-04-26 22:53:51,543 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 22:53:51,552 [DEBUG] Decapsulated Kyber shared secret in 0.003845 seconds
-2025-04-26 22:53:51,558 [DEBUG] Derived handshake keys in 0.000755 seconds
-2025-04-26 22:53:51,560 [DEBUG] Received EncryptedExtensions
-2025-04-26 22:53:51,562 [DEBUG] Received CertificateRequest
-2025-04-26 22:53:51,590 [DEBUG] Received server Certificate
-2025-04-26 22:53:51,626 [DEBUG] Validated Server certificate
-2025-04-26 22:53:51,628 [DEBUG] Received Server CertificateVerify
-2025-04-26 22:53:51,637 [DEBUG] Verified server CertificateVerify
-2025-04-26 22:53:51,638 [DEBUG] Received Server Finished
-2025-04-26 22:53:51,639 [DEBUG] Computed Finished message
-2025-04-26 22:53:51,640 [DEBUG] Finished message verification: success
-2025-04-26 22:53:51,642 [DEBUG] Verified server Finished
-2025-04-26 22:53:51,660 [DEBUG] Loaded and verified certificate
-2025-04-26 22:53:51,661 [DEBUG] Sent client Certificate
-2025-04-26 22:53:51,673 [DEBUG] Computed CertificateVerify
-2025-04-26 22:53:51,675 [DEBUG] Sent client CertificateVerify
-2025-04-26 22:53:51,788 [DEBUG] Computed Finished message
-2025-04-26 22:53:51,790 [DEBUG] Sent client Finished
-2025-04-26 22:53:51,791 [DEBUG] Derived application key in 0.000476 seconds
-2025-04-26 22:53:51,791 [DEBUG] Handshake completed in 0.324036 seconds
-2025-04-26 22:53:51,792 [INFO] Handshake completed
-2025-04-26 22:53:51,793 [INFO] starting message exchange
-2025-04-26 22:53:53,712 [INFO] Session terminated by user
-2025-04-26 22:53:53,714 [INFO] Sent alert 00 (Session terminated)
-2025-04-26 22:53:53,738 [DEBUG] Decrypted alert with seq_bytes: 0000000000000001
-2025-04-26 22:53:53,785 [INFO] Received alert: close_notify (00) - Session terminated
-2025-04-26 22:53:53,796 [INFO] Received server termination confirmation
-2025-04-26 22:53:53,807 [DEBUG] Cleared sensitive cryptographic data
-2025-04-26 22:53:53,809 [INFO] Client connection closed
-2025-04-26 22:54:08,126 [DEBUG] Loaded CA certificate
-2025-04-26 22:54:08,127 [INFO] Connecting to server
-2025-04-26 22:54:08,131 [INFO] Connected to 127.0.0.1:65432
-2025-04-26 22:54:08,132 [INFO] Starting client-server handshake
-2025-04-26 22:54:08,145 [DEBUG] Generated ECC keys in 0.012894 seconds
-2025-04-26 22:54:08,150 [DEBUG] Generated Kyber512 keys in 0.003391 seconds
-2025-04-26 22:54:08,156 [DEBUG] Generated Kyber768 keys in 0.004758 seconds
-2025-04-26 22:54:08,161 [DEBUG] Generated Kyber1024 keys in 0.003882 seconds
-2025-04-26 22:54:08,163 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
-2025-04-26 22:54:08,191 [DEBUG] Received ServerHello
-2025-04-26 22:54:08,193 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 22:54:08,203 [DEBUG] Decapsulated Kyber shared secret in 0.001231 seconds
-2025-04-26 22:54:08,208 [DEBUG] Derived handshake keys in 0.001014 seconds
-2025-04-26 22:54:08,209 [DEBUG] Received EncryptedExtensions
-2025-04-26 22:54:08,211 [DEBUG] Received CertificateRequest
-2025-04-26 22:54:08,213 [DEBUG] Received server Certificate
-2025-04-26 22:54:08,246 [DEBUG] Validated Server certificate
-2025-04-26 22:54:08,248 [DEBUG] Received Server CertificateVerify
-2025-04-26 22:54:08,256 [DEBUG] Verified server CertificateVerify
-2025-04-26 22:54:08,258 [DEBUG] Received Server Finished
-2025-04-26 22:54:08,259 [DEBUG] Computed Finished message
-2025-04-26 22:54:08,260 [DEBUG] Finished message verification: success
-2025-04-26 22:54:08,261 [DEBUG] Verified server Finished
-2025-04-26 22:54:08,272 [DEBUG] Loaded and verified certificate
-2025-04-26 22:54:08,274 [DEBUG] Sent client Certificate
-2025-04-26 22:54:08,281 [DEBUG] Computed CertificateVerify
-2025-04-26 22:54:08,283 [DEBUG] Sent client CertificateVerify
-2025-04-26 22:54:08,398 [DEBUG] Computed Finished message
-2025-04-26 22:54:08,399 [DEBUG] Sent client Finished
-2025-04-26 22:54:08,401 [DEBUG] Derived application key in 0.000524 seconds
-2025-04-26 22:54:08,402 [DEBUG] Handshake completed in 0.269862 seconds
-2025-04-26 22:54:08,403 [INFO] Handshake completed
-2025-04-26 22:54:08,404 [INFO] starting message exchange
-2025-04-26 22:54:41,796 [INFO] Session terminated by user
-2025-04-26 22:54:41,797 [INFO] Sent alert 00 (Session terminated)
-2025-04-26 22:54:41,799 [ERROR] TLS error: Socket error during receive: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:54:41,799 [DEBUG] Cleared sensitive cryptographic data
-2025-04-26 22:54:41,800 [INFO] Client connection closed
-2025-04-26 22:55:08,709 [DEBUG] Loaded CA certificate
-2025-04-26 22:55:08,710 [INFO] Connecting to server
-2025-04-26 22:55:08,713 [INFO] Connected to 127.0.0.1:65432
-2025-04-26 22:55:08,714 [INFO] Starting client-server handshake
-2025-04-26 22:55:08,725 [DEBUG] Generated ECC keys in 0.010815 seconds
-2025-04-26 22:55:08,730 [DEBUG] Generated Kyber512 keys in 0.003591 seconds
-2025-04-26 22:55:08,734 [DEBUG] Generated Kyber768 keys in 0.002834 seconds
-2025-04-26 22:55:08,739 [DEBUG] Generated Kyber1024 keys in 0.004357 seconds
-2025-04-26 22:55:08,741 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
-2025-04-26 22:55:08,768 [DEBUG] Received ServerHello
-2025-04-26 22:55:08,769 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 22:55:08,780 [DEBUG] Decapsulated Kyber shared secret in 0.001776 seconds
-2025-04-26 22:55:08,785 [DEBUG] Derived handshake keys in 0.000601 seconds
-2025-04-26 22:55:08,786 [DEBUG] Received EncryptedExtensions
-2025-04-26 22:55:08,788 [DEBUG] Received CertificateRequest
-2025-04-26 22:55:08,790 [DEBUG] Received server Certificate
-2025-04-26 22:55:08,827 [DEBUG] Validated Server certificate
-2025-04-26 22:55:08,830 [DEBUG] Received Server CertificateVerify
-2025-04-26 22:55:08,836 [DEBUG] Verified server CertificateVerify
-2025-04-26 22:55:08,838 [DEBUG] Received Server Finished
-2025-04-26 22:55:08,840 [DEBUG] Computed Finished message
-2025-04-26 22:55:08,840 [DEBUG] Finished message verification: success
-2025-04-26 22:55:08,841 [DEBUG] Verified server Finished
-2025-04-26 22:55:08,853 [DEBUG] Loaded and verified certificate
-2025-04-26 22:55:08,855 [DEBUG] Sent client Certificate
-2025-04-26 22:55:08,864 [DEBUG] Computed CertificateVerify
-2025-04-26 22:55:08,865 [DEBUG] Sent client CertificateVerify
-2025-04-26 22:55:08,976 [DEBUG] Computed Finished message
-2025-04-26 22:55:08,977 [DEBUG] Sent client Finished
-2025-04-26 22:55:08,979 [DEBUG] Derived application key in 0.000659 seconds
-2025-04-26 22:55:08,980 [DEBUG] Handshake completed in 0.265937 seconds
-2025-04-26 22:55:08,981 [INFO] Handshake completed
-2025-04-26 22:55:08,982 [INFO] starting message exchange
-2025-04-26 22:55:46,964 [INFO] Session terminated by user
-2025-04-26 22:55:46,965 [INFO] Sent alert 00 (Session terminated)
-2025-04-26 22:55:46,973 [ERROR] TLS error: Socket error during receive: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:55:46,979 [DEBUG] Cleared sensitive cryptographic data
-2025-04-26 22:55:46,980 [INFO] Client connection closed
-2025-04-26 22:56:04,116 [DEBUG] Loaded CA certificate
-2025-04-26 22:56:04,117 [INFO] Connecting to server
-2025-04-26 22:56:04,119 [INFO] Connected to 127.0.0.1:65432
-2025-04-26 22:56:04,120 [INFO] Starting client-server handshake
-2025-04-26 22:56:04,132 [DEBUG] Generated ECC keys in 0.011025 seconds
-2025-04-26 22:56:04,137 [DEBUG] Generated Kyber512 keys in 0.003718 seconds
-2025-04-26 22:56:04,143 [DEBUG] Generated Kyber768 keys in 0.004655 seconds
-2025-04-26 22:56:04,147 [DEBUG] Generated Kyber1024 keys in 0.003556 seconds
-2025-04-26 22:56:04,149 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
-2025-04-26 22:56:04,186 [DEBUG] Received ServerHello
-2025-04-26 22:56:04,188 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 22:56:04,199 [DEBUG] Decapsulated Kyber shared secret in 0.002368 seconds
-2025-04-26 22:56:04,205 [DEBUG] Derived handshake keys in 0.000941 seconds
-2025-04-26 22:56:04,207 [DEBUG] Received EncryptedExtensions
-2025-04-26 22:56:04,209 [DEBUG] Received CertificateRequest
-2025-04-26 22:56:04,260 [DEBUG] Received server Certificate
-2025-04-26 22:56:04,313 [DEBUG] Validated Server certificate
-2025-04-26 22:56:04,315 [DEBUG] Received Server CertificateVerify
-2025-04-26 22:56:04,326 [DEBUG] Verified server CertificateVerify
-2025-04-26 22:56:04,328 [DEBUG] Received Server Finished
-2025-04-26 22:56:04,330 [DEBUG] Computed Finished message
-2025-04-26 22:56:04,331 [DEBUG] Finished message verification: success
-2025-04-26 22:56:04,333 [DEBUG] Verified server Finished
-2025-04-26 22:56:04,347 [DEBUG] Loaded and verified certificate
-2025-04-26 22:56:04,353 [DEBUG] Sent client Certificate
-2025-04-26 22:56:04,367 [DEBUG] Computed CertificateVerify
-2025-04-26 22:56:04,369 [DEBUG] Sent client CertificateVerify
-2025-04-26 22:56:04,473 [DEBUG] Computed Finished message
-2025-04-26 22:56:04,475 [DEBUG] Sent client Finished
-2025-04-26 22:56:04,477 [DEBUG] Derived application key in 0.000454 seconds
-2025-04-26 22:56:04,478 [DEBUG] Handshake completed in 0.356836 seconds
-2025-04-26 22:56:04,479 [INFO] Handshake completed
-2025-04-26 22:56:04,480 [INFO] starting message exchange
-2025-04-26 22:56:38,187 [DEBUG] Cleared sensitive cryptographic data
-2025-04-26 22:56:38,189 [INFO] Client connection closed
-2025-04-26 22:57:17,048 [DEBUG] Loaded CA certificate
-2025-04-26 22:57:17,049 [INFO] Connecting to server
-2025-04-26 22:57:17,051 [INFO] Connected to 127.0.0.1:65432
-2025-04-26 22:57:17,052 [INFO] Starting client-server handshake
-2025-04-26 22:57:17,063 [DEBUG] Generated ECC keys in 0.010952 seconds
-2025-04-26 22:57:17,069 [DEBUG] Generated Kyber512 keys in 0.002846 seconds
-2025-04-26 22:57:17,074 [DEBUG] Generated Kyber768 keys in 0.004748 seconds
-2025-04-26 22:57:17,079 [DEBUG] Generated Kyber1024 keys in 0.003881 seconds
-2025-04-26 22:57:17,080 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
-2025-04-26 22:57:17,122 [DEBUG] Received ServerHello
-2025-04-26 22:57:17,123 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 22:57:17,136 [DEBUG] Decapsulated Kyber shared secret in 0.001959 seconds
-2025-04-26 22:57:17,141 [DEBUG] Derived handshake keys in 0.000785 seconds
-2025-04-26 22:57:17,145 [DEBUG] Received EncryptedExtensions
-2025-04-26 22:57:17,146 [DEBUG] Received CertificateRequest
-2025-04-26 22:57:17,148 [DEBUG] Received server Certificate
-2025-04-26 22:57:17,182 [DEBUG] Validated Server certificate
-2025-04-26 22:57:17,184 [DEBUG] Received Server CertificateVerify
-2025-04-26 22:57:17,190 [DEBUG] Verified server CertificateVerify
-2025-04-26 22:57:17,192 [DEBUG] Received Server Finished
-2025-04-26 22:57:17,193 [DEBUG] Computed Finished message
-2025-04-26 22:57:17,194 [DEBUG] Finished message verification: success
-2025-04-26 22:57:17,195 [DEBUG] Verified server Finished
-2025-04-26 22:57:17,208 [DEBUG] Loaded and verified certificate
-2025-04-26 22:57:17,210 [DEBUG] Sent client Certificate
-2025-04-26 22:57:17,220 [DEBUG] Computed CertificateVerify
-2025-04-26 22:57:17,221 [DEBUG] Sent client CertificateVerify
-2025-04-26 22:57:17,326 [DEBUG] Computed Finished message
-2025-04-26 22:57:17,328 [DEBUG] Sent client Finished
-2025-04-26 22:57:17,329 [DEBUG] Derived application key in 0.000490 seconds
-2025-04-26 22:57:17,330 [DEBUG] Handshake completed in 0.277331 seconds
-2025-04-26 22:57:17,331 [INFO] Handshake completed
-2025-04-26 22:57:17,333 [INFO] starting message exchange
-2025-04-26 22:57:58,209 [DEBUG] Sent application data (5 bytes) in 0.000940 seconds
-2025-04-26 22:57:58,210 [DEBUG] Sent: b'Hello'... (total 5 bytes)
-2025-04-26 22:57:58,211 [INFO] Sent application data
-2025-04-26 22:57:58,212 [ERROR] TLS error: Socket error during receive: [WinError 10053] An established connection was aborted by the software in your host machine
-2025-04-26 22:57:58,214 [DEBUG] Cleared sensitive cryptographic data
-2025-04-26 22:57:58,215 [INFO] Client connection closed
-2025-04-26 22:59:01,356 [DEBUG] Loaded CA certificate
-2025-04-26 22:59:01,357 [INFO] Connecting to server
-2025-04-26 22:59:01,360 [INFO] Connected to 127.0.0.1:65432
-2025-04-26 22:59:01,360 [INFO] Starting client-server handshake
-2025-04-26 22:59:01,373 [DEBUG] Generated ECC keys in 0.011786 seconds
-2025-04-26 22:59:01,377 [DEBUG] Generated Kyber512 keys in 0.003374 seconds
-2025-04-26 22:59:01,383 [DEBUG] Generated Kyber768 keys in 0.005072 seconds
-2025-04-26 22:59:01,387 [DEBUG] Generated Kyber1024 keys in 0.003670 seconds
-2025-04-26 22:59:01,389 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
-2025-04-26 22:59:01,434 [DEBUG] Received ServerHello
-2025-04-26 22:59:01,436 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 22:59:01,446 [DEBUG] Decapsulated Kyber shared secret in 0.001782 seconds
-2025-04-26 22:59:01,451 [DEBUG] Derived handshake keys in 0.000790 seconds
-2025-04-26 22:59:01,453 [DEBUG] Received EncryptedExtensions
-2025-04-26 22:59:01,455 [DEBUG] Received CertificateRequest
-2025-04-26 22:59:01,485 [DEBUG] Received server Certificate
-2025-04-26 22:59:01,519 [DEBUG] Validated Server certificate
-2025-04-26 22:59:01,520 [DEBUG] Received Server CertificateVerify
-2025-04-26 22:59:01,526 [DEBUG] Verified server CertificateVerify
-2025-04-26 22:59:01,527 [DEBUG] Received Server Finished
-2025-04-26 22:59:01,529 [DEBUG] Computed Finished message
-2025-04-26 22:59:01,530 [DEBUG] Finished message verification: success
-2025-04-26 22:59:01,532 [DEBUG] Verified server Finished
-2025-04-26 22:59:01,544 [DEBUG] Loaded and verified certificate
-2025-04-26 22:59:01,546 [DEBUG] Sent client Certificate
-2025-04-26 22:59:01,554 [DEBUG] Computed CertificateVerify
-2025-04-26 22:59:01,555 [DEBUG] Sent client CertificateVerify
-2025-04-26 22:59:01,665 [DEBUG] Computed Finished message
-2025-04-26 22:59:01,666 [DEBUG] Sent client Finished
-2025-04-26 22:59:01,668 [DEBUG] Derived application key in 0.000328 seconds
-2025-04-26 22:59:01,668 [DEBUG] Handshake completed in 0.307448 seconds
-2025-04-26 22:59:01,669 [INFO] Handshake completed
-2025-04-26 22:59:01,671 [INFO] starting message exchange
-2025-04-26 22:59:06,644 [DEBUG] Sent application data (5 bytes) in 0.000628 seconds
-2025-04-26 22:59:06,646 [DEBUG] Sent: b'Hello'... (total 5 bytes)
-2025-04-26 22:59:06,647 [INFO] Sent application data
-2025-04-26 22:59:06,649 [DEBUG] Received and decrypted application data (29 bytes) in 0.001501 seconds
-2025-04-26 22:59:06,650 [DEBUG] Received: bytearray(b'Message received suc')... (total 29 bytes)
-2025-04-26 22:59:06,651 [INFO] Received application data
-2025-04-26 22:59:06,652 [INFO] Received response: Message received successfully... (length: 29 bytes)
-2025-04-26 22:59:12,387 [DEBUG] Sent application data (1038780 bytes) in 0.051308 seconds
-2025-04-26 22:59:12,388 [DEBUG] Sent: b'{"record_0": {"id": '... (total 1038780 bytes)
-2025-04-26 22:59:12,389 [INFO] Sent application data
-2025-04-26 22:59:12,397 [DEBUG] Received and decrypted application data (29 bytes) in 0.005961 seconds
-2025-04-26 22:59:12,398 [DEBUG] Received: bytearray(b'Message received suc')... (total 29 bytes)
-2025-04-26 22:59:12,399 [INFO] Received application data
-2025-04-26 22:59:12,400 [INFO] Received response: Message received successfully... (length: 29 bytes)
-2025-04-26 22:59:14,312 [INFO] Session terminated by user
-2025-04-26 22:59:14,314 [INFO] Sent alert 00 (Session terminated)
-2025-04-26 22:59:14,318 [DEBUG] Decrypted alert with seq_bytes: 0000000000000003
-2025-04-26 22:59:14,320 [INFO] Received alert: close_notify (00) - Session terminated
-2025-04-26 22:59:14,321 [INFO] Received server termination confirmation
-2025-04-26 22:59:14,322 [DEBUG] Cleared sensitive cryptographic data
-2025-04-26 22:59:14,324 [INFO] Client connection closed
-2025-04-26 23:00:03,854 [DEBUG] Loaded CA certificate
-2025-04-26 23:00:03,855 [INFO] Connecting to server
-2025-04-26 23:00:03,858 [INFO] Connected to 127.0.0.1:65432
-2025-04-26 23:00:03,858 [INFO] Starting client-server handshake
-2025-04-26 23:00:03,871 [DEBUG] Generated ECC keys in 0.011876 seconds
-2025-04-26 23:00:03,876 [DEBUG] Generated Kyber512 keys in 0.004236 seconds
-2025-04-26 23:00:03,883 [DEBUG] Generated Kyber768 keys in 0.005780 seconds
-2025-04-26 23:00:03,891 [DEBUG] Generated Kyber1024 keys in 0.006824 seconds
-2025-04-26 23:00:03,893 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
-2025-04-26 23:00:03,929 [DEBUG] Received ServerHello
-2025-04-26 23:00:03,930 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 23:00:03,940 [DEBUG] Decapsulated Kyber shared secret in 0.001516 seconds
-2025-04-26 23:00:03,944 [DEBUG] Derived handshake keys in 0.001017 seconds
-2025-04-26 23:00:03,945 [DEBUG] Received EncryptedExtensions
-2025-04-26 23:00:03,947 [DEBUG] Received CertificateRequest
-2025-04-26 23:00:03,948 [DEBUG] Received server Certificate
-2025-04-26 23:00:03,982 [DEBUG] Validated Server certificate
-2025-04-26 23:00:03,984 [DEBUG] Received Server CertificateVerify
-2025-04-26 23:00:03,990 [DEBUG] Verified server CertificateVerify
-2025-04-26 23:00:03,992 [DEBUG] Received Server Finished
-2025-04-26 23:00:03,993 [DEBUG] Computed Finished message
-2025-04-26 23:00:03,994 [DEBUG] Finished message verification: success
-2025-04-26 23:00:03,995 [DEBUG] Verified server Finished
-2025-04-26 23:00:03,996 [DEBUG] Sent empty Certificate
-2025-04-26 23:00:03,997 [ERROR] TLSError: Certificate required but not provided (Alert: certificate_required, 74)
-2025-04-26 23:00:03,999 [INFO] Sent alert 74 (Certificate required but not provided)
-2025-04-26 23:00:03,999 [ERROR] TLS error: Certificate required but not provided
-2025-04-26 23:00:04,001 [DEBUG] Cleared sensitive cryptographic data
-2025-04-26 23:00:04,002 [INFO] Client connection closed
-2025-04-26 23:00:30,898 [DEBUG] Loaded CA certificate
-2025-04-26 23:00:30,899 [INFO] Connecting to server
-2025-04-26 23:00:30,902 [INFO] Connected to 127.0.0.1:65432
-2025-04-26 23:00:30,902 [INFO] Starting client-server handshake
-2025-04-26 23:00:30,915 [DEBUG] Generated ECC keys in 0.011907 seconds
-2025-04-26 23:00:30,919 [DEBUG] Generated Kyber512 keys in 0.003381 seconds
-2025-04-26 23:00:30,926 [DEBUG] Generated Kyber768 keys in 0.005085 seconds
-2025-04-26 23:00:30,932 [DEBUG] Generated Kyber1024 keys in 0.004692 seconds
-2025-04-26 23:00:30,933 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
-2025-04-26 23:00:30,960 [DEBUG] Received ServerHello
-2025-04-26 23:00:30,961 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384
-2025-04-26 23:00:30,971 [DEBUG] Derived handshake keys in 0.001247 seconds
-2025-04-26 23:00:30,973 [DEBUG] Received EncryptedExtensions
-2025-04-26 23:00:30,975 [DEBUG] Received CertificateRequest
-2025-04-26 23:00:31,005 [DEBUG] Received server Certificate
-2025-04-26 23:00:31,043 [DEBUG] Validated Server certificate
-2025-04-26 23:00:31,044 [DEBUG] Received Server CertificateVerify
-2025-04-26 23:00:31,051 [DEBUG] Verified server CertificateVerify
-2025-04-26 23:00:31,053 [DEBUG] Received Server Finished
-2025-04-26 23:00:31,054 [DEBUG] Computed Finished message
-2025-04-26 23:00:31,055 [DEBUG] Finished message verification: success
-2025-04-26 23:00:31,056 [DEBUG] Verified server Finished
-2025-04-26 23:00:31,066 [DEBUG] Loaded and verified certificate
-2025-04-26 23:00:31,068 [DEBUG] Sent client Certificate
-2025-04-26 23:00:31,076 [DEBUG] Computed CertificateVerify
-2025-04-26 23:00:31,078 [DEBUG] Sent client CertificateVerify
-2025-04-26 23:00:31,190 [DEBUG] Computed Finished message
-2025-04-26 23:00:31,201 [DEBUG] Sent client Finished
-2025-04-26 23:00:31,203 [DEBUG] Derived application key in 0.000499 seconds
-2025-04-26 23:00:31,213 [DEBUG] Handshake completed in 0.310372 seconds
-2025-04-26 23:00:31,246 [INFO] Handshake completed
-2025-04-26 23:00:31,247 [INFO] starting message exchange
-2025-04-26 23:00:39,050 [DEBUG] Sent application data (5 bytes) in 0.000626 seconds
-2025-04-26 23:00:39,051 [DEBUG] Sent: b'Hello'... (total 5 bytes)
-2025-04-26 23:00:39,052 [INFO] Sent application data
-2025-04-26 23:00:39,054 [DEBUG] Received and decrypted application data (29 bytes) in 0.000789 seconds
-2025-04-26 23:00:39,055 [DEBUG] Received: bytearray(b'Message received suc')... (total 29 bytes)
-2025-04-26 23:00:39,056 [INFO] Received application data
-2025-04-26 23:00:39,057 [INFO] Received response: Message received successfully... (length: 29 bytes)
-2025-04-26 23:00:54,828 [INFO] Session terminated by user
-2025-04-26 23:00:54,830 [INFO] Sent alert 00 (Session terminated)
-2025-04-26 23:00:54,834 [DEBUG] Decrypted alert with seq_bytes: 0000000000000002
-2025-04-26 23:00:54,835 [INFO] Received alert: close_notify (00) - Session terminated
-2025-04-26 23:00:54,837 [INFO] Received server termination confirmation
-2025-04-26 23:00:54,838 [DEBUG] Cleared sensitive cryptographic data
-2025-04-26 23:00:54,840 [INFO] Client connection closed
-2025-04-26 23:01:00,247 [DEBUG] Loaded CA certificate
-2025-04-26 23:01:00,248 [INFO] Connecting to server
-2025-04-26 23:01:00,250 [INFO] Connected to 127.0.0.1:65432
-2025-04-26 23:01:00,251 [INFO] Starting client-server handshake
-2025-04-26 23:01:00,265 [DEBUG] Generated ECC keys in 0.012226 seconds
-2025-04-26 23:01:00,269 [DEBUG] Generated Kyber512 keys in 0.003216 seconds
-2025-04-26 23:01:00,274 [DEBUG] Generated Kyber768 keys in 0.003541 seconds
-2025-04-26 23:01:00,280 [DEBUG] Generated Kyber1024 keys in 0.005006 seconds
-2025-04-26 23:01:00,284 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
-2025-04-26 23:01:00,299 [DEBUG] Received ServerHello
-2025-04-26 23:01:00,300 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384
-2025-04-26 23:01:00,309 [DEBUG] Derived handshake keys in 0.001259 seconds
-2025-04-26 23:01:00,311 [DEBUG] Received EncryptedExtensions
-2025-04-26 23:01:00,313 [DEBUG] Received CertificateRequest
-2025-04-26 23:01:00,314 [DEBUG] Received server Certificate
-2025-04-26 23:01:00,348 [DEBUG] Validated Server certificate
-2025-04-26 23:01:00,350 [DEBUG] Received Server CertificateVerify
-2025-04-26 23:01:00,357 [DEBUG] Verified server CertificateVerify
-2025-04-26 23:01:00,358 [DEBUG] Received Server Finished
-2025-04-26 23:01:00,359 [DEBUG] Computed Finished message
-2025-04-26 23:01:00,360 [DEBUG] Finished message verification: success
-2025-04-26 23:01:00,361 [DEBUG] Verified server Finished
-2025-04-26 23:01:00,364 [DEBUG] Sent empty Certificate
-2025-04-26 23:01:00,364 [ERROR] TLSError: Certificate required but not provided (Alert: certificate_required, 74)
-2025-04-26 23:01:00,366 [INFO] Sent alert 74 (Certificate required but not provided)
-2025-04-26 23:01:00,367 [ERROR] TLS error: Certificate required but not provided
-2025-04-26 23:01:00,368 [DEBUG] Cleared sensitive cryptographic data
-2025-04-26 23:01:00,370 [INFO] Client connection closed
+2025-05-01 19:10:41,362 [DEBUG] Loaded CA certificate
+2025-05-01 19:10:41,363 [INFO] Connecting to server
+2025-05-01 19:10:41,376 [INFO] Connected to 127.0.0.1:65440
+2025-05-01 19:10:41,376 [INFO] Starting client-server handshake
+2025-05-01 19:10:41,386 [DEBUG] Generated ECC keys in 0.009159 seconds
+2025-05-01 19:10:41,388 [DEBUG] Generated Kyber512 keys in 0.002416 seconds
+2025-05-01 19:10:41,391 [DEBUG] Generated Kyber768 keys in 0.002367 seconds
+2025-05-01 19:10:41,394 [DEBUG] Generated Kyber1024 keys in 0.002840 seconds
+2025-05-01 19:10:41,395 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
+2025-05-01 19:10:41,418 [DEBUG] Received ServerHello
+2025-05-01 19:10:41,418 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber768
+2025-05-01 19:10:41,424 [DEBUG] Decapsulated Kyber shared secret in 0.001770 seconds
+2025-05-01 19:10:41,426 [DEBUG] Derived handshake keys in 0.000251 seconds
+2025-05-01 19:10:41,426 [DEBUG] Received EncryptedExtensions
+2025-05-01 19:10:41,442 [DEBUG] No CertificateRequest received
+2025-05-01 19:10:41,443 [DEBUG] Received server Certificate
+2025-05-01 19:10:41,462 [DEBUG] Validated Server certificate
+2025-05-01 19:10:41,463 [DEBUG] Received Server CertificateVerify
+2025-05-01 19:10:41,466 [DEBUG] Verified server CertificateVerify
+2025-05-01 19:10:41,467 [DEBUG] Received Server Finished
+2025-05-01 19:10:41,467 [DEBUG] Computed Finished message
+2025-05-01 19:10:41,467 [DEBUG] Finished message verification: success
+2025-05-01 19:10:41,467 [DEBUG] Verified server Finished
+2025-05-01 19:10:41,467 [DEBUG] Computed Finished message
+2025-05-01 19:10:41,468 [DEBUG] Sent client Finished
+2025-05-01 19:10:41,468 [DEBUG] Derived application key in 0.000200 seconds
+2025-05-01 19:10:41,468 [DEBUG] Handshake completed in 0.091802 seconds
+2025-05-01 19:10:41,468 [INFO] starting message exchange
+2025-05-01 19:10:41,470 [DEBUG] Sent application data (9 bytes) in 0.000329 seconds
+2025-05-01 19:10:41,470 [DEBUG] Sent: b'Load test'... (total 9 bytes)
+2025-05-01 19:10:41,471 [INFO] Sent application data
+2025-05-01 19:10:41,472 [DEBUG] Received and decrypted application data (29 bytes) in 0.000782 seconds
+2025-05-01 19:10:41,472 [DEBUG] Received: bytearray(b'Message received suc')... (total 29 bytes)
+2025-05-01 19:10:41,472 [INFO] Received application data
+2025-05-01 19:10:41,472 [DEBUG] Received response: Message received successfully... (length: 29 bytes)
+2025-05-01 19:10:41,472 [DEBUG] Cleared sensitive cryptographic data
+2025-05-01 19:10:41,473 [INFO] Client connection closed
+2025-05-01 19:10:42,584 [DEBUG] Loaded CA certificate
+2025-05-01 19:10:42,584 [INFO] Connecting to server
+2025-05-01 19:10:42,586 [INFO] Connected to 127.0.0.1:65440
+2025-05-01 19:10:42,587 [INFO] Starting client-server handshake
+2025-05-01 19:10:42,596 [DEBUG] Generated ECC keys in 0.009987 seconds
+2025-05-01 19:10:42,600 [DEBUG] Generated Kyber512 keys in 0.002487 seconds
+2025-05-01 19:10:42,603 [DEBUG] Generated Kyber768 keys in 0.002440 seconds
+2025-05-01 19:10:42,606 [DEBUG] Generated Kyber1024 keys in 0.002881 seconds
+2025-05-01 19:10:42,607 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
+2025-05-01 19:10:42,622 [DEBUG] Received ServerHello
+2025-05-01 19:10:42,622 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber768
+2025-05-01 19:10:42,629 [DEBUG] Decapsulated Kyber shared secret in 0.001734 seconds
+2025-05-01 19:10:42,630 [DEBUG] Derived handshake keys in 0.000251 seconds
+2025-05-01 19:10:42,630 [DEBUG] Received EncryptedExtensions
+2025-05-01 19:10:42,631 [DEBUG] No CertificateRequest received
+2025-05-01 19:10:42,631 [DEBUG] Received server Certificate
+2025-05-01 19:10:42,650 [DEBUG] Validated Server certificate
+2025-05-01 19:10:42,650 [DEBUG] Received Server CertificateVerify
+2025-05-01 19:10:42,654 [DEBUG] Verified server CertificateVerify
+2025-05-01 19:10:42,654 [DEBUG] Received Server Finished
+2025-05-01 19:10:42,654 [DEBUG] Computed Finished message
+2025-05-01 19:10:42,654 [DEBUG] Finished message verification: success
+2025-05-01 19:10:42,655 [DEBUG] Verified server Finished
+2025-05-01 19:10:42,655 [DEBUG] Computed Finished message
+2025-05-01 19:10:42,655 [DEBUG] Sent client Finished
+2025-05-01 19:10:42,656 [DEBUG] Derived application key in 0.000186 seconds
+2025-05-01 19:10:42,656 [DEBUG] Handshake completed in 0.068796 seconds
+2025-05-01 19:10:42,656 [INFO] starting message exchange
+2025-05-01 19:10:42,658 [DEBUG] Sent application data (9 bytes) in 0.000298 seconds
+2025-05-01 19:10:42,658 [DEBUG] Sent: b'Load test'... (total 9 bytes)
+2025-05-01 19:10:42,658 [INFO] Sent application data
+2025-05-01 19:10:42,659 [DEBUG] Received and decrypted application data (29 bytes) in 0.000835 seconds
+2025-05-01 19:10:42,659 [DEBUG] Received: bytearray(b'Message received suc')... (total 29 bytes)
+2025-05-01 19:10:42,660 [INFO] Received application data
+2025-05-01 19:10:42,660 [DEBUG] Received response: Message received successfully... (length: 29 bytes)
+2025-05-01 19:10:42,660 [DEBUG] Cleared sensitive cryptographic data
+2025-05-01 19:10:42,661 [INFO] Client connection closed
+2025-05-01 19:10:43,716 [DEBUG] Loaded CA certificate
+2025-05-01 19:10:43,717 [INFO] Connecting to server
+2025-05-01 19:10:43,718 [INFO] Connected to 127.0.0.1:65440
+2025-05-01 19:10:43,718 [INFO] Starting client-server handshake
+2025-05-01 19:10:43,728 [DEBUG] Generated ECC keys in 0.009099 seconds
+2025-05-01 19:10:43,731 [DEBUG] Generated Kyber512 keys in 0.002323 seconds
+2025-05-01 19:10:43,734 [DEBUG] Generated Kyber768 keys in 0.002183 seconds
+2025-05-01 19:10:43,736 [DEBUG] Generated Kyber1024 keys in 0.002539 seconds
+2025-05-01 19:10:43,737 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
+2025-05-01 19:10:43,764 [DEBUG] Received ServerHello
+2025-05-01 19:10:43,765 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber768
+2025-05-01 19:10:43,771 [DEBUG] Decapsulated Kyber shared secret in 0.001556 seconds
+2025-05-01 19:10:43,772 [DEBUG] Derived handshake keys in 0.000247 seconds
+2025-05-01 19:10:43,773 [DEBUG] Received EncryptedExtensions
+2025-05-01 19:10:43,773 [DEBUG] No CertificateRequest received
+2025-05-01 19:10:43,773 [DEBUG] Received server Certificate
+2025-05-01 19:10:43,792 [DEBUG] Validated Server certificate
+2025-05-01 19:10:43,793 [DEBUG] Received Server CertificateVerify
+2025-05-01 19:10:43,796 [DEBUG] Verified server CertificateVerify
+2025-05-01 19:10:43,797 [DEBUG] Received Server Finished
+2025-05-01 19:10:43,797 [DEBUG] Computed Finished message
+2025-05-01 19:10:43,797 [DEBUG] Finished message verification: success
+2025-05-01 19:10:43,797 [DEBUG] Verified server Finished
+2025-05-01 19:10:43,797 [DEBUG] Computed Finished message
+2025-05-01 19:10:43,797 [DEBUG] Sent client Finished
+2025-05-01 19:10:43,798 [DEBUG] Derived application key in 0.000201 seconds
+2025-05-01 19:10:43,798 [DEBUG] Handshake completed in 0.079337 seconds
+2025-05-01 19:10:43,798 [INFO] starting message exchange
+2025-05-01 19:10:43,800 [DEBUG] Sent application data (9 bytes) in 0.000371 seconds
+2025-05-01 19:10:43,800 [DEBUG] Sent: b'Load test'... (total 9 bytes)
+2025-05-01 19:10:43,800 [INFO] Sent application data
+2025-05-01 19:10:43,801 [DEBUG] Received and decrypted application data (29 bytes) in 0.000706 seconds
+2025-05-01 19:10:43,802 [DEBUG] Received: bytearray(b'Message received suc')... (total 29 bytes)
+2025-05-01 19:10:43,802 [INFO] Received application data
+2025-05-01 19:10:43,802 [DEBUG] Received response: Message received successfully... (length: 29 bytes)
+2025-05-01 19:10:43,802 [DEBUG] Cleared sensitive cryptographic data
+2025-05-01 19:10:43,803 [INFO] Client connection closed
+2025-05-01 19:10:44,827 [DEBUG] Loaded CA certificate
+2025-05-01 19:10:44,827 [INFO] Connecting to server
+2025-05-01 19:10:44,829 [INFO] Connected to 127.0.0.1:65440
+2025-05-01 19:10:44,829 [INFO] Starting client-server handshake
+2025-05-01 19:10:44,839 [DEBUG] Generated ECC keys in 0.008431 seconds
+2025-05-01 19:10:44,841 [DEBUG] Generated Kyber512 keys in 0.002226 seconds
+2025-05-01 19:10:44,844 [DEBUG] Generated Kyber768 keys in 0.002300 seconds
+2025-05-01 19:10:44,847 [DEBUG] Generated Kyber1024 keys in 0.002590 seconds
+2025-05-01 19:10:44,847 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
+2025-05-01 19:10:44,874 [DEBUG] Received ServerHello
+2025-05-01 19:10:44,875 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber768
+2025-05-01 19:10:44,881 [DEBUG] Decapsulated Kyber shared secret in 0.001617 seconds
+2025-05-01 19:10:44,883 [DEBUG] Derived handshake keys in 0.000287 seconds
+2025-05-01 19:10:44,883 [DEBUG] Received EncryptedExtensions
+2025-05-01 19:10:44,884 [DEBUG] No CertificateRequest received
+2025-05-01 19:10:44,884 [DEBUG] Received server Certificate
+2025-05-01 19:10:44,906 [DEBUG] Validated Server certificate
+2025-05-01 19:10:44,907 [DEBUG] Received Server CertificateVerify
+2025-05-01 19:10:44,910 [DEBUG] Verified server CertificateVerify
+2025-05-01 19:10:44,910 [DEBUG] Received Server Finished
+2025-05-01 19:10:44,910 [DEBUG] Computed Finished message
+2025-05-01 19:10:44,911 [DEBUG] Finished message verification: success
+2025-05-01 19:10:44,911 [DEBUG] Verified server Finished
+2025-05-01 19:10:44,911 [DEBUG] Computed Finished message
+2025-05-01 19:10:44,912 [DEBUG] Sent client Finished
+2025-05-01 19:10:44,912 [DEBUG] Derived application key in 0.000204 seconds
+2025-05-01 19:10:44,912 [DEBUG] Handshake completed in 0.082770 seconds
+2025-05-01 19:10:44,912 [INFO] starting message exchange
+2025-05-01 19:10:44,914 [DEBUG] Sent application data (9 bytes) in 0.000296 seconds
+2025-05-01 19:10:44,914 [DEBUG] Sent: b'Load test'... (total 9 bytes)
+2025-05-01 19:10:44,914 [INFO] Sent application data
+2025-05-01 19:10:44,915 [DEBUG] Received and decrypted application data (29 bytes) in 0.000757 seconds
+2025-05-01 19:10:44,916 [DEBUG] Received: bytearray(b'Message received suc')... (total 29 bytes)
+2025-05-01 19:10:44,916 [INFO] Received application data
+2025-05-01 19:10:44,916 [DEBUG] Received response: Message received successfully... (length: 29 bytes)
+2025-05-01 19:10:44,916 [DEBUG] Cleared sensitive cryptographic data
+2025-05-01 19:10:44,918 [INFO] Client connection closed
+2025-05-01 19:10:45,958 [DEBUG] Loaded CA certificate
+2025-05-01 19:10:45,958 [INFO] Connecting to server
+2025-05-01 19:10:45,960 [INFO] Connected to 127.0.0.1:65440
+2025-05-01 19:10:45,960 [INFO] Starting client-server handshake
+2025-05-01 19:10:45,968 [DEBUG] Generated ECC keys in 0.008445 seconds
+2025-05-01 19:10:45,971 [DEBUG] Generated Kyber512 keys in 0.002307 seconds
+2025-05-01 19:10:45,973 [DEBUG] Generated Kyber768 keys in 0.002167 seconds
+2025-05-01 19:10:45,977 [DEBUG] Generated Kyber1024 keys in 0.002617 seconds
+2025-05-01 19:10:45,977 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
+2025-05-01 19:10:46,005 [DEBUG] Received ServerHello
+2025-05-01 19:10:46,005 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber768
+2025-05-01 19:10:46,011 [DEBUG] Decapsulated Kyber shared secret in 0.001543 seconds
+2025-05-01 19:10:46,013 [DEBUG] Derived handshake keys in 0.000260 seconds
+2025-05-01 19:10:46,013 [DEBUG] Received EncryptedExtensions
+2025-05-01 19:10:46,013 [DEBUG] No CertificateRequest received
+2025-05-01 19:10:46,014 [DEBUG] Received server Certificate
+2025-05-01 19:10:46,034 [DEBUG] Validated Server certificate
+2025-05-01 19:10:46,034 [DEBUG] Received Server CertificateVerify
+2025-05-01 19:10:46,037 [DEBUG] Verified server CertificateVerify
+2025-05-01 19:10:46,037 [DEBUG] Received Server Finished
+2025-05-01 19:10:46,038 [DEBUG] Computed Finished message
+2025-05-01 19:10:46,038 [DEBUG] Finished message verification: success
+2025-05-01 19:10:46,038 [DEBUG] Verified server Finished
+2025-05-01 19:10:46,038 [DEBUG] Computed Finished message
+2025-05-01 19:10:46,039 [DEBUG] Sent client Finished
+2025-05-01 19:10:46,039 [DEBUG] Derived application key in 0.000201 seconds
+2025-05-01 19:10:46,039 [DEBUG] Handshake completed in 0.079548 seconds
+2025-05-01 19:10:46,040 [INFO] starting message exchange
+2025-05-01 19:10:46,041 [DEBUG] Sent application data (9 bytes) in 0.000291 seconds
+2025-05-01 19:10:46,042 [DEBUG] Sent: b'Load test'... (total 9 bytes)
+2025-05-01 19:10:46,042 [INFO] Sent application data
+2025-05-01 19:10:46,043 [DEBUG] Received and decrypted application data (29 bytes) in 0.000598 seconds
+2025-05-01 19:10:46,043 [DEBUG] Received: bytearray(b'Message received suc')... (total 29 bytes)
+2025-05-01 19:10:46,043 [INFO] Received application data
+2025-05-01 19:10:46,043 [DEBUG] Received response: Message received successfully... (length: 29 bytes)
+2025-05-01 19:10:46,044 [DEBUG] Cleared sensitive cryptographic data
+2025-05-01 19:10:46,044 [INFO] Client connection closed
+2025-05-01 19:10:47,367 [DEBUG] Loaded CA certificate
+2025-05-01 19:10:47,369 [INFO] Connecting to server
+2025-05-01 19:10:47,370 [INFO] Connected to 127.0.0.1:65440
+2025-05-01 19:10:47,370 [INFO] Starting client-server handshake
+2025-05-01 19:10:47,381 [DEBUG] Generated ECC keys in 0.010506 seconds
+2025-05-01 19:10:47,385 [DEBUG] Generated Kyber512 keys in 0.002715 seconds
+2025-05-01 19:10:47,388 [DEBUG] Generated Kyber768 keys in 0.002824 seconds
+2025-05-01 19:10:47,392 [DEBUG] Generated Kyber1024 keys in 0.003217 seconds
+2025-05-01 19:10:47,393 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
+2025-05-01 19:10:47,425 [DEBUG] Received ServerHello
+2025-05-01 19:10:47,425 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber768
+2025-05-01 19:10:47,434 [DEBUG] Decapsulated Kyber shared secret in 0.002692 seconds
+2025-05-01 19:10:47,435 [DEBUG] Derived handshake keys in 0.000272 seconds
+2025-05-01 19:10:47,436 [DEBUG] Received EncryptedExtensions
+2025-05-01 19:10:47,436 [DEBUG] No CertificateRequest received
+2025-05-01 19:10:47,436 [DEBUG] Received server Certificate
+2025-05-01 19:10:47,463 [DEBUG] Validated Server certificate
+2025-05-01 19:10:47,464 [DEBUG] Received Server CertificateVerify
+2025-05-01 19:10:47,469 [DEBUG] Verified server CertificateVerify
+2025-05-01 19:10:47,470 [DEBUG] Received Server Finished
+2025-05-01 19:10:47,470 [DEBUG] Computed Finished message
+2025-05-01 19:10:47,470 [DEBUG] Finished message verification: success
+2025-05-01 19:10:47,470 [DEBUG] Verified server Finished
+2025-05-01 19:10:47,471 [DEBUG] Computed Finished message
+2025-05-01 19:10:47,472 [DEBUG] Sent client Finished
+2025-05-01 19:10:47,473 [DEBUG] Derived application key in 0.000404 seconds
+2025-05-01 19:10:47,474 [DEBUG] Handshake completed in 0.102579 seconds
+2025-05-01 19:10:47,474 [INFO] starting message exchange
+2025-05-01 19:10:47,476 [DEBUG] Sent application data (9 bytes) in 0.000413 seconds
+2025-05-01 19:10:47,477 [DEBUG] Sent: b'Load test'... (total 9 bytes)
+2025-05-01 19:10:47,477 [INFO] Sent application data
+2025-05-01 19:10:47,478 [DEBUG] Received and decrypted application data (29 bytes) in 0.001142 seconds
+2025-05-01 19:10:47,478 [DEBUG] Received: bytearray(b'Message received suc')... (total 29 bytes)
+2025-05-01 19:10:47,479 [INFO] Received application data
+2025-05-01 19:10:47,479 [DEBUG] Received response: Message received successfully... (length: 29 bytes)
+2025-05-01 19:10:47,480 [DEBUG] Cleared sensitive cryptographic data
+2025-05-01 19:10:47,480 [INFO] Client connection closed
+2025-05-01 19:10:48,542 [DEBUG] Loaded CA certificate
+2025-05-01 19:10:48,543 [INFO] Connecting to server
+2025-05-01 19:10:48,544 [INFO] Connected to 127.0.0.1:65440
+2025-05-01 19:10:48,544 [INFO] Starting client-server handshake
+2025-05-01 19:10:48,553 [DEBUG] Generated ECC keys in 0.008603 seconds
+2025-05-01 19:10:48,556 [DEBUG] Generated Kyber512 keys in 0.002220 seconds
+2025-05-01 19:10:48,558 [DEBUG] Generated Kyber768 keys in 0.002210 seconds
+2025-05-01 19:10:48,560 [DEBUG] Generated Kyber1024 keys in 0.002597 seconds
+2025-05-01 19:10:48,561 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
+2025-05-01 19:10:48,589 [DEBUG] Received ServerHello
+2025-05-01 19:10:48,590 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber768
+2025-05-01 19:10:48,596 [DEBUG] Decapsulated Kyber shared secret in 0.001561 seconds
+2025-05-01 19:10:48,597 [DEBUG] Derived handshake keys in 0.000397 seconds
+2025-05-01 19:10:48,598 [DEBUG] Received EncryptedExtensions
+2025-05-01 19:10:48,598 [DEBUG] No CertificateRequest received
+2025-05-01 19:10:48,599 [DEBUG] Received server Certificate
+2025-05-01 19:10:48,617 [DEBUG] Validated Server certificate
+2025-05-01 19:10:48,618 [DEBUG] Received Server CertificateVerify
+2025-05-01 19:10:48,621 [DEBUG] Verified server CertificateVerify
+2025-05-01 19:10:48,621 [DEBUG] Received Server Finished
+2025-05-01 19:10:48,622 [DEBUG] Computed Finished message
+2025-05-01 19:10:48,622 [DEBUG] Finished message verification: success
+2025-05-01 19:10:48,622 [DEBUG] Verified server Finished
+2025-05-01 19:10:48,622 [DEBUG] Computed Finished message
+2025-05-01 19:10:48,623 [DEBUG] Sent client Finished
+2025-05-01 19:10:48,623 [DEBUG] Derived application key in 0.000188 seconds
+2025-05-01 19:10:48,623 [DEBUG] Handshake completed in 0.079326 seconds
+2025-05-01 19:10:48,623 [INFO] starting message exchange
+2025-05-01 19:10:48,625 [DEBUG] Sent application data (9 bytes) in 0.000295 seconds
+2025-05-01 19:10:48,625 [DEBUG] Sent: b'Load test'... (total 9 bytes)
+2025-05-01 19:10:48,625 [INFO] Sent application data
+2025-05-01 19:10:48,627 [DEBUG] Received and decrypted application data (29 bytes) in 0.000760 seconds
+2025-05-01 19:10:48,627 [DEBUG] Received: bytearray(b'Message received suc')... (total 29 bytes)
+2025-05-01 19:10:48,627 [INFO] Received application data
+2025-05-01 19:10:48,628 [DEBUG] Received response: Message received successfully... (length: 29 bytes)
+2025-05-01 19:10:48,628 [DEBUG] Cleared sensitive cryptographic data
+2025-05-01 19:10:48,628 [INFO] Client connection closed
+2025-05-01 19:10:49,812 [DEBUG] Loaded CA certificate
+2025-05-01 19:10:49,812 [INFO] Connecting to server
+2025-05-01 19:10:49,814 [INFO] Connected to 127.0.0.1:65440
+2025-05-01 19:10:49,815 [INFO] Starting client-server handshake
+2025-05-01 19:10:49,826 [DEBUG] Generated ECC keys in 0.010488 seconds
+2025-05-01 19:10:49,829 [DEBUG] Generated Kyber512 keys in 0.002715 seconds
+2025-05-01 19:10:49,832 [DEBUG] Generated Kyber768 keys in 0.003056 seconds
+2025-05-01 19:10:49,836 [DEBUG] Generated Kyber1024 keys in 0.003243 seconds
+2025-05-01 19:10:49,836 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
+2025-05-01 19:10:49,855 [DEBUG] Received ServerHello
+2025-05-01 19:10:49,855 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber768
+2025-05-01 19:10:49,861 [DEBUG] Decapsulated Kyber shared secret in 0.001713 seconds
+2025-05-01 19:10:49,863 [DEBUG] Derived handshake keys in 0.000282 seconds
+2025-05-01 19:10:49,863 [DEBUG] Received EncryptedExtensions
+2025-05-01 19:10:49,864 [DEBUG] No CertificateRequest received
+2025-05-01 19:10:49,864 [DEBUG] Received server Certificate
+2025-05-01 19:10:49,886 [DEBUG] Validated Server certificate
+2025-05-01 19:10:49,887 [DEBUG] Received Server CertificateVerify
+2025-05-01 19:10:49,891 [DEBUG] Verified server CertificateVerify
+2025-05-01 19:10:49,891 [DEBUG] Received Server Finished
+2025-05-01 19:10:49,891 [DEBUG] Computed Finished message
+2025-05-01 19:10:49,891 [DEBUG] Finished message verification: success
+2025-05-01 19:10:49,892 [DEBUG] Verified server Finished
+2025-05-01 19:10:49,892 [DEBUG] Computed Finished message
+2025-05-01 19:10:49,892 [DEBUG] Sent client Finished
+2025-05-01 19:10:49,893 [DEBUG] Derived application key in 0.000385 seconds
+2025-05-01 19:10:49,895 [DEBUG] Handshake completed in 0.079171 seconds
+2025-05-01 19:10:49,895 [INFO] starting message exchange
+2025-05-01 19:10:49,897 [DEBUG] Sent application data (9 bytes) in 0.000418 seconds
+2025-05-01 19:10:49,898 [DEBUG] Sent: b'Load test'... (total 9 bytes)
+2025-05-01 19:10:49,898 [INFO] Sent application data
+2025-05-01 19:10:49,899 [DEBUG] Received and decrypted application data (29 bytes) in 0.000671 seconds
+2025-05-01 19:10:49,899 [DEBUG] Received: bytearray(b'Message received suc')... (total 29 bytes)
+2025-05-01 19:10:49,900 [INFO] Received application data
+2025-05-01 19:10:49,900 [DEBUG] Received response: Message received successfully... (length: 29 bytes)
+2025-05-01 19:10:49,900 [DEBUG] Cleared sensitive cryptographic data
+2025-05-01 19:10:49,901 [INFO] Client connection closed
+2025-05-01 19:10:50,933 [DEBUG] Loaded CA certificate
+2025-05-01 19:10:50,933 [INFO] Connecting to server
+2025-05-01 19:10:50,934 [INFO] Connected to 127.0.0.1:65440
+2025-05-01 19:10:50,934 [INFO] Starting client-server handshake
+2025-05-01 19:10:50,943 [DEBUG] Generated ECC keys in 0.008490 seconds
+2025-05-01 19:10:50,946 [DEBUG] Generated Kyber512 keys in 0.002445 seconds
+2025-05-01 19:10:50,949 [DEBUG] Generated Kyber768 keys in 0.002848 seconds
+2025-05-01 19:10:50,953 [DEBUG] Generated Kyber1024 keys in 0.003152 seconds
+2025-05-01 19:10:50,954 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
+2025-05-01 19:10:50,975 [DEBUG] Received ServerHello
+2025-05-01 19:10:50,975 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber768
+2025-05-01 19:10:50,982 [DEBUG] Decapsulated Kyber shared secret in 0.001715 seconds
+2025-05-01 19:10:50,984 [DEBUG] Derived handshake keys in 0.000286 seconds
+2025-05-01 19:10:50,984 [DEBUG] Received EncryptedExtensions
+2025-05-01 19:10:50,985 [DEBUG] No CertificateRequest received
+2025-05-01 19:10:50,985 [DEBUG] Received server Certificate
+2025-05-01 19:10:51,004 [DEBUG] Validated Server certificate
+2025-05-01 19:10:51,005 [DEBUG] Received Server CertificateVerify
+2025-05-01 19:10:51,008 [DEBUG] Verified server CertificateVerify
+2025-05-01 19:10:51,008 [DEBUG] Received Server Finished
+2025-05-01 19:10:51,009 [DEBUG] Computed Finished message
+2025-05-01 19:10:51,009 [DEBUG] Finished message verification: success
+2025-05-01 19:10:51,009 [DEBUG] Verified server Finished
+2025-05-01 19:10:51,009 [DEBUG] Computed Finished message
+2025-05-01 19:10:51,010 [DEBUG] Sent client Finished
+2025-05-01 19:10:51,010 [DEBUG] Derived application key in 0.000205 seconds
+2025-05-01 19:10:51,011 [DEBUG] Handshake completed in 0.075831 seconds
+2025-05-01 19:10:51,011 [INFO] starting message exchange
+2025-05-01 19:10:51,012 [DEBUG] Sent application data (9 bytes) in 0.000301 seconds
+2025-05-01 19:10:51,013 [DEBUG] Sent: b'Load test'... (total 9 bytes)
+2025-05-01 19:10:51,013 [INFO] Sent application data
+2025-05-01 19:10:51,014 [DEBUG] Received and decrypted application data (29 bytes) in 0.000617 seconds
+2025-05-01 19:10:51,014 [DEBUG] Received: bytearray(b'Message received suc')... (total 29 bytes)
+2025-05-01 19:10:51,014 [INFO] Received application data
+2025-05-01 19:10:51,014 [DEBUG] Received response: Message received successfully... (length: 29 bytes)
+2025-05-01 19:10:51,015 [DEBUG] Cleared sensitive cryptographic data
+2025-05-01 19:10:51,015 [INFO] Client connection closed
+2025-05-01 19:10:52,028 [DEBUG] Loaded CA certificate
+2025-05-01 19:10:52,029 [INFO] Connecting to server
+2025-05-01 19:10:52,030 [INFO] Connected to 127.0.0.1:65440
+2025-05-01 19:10:52,031 [INFO] Starting client-server handshake
+2025-05-01 19:10:52,039 [DEBUG] Generated ECC keys in 0.008473 seconds
+2025-05-01 19:10:52,041 [DEBUG] Generated Kyber512 keys in 0.002197 seconds
+2025-05-01 19:10:52,044 [DEBUG] Generated Kyber768 keys in 0.002190 seconds
+2025-05-01 19:10:52,047 [DEBUG] Generated Kyber1024 keys in 0.002569 seconds
+2025-05-01 19:10:52,048 [DEBUG] Sent ClientHello with 4 cipher suites and 4 key shares
+2025-05-01 19:10:52,067 [DEBUG] Received ServerHello
+2025-05-01 19:10:52,067 [DEBUG] Selected cipher suite: TLS_AES_256_GCM_SHA384_Kyber768
+2025-05-01 19:10:52,073 [DEBUG] Decapsulated Kyber shared secret in 0.001578 seconds
+2025-05-01 19:10:52,074 [DEBUG] Derived handshake keys in 0.000249 seconds
+2025-05-01 19:10:52,075 [DEBUG] Received EncryptedExtensions
+2025-05-01 19:10:52,075 [DEBUG] No CertificateRequest received
+2025-05-01 19:10:52,075 [DEBUG] Received server Certificate
+2025-05-01 19:10:52,094 [DEBUG] Validated Server certificate
+2025-05-01 19:10:52,094 [DEBUG] Received Server CertificateVerify
+2025-05-01 19:10:52,098 [DEBUG] Verified server CertificateVerify
+2025-05-01 19:10:52,099 [DEBUG] Received Server Finished
+2025-05-01 19:10:52,099 [DEBUG] Computed Finished message
+2025-05-01 19:10:52,099 [DEBUG] Finished message verification: success
+2025-05-01 19:10:52,100 [DEBUG] Verified server Finished
+2025-05-01 19:10:52,100 [DEBUG] Computed Finished message
+2025-05-01 19:10:52,100 [DEBUG] Sent client Finished
+2025-05-01 19:10:52,101 [DEBUG] Derived application key in 0.000203 seconds
+2025-05-01 19:10:52,101 [DEBUG] Handshake completed in 0.069902 seconds
+2025-05-01 19:10:52,101 [INFO] starting message exchange
+2025-05-01 19:10:52,103 [DEBUG] Sent application data (9 bytes) in 0.000314 seconds
+2025-05-01 19:10:52,103 [DEBUG] Sent: b'Load test'... (total 9 bytes)
+2025-05-01 19:10:52,103 [INFO] Sent application data
+2025-05-01 19:10:52,104 [DEBUG] Received and decrypted application data (29 bytes) in 0.000747 seconds
+2025-05-01 19:10:52,105 [DEBUG] Received: bytearray(b'Message received suc')... (total 29 bytes)
+2025-05-01 19:10:52,105 [INFO] Received application data
+2025-05-01 19:10:52,105 [DEBUG] Received response: Message received successfully... (length: 29 bytes)
+2025-05-01 19:10:52,105 [DEBUG] Cleared sensitive cryptographic data
+2025-05-01 19:10:52,106 [INFO] Client connection closed

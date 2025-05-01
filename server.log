@@ -1,78 +1,13 @@
-2025-04-26 20:58:22,873 [INFO] Starting server with IP: 127.0.0.1, Port: 65432, Mutual Auth: False, Cipher: TLS_AES_256_GCM_SHA384
-2025-04-26 20:58:22,878 [INFO] Server listening on 127.0.0.1:65432
-2025-04-26 20:58:22,879 [INFO] Server started, awaiting connections
-2025-04-26 20:58:38,500 [INFO] Spawned thread for client ('127.0.0.1', 60176)
-2025-04-26 21:14:17,766 [INFO] Received signal 2, initiating shutdown
-2025-04-26 21:14:17,767 [INFO] Shutting down server...
-2025-04-26 21:14:17,768 [INFO] Server connection closed
-2025-04-26 21:14:17,769 [INFO] Server shut down cleanly
-2025-04-26 21:14:33,369 [INFO] Starting server with IP: 127.0.0.1, Port: 65432, Mutual Auth: True, Cipher: TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 21:14:33,388 [INFO] Server listening on 127.0.0.1:65432
-2025-04-26 21:14:33,389 [INFO] Server started, awaiting connections
-2025-04-26 21:14:37,273 [INFO] Spawned thread for client ('127.0.0.1', 3147)
-2025-04-26 21:15:09,630 [INFO] Received signal 2, initiating shutdown
-2025-04-26 21:15:09,631 [INFO] Shutting down server...
-2025-04-26 21:15:09,632 [INFO] Server connection closed
-2025-04-26 21:15:09,633 [INFO] Server shut down cleanly
-2025-04-26 21:15:16,055 [INFO] Starting server with IP: 127.0.0.1, Port: 65432, Mutual Auth: True, Cipher: TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 21:15:16,061 [INFO] Server listening on 127.0.0.1:65432
-2025-04-26 21:15:16,062 [INFO] Server started, awaiting connections
-2025-04-26 21:15:23,394 [INFO] Spawned thread for client ('127.0.0.1', 3152)
-2025-04-26 21:19:44,931 [INFO] Spawned thread for client ('127.0.0.1', 3213)
-2025-04-26 22:18:59,398 [INFO] Received signal 2, initiating shutdown
-2025-04-26 22:18:59,400 [INFO] Shutting down server...
-2025-04-26 22:18:59,401 [INFO] Server connection closed
-2025-04-26 22:18:59,402 [INFO] Server shut down cleanly
-2025-04-26 22:26:19,093 [INFO] Starting server with IP: 127.0.0.1, Port: 65432, Mutual Auth: True, Cipher: TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 22:26:19,097 [INFO] Server listening on 127.0.0.1:65432
-2025-04-26 22:26:19,098 [INFO] Server started, awaiting connections
-2025-04-26 22:26:27,194 [INFO] Spawned thread for client ('127.0.0.1', 3733)
-2025-04-26 22:28:12,230 [INFO] Received signal 2, initiating shutdown
-2025-04-26 22:28:12,231 [INFO] Shutting down server...
-2025-04-26 22:28:12,232 [INFO] Server connection closed
-2025-04-26 22:28:12,232 [INFO] Server shut down cleanly
-2025-04-26 22:28:21,781 [INFO] Starting server with IP: 127.0.0.1, Port: 65432, Mutual Auth: True, Cipher: TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 22:28:21,788 [INFO] Server listening on 127.0.0.1:65432
-2025-04-26 22:28:21,789 [INFO] Server started, awaiting connections
-2025-04-26 22:28:29,507 [INFO] Spawned thread for client ('127.0.0.1', 3764)
-2025-04-26 22:53:16,529 [INFO] Received signal 2, initiating shutdown
-2025-04-26 22:53:16,530 [INFO] Shutting down server...
-2025-04-26 22:53:16,531 [INFO] Server connection closed
-2025-04-26 22:53:16,532 [INFO] Server shut down cleanly
-2025-04-26 22:53:24,313 [INFO] Starting server with IP: 127.0.0.1, Port: 65432, Mutual Auth: True, Cipher: TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 22:53:24,319 [INFO] Server listening on 127.0.0.1:65432
-2025-04-26 22:53:24,320 [INFO] Server started, awaiting connections
-2025-04-26 22:53:51,468 [INFO] Spawned thread for client ('127.0.0.1', 3957)
-2025-04-26 22:54:08,132 [INFO] Spawned thread for client ('127.0.0.1', 3958)
-2025-04-26 22:55:08,714 [INFO] Spawned thread for client ('127.0.0.1', 3962)
-2025-04-26 22:55:44,080 [INFO] Received signal 2, initiating shutdown
-2025-04-26 22:55:44,081 [INFO] Shutting down server...
-2025-04-26 22:55:44,082 [INFO] Server connection closed
-2025-04-26 22:55:44,083 [INFO] Server shut down cleanly
-2025-04-26 22:55:58,587 [INFO] Starting server with IP: 127.0.0.1, Port: 65432, Mutual Auth: True, Cipher: TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 22:55:58,592 [INFO] Server listening on 127.0.0.1:65432
-2025-04-26 22:55:58,593 [INFO] Server started, awaiting connections
-2025-04-26 22:56:04,121 [INFO] Spawned thread for client ('127.0.0.1', 3963)
-2025-04-26 22:57:17,053 [INFO] Spawned thread for client ('127.0.0.1', 3965)
-2025-04-26 22:57:52,421 [INFO] Received signal 2, initiating shutdown
-2025-04-26 22:57:52,422 [INFO] Shutting down server...
-2025-04-26 22:57:52,423 [INFO] Server connection closed
-2025-04-26 22:57:52,424 [INFO] Server shut down cleanly
-2025-04-26 22:58:54,148 [INFO] Starting server with IP: 127.0.0.1, Port: 65432, Mutual Auth: True, Cipher: TLS_AES_256_GCM_SHA384_Kyber512
-2025-04-26 22:58:54,152 [INFO] Server listening on 127.0.0.1:65432
-2025-04-26 22:58:54,153 [INFO] Server started, awaiting connections
-2025-04-26 22:59:01,361 [INFO] Spawned thread for client ('127.0.0.1', 3983)
-2025-04-26 23:00:03,859 [INFO] Spawned thread for client ('127.0.0.1', 3986)
-2025-04-26 23:00:09,896 [INFO] Received signal 2, initiating shutdown
-2025-04-26 23:00:09,897 [INFO] Shutting down server...
-2025-04-26 23:00:09,899 [INFO] Server connection closed
-2025-04-26 23:00:09,900 [INFO] Server shut down cleanly
-2025-04-26 23:00:25,755 [INFO] Starting server with IP: 127.0.0.1, Port: 65432, Mutual Auth: True, Cipher: TLS_AES_256_GCM_SHA384
-2025-04-26 23:00:25,760 [INFO] Server listening on 127.0.0.1:65432
-2025-04-26 23:00:25,761 [INFO] Server started, awaiting connections
-2025-04-26 23:00:30,903 [INFO] Spawned thread for client ('127.0.0.1', 3989)
-2025-04-26 23:01:00,252 [INFO] Spawned thread for client ('127.0.0.1', 3995)
-2025-04-26 23:01:12,361 [INFO] Received signal 2, initiating shutdown
-2025-04-26 23:01:12,362 [INFO] Shutting down server...
-2025-04-26 23:01:12,363 [INFO] Server connection closed
-2025-04-26 23:01:12,364 [INFO] Server shut down cleanly
+2025-05-01 19:10:40,407 [INFO] Starting server with IP: 127.0.0.1, Port: 65440, Mutual Auth: False, Cipher: TLS_AES_256_GCM_SHA384_Kyber768
+2025-05-01 19:10:40,410 [INFO] Server listening on 127.0.0.1:65440
+2025-05-01 19:10:40,411 [INFO] Server started, awaiting connections
+2025-05-01 19:10:41,366 [INFO] Spawned thread for client ('127.0.0.1', 41440)
+2025-05-01 19:10:42,587 [INFO] Spawned thread for client ('127.0.0.1', 41441)
+2025-05-01 19:10:43,720 [INFO] Spawned thread for client ('127.0.0.1', 41442)
+2025-05-01 19:10:44,830 [INFO] Spawned thread for client ('127.0.0.1', 41443)
+2025-05-01 19:10:45,961 [INFO] Spawned thread for client ('127.0.0.1', 41444)
+2025-05-01 19:10:47,372 [INFO] Spawned thread for client ('127.0.0.1', 41445)
+2025-05-01 19:10:48,546 [INFO] Spawned thread for client ('127.0.0.1', 41446)
+2025-05-01 19:10:49,816 [INFO] Spawned thread for client ('127.0.0.1', 41447)
+2025-05-01 19:10:50,936 [INFO] Spawned thread for client ('127.0.0.1', 41448)
+2025-05-01 19:10:52,032 [INFO] Spawned thread for client ('127.0.0.1', 41449)

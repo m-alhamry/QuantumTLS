@@ -5,7 +5,7 @@ from typing import Dict, Tuple
 from cryptography.hazmat.primitives.asymmetric import ec
 
 from crypto import TLSCrypto, TLSError, generate_kyber_keys, get_hash
-from utils import ALERT_HANDSHAKE_FAILURE, ALERT_INTERNAL_ERROR, TLS13_SERVER_CERT_VERIFY_CONTEXT, TLS13_CLIENT_CERT_VERIFY_CONTEXT
+from utils import ALERT_HANDSHAKE_FAILURE, ALERT_ILLEGAL_PARAMETER, ALERT_INTERNAL_ERROR, TLS13_SERVER_CERT_VERIFY_CONTEXT, TLS13_CLIENT_CERT_VERIFY_CONTEXT
 
 class ServerCrypto(TLSCrypto):
     """
@@ -62,6 +62,9 @@ class ServerCrypto(TLSCrypto):
         start = time.perf_counter()
         if not self.kyber_kem:
             raise TLSError("Kyber KEM not initialized", ALERT_INTERNAL_ERROR, self.logger, self.network)
+        if len(client_kyber_pk) != self.get_expected_kyber_pk_size(self.cipher_suite):
+            raise TLSError(f"Invalid client Kyber public key length: Expected {self.get_expected_kyber_pk_size(self.cipher_suite)} got {len(client_kyber_pk)}", 
+                           ALERT_ILLEGAL_PARAMETER, self.logger, self.network)
         try:
             ct, ss = self.kyber_kem.encap_secret(client_kyber_pk)
             duration = time.perf_counter() - start

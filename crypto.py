@@ -19,8 +19,8 @@ from utils import (
     ALERT_BAD_CERTIFICATE, ALERT_CERTIFICATE_EXPIRED, ALERT_DECODE_ERROR, ALERT_HANDSHAKE_FAILURE,
     ALERT_BAD_RECORD_MAC, ALERT_UNEXPECTED_MESSAGE, ALERT_INTERNAL_ERROR, ALERT_ILLEGAL_PARAMETER,
     CERT_VERIFY_CONTEXT_PADDING, DEFAULT_CA_CERT, HKDF_INFO_EARLY_SECRET, HKDF_INFO_HANDSHAKE_KEY,
-    HKDF_INFO_INITIAL_KEY, IV_LENGTH, HKDF_INFO_MASTER_SECRET, HKDF_INFO_APPLICATION_KEY,
-    KEY_LENGTH, SEQ_BYTES_LENGTH, SIGNATURE_ECDSA_SECP384R1_SHA384
+    HKDF_INFO_INITIAL_KEY, IV_LENGTH, HKDF_INFO_MASTER_SECRET, HKDF_INFO_APPLICATION_KEY, KEM_MAP,
+    KEY_LENGTH, KYBER_CT_SIZES, KYBER_PK_SIZES, SEQ_BYTES_LENGTH, SIGNATURE_ECDSA_SECP384R1_SHA384
 )
 
 def generate_ecc_keys(logger: logging.Logger) -> Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey, bytes]:
@@ -64,9 +64,8 @@ def generate_kyber_keys(variant: int | None, logger: logging.Logger) -> Tuple[oq
         TLSError: If an invalid variant is provided or key generation fails.
     """
     start = time.perf_counter()
-    kem_map = {1: "Kyber512", 2: "Kyber768", 3: "Kyber1024"}
-    kem_alg = kem_map.get(variant, "Kyber768")
-    if variant not in kem_map and variant is not None:
+    kem_alg = KEM_MAP.get(variant, "Kyber768")
+    if variant not in KEM_MAP and variant is not None:
         raise TLSError(f"Invalid Kyber variant: {variant}", ALERT_ILLEGAL_PARAMETER, logger)
     try:
         kem = oqs.KeyEncapsulation(kem_alg)
@@ -312,6 +311,14 @@ class TLSCrypto:
         except Exception as e:
             raise TLSError(f"CertificateVerify verification failed: {e}", ALERT_BAD_CERTIFICATE, self.logger, self.network)
         return True
+    
+    def get_expected_kyber_pk_size(self, cipher_suite) -> int | None:
+        """Return the expected Kyber public key size based on the cipher suite."""
+        return KYBER_PK_SIZES.get(cipher_suite)
+
+    def get_expected_kyber_ct_size(self, cipher_suite) -> int | None:
+        """Return the expected Kyber ciphertext size based on the cipher suite."""
+        return KYBER_CT_SIZES.get(cipher_suite)
 
     def generate_ecc_keys(self) -> None:
         """Generate and store ECC keys for the TLS handshake."""

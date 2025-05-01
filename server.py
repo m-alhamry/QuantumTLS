@@ -16,7 +16,7 @@ from utils import (
     ALERT_UNEXPECTED_MESSAGE, CIPHER_SUITE_CODES, CIPHER_SUITE_NAMES, CIPHER_SUITES,
     DEFAULT_SERVER_CERT, DEFAULT_SERVER_KEY, GROUP_KYBER1024, GROUP_KYBER512,
     GROUP_KYBER768, GROUP_SECP384R1, HANDSHAKE_TYPE_CERTIFICATE, HANDSHAKE_TYPE_CERTIFICATE_VERIFY,
-    HANDSHAKE_TYPE_FINISHED, SESSION_TIMEOUT, STATE_SERVER_APPLICATION, DEFAULT_IP, DEFAULT_PORT,
+    HANDSHAKE_TYPE_FINISHED, KYBER_GROUPS, KYBER_VARIANTS, SESSION_TIMEOUT, STATE_SERVER_APPLICATION, DEFAULT_IP, DEFAULT_PORT,
     setup_logging
 )
 
@@ -241,7 +241,6 @@ def client_server_handshake(crypto: ServerCrypto, network: ServerNetwork, mutual
         network.handshake_state = STATE_SERVER_APPLICATION
         duration = time.perf_counter() - start
         network.logger.debug(f"Handshake completed in {duration:.6f} seconds")
-        network.logger.info(f"Handshake completed")
     except TLSError as e:
         raise
     except Exception as e:
@@ -318,11 +317,7 @@ def select_cipher_suite(client_hello: Dict[str, bytes], preferred_cipher_suite: 
             raise TLSError("No supported cipher suite found", ALERT_HANDSHAKE_FAILURE, network.logger, network)
     crypto.cipher_suite = CIPHER_SUITE_NAMES[selected_code]
     use_hybrid = "Kyber" in crypto.cipher_suite
-    kyber_variant = {
-        "TLS_AES_256_GCM_SHA384_Kyber512": 1,
-        "TLS_AES_256_GCM_SHA384_Kyber768": 2,
-        "TLS_AES_256_GCM_SHA384_Kyber1024": 3
-    }.get(crypto.cipher_suite)
+    kyber_variant = KYBER_VARIANTS.get(crypto.cipher_suite)
     return use_hybrid, kyber_variant, selected_code
 
 def _generate_derive_handshake_keys(client_hello: Dict[str, bytes], use_hybrid: bool, kyber_variant: int | None, network: ServerNetwork, crypto: ServerCrypto) -> bytes | None:
@@ -347,11 +342,7 @@ def _generate_derive_handshake_keys(client_hello: Dict[str, bytes], use_hybrid: 
     ecc_pk = client_hello["key_shares"][GROUP_SECP384R1]
     kyber_pk = None
     if use_hybrid:
-        kyber_group = {
-            "TLS_AES_256_GCM_SHA384_Kyber512": GROUP_KYBER512,
-            "TLS_AES_256_GCM_SHA384_Kyber768": GROUP_KYBER768,
-            "TLS_AES_256_GCM_SHA384_Kyber1024": GROUP_KYBER1024
-        }.get(crypto.cipher_suite)
+        kyber_group = KYBER_GROUPS.get(crypto.cipher_suite)
         if kyber_group not in client_hello["key_shares"]:
             raise TLSError(f"Client did not provide key share for {crypto.cipher_suite}", ALERT_HANDSHAKE_FAILURE, network.logger, network)
         kyber_pk = client_hello["key_shares"][kyber_group]

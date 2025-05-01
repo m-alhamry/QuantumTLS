@@ -1,0 +1,6 @@
+client.log
+server.log
+/logs/*
+CHANGELOG.md
+version_management.sh
+

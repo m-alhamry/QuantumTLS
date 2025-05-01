@@ -82,10 +82,10 @@ def main(ip: str = None, port: int = None, send_cert: Optional[bool] = None, tes
         logger.error(f"Invalid data: {e}")
         network.send_alert(ALERT_ILLEGAL_PARAMETER, f"Invalid data: {e}")
     except ConnectionAbortedError as e:
-        logger.error(e)
-        network.send_alert(ALERT_CLOSE_NOTIFY, f"ConnectionAbortedError: {e}")
+        logger.error(f"ConnectionAborted error: {e}")
+        network.send_alert(ALERT_CLOSE_NOTIFY, f"ConnectionAborted error: {e}")
     except ConnectionError as e:
-        logger.error(f"Connection failed: {e}")
+        logger.error(f"Connection error: {e}")
         network.send_alert(ALERT_CLOSE_NOTIFY, f"Connection error: {e}",)
     except Exception as e:
         logger.error(f"Unexpected error: {e}", exc_info=True)
@@ -202,7 +202,6 @@ def client_server_handshake(crypto: ClientCrypto, network: ClientNetwork, send_c
         network.handshake_state = STATE_CLIENT_APPLICATION
         duration = time.perf_counter() - start
         logger.debug(f"Handshake completed in {duration:.6f} seconds")
-        logger.info(f"Handshake completed")
     except TLSError as e:
         raise
     except Exception as e:
@@ -277,8 +276,8 @@ def message_exchange(crypto: ClientCrypto, network: ClientNetwork, test_mode: bo
             network.send_alert(ALERT_DECODE_ERROR, str(e))
             break
         except ConnectionAbortedError as e:
-            logger.warning(f"Connection aborted by server: {e}. Closing gracefully.")
-            network.send_alert(ALERT_CLOSE_NOTIFY, "Connection aborted")
+            logger.warning(f"ConnectionAborted error by server: {e}. Closing gracefully.")
+            network.send_alert(ALERT_CLOSE_NOTIFY, "ConnectionAborted error")
             break
         except Exception as e:
             logger.error(f"Message exchange failed: {e}", exc_info=True)
