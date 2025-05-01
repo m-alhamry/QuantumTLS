@@ -1,13 +1,7 @@
-# Exclude specific folder
-__pycache__
-tests/e2e/__pycache__
-tests/integration/__pycache__
-tests/unit/__pycache__
 
 # Exclude specific files
-git_automate.py
+git_automate.log
 CHANGELOG.md
-
 
 # Exclude specific log files in root
 client.log
