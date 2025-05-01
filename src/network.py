@@ -3,8 +3,8 @@ import socket
 import time
 from typing import Tuple
 
-from errors import TLSError
-from utils import (
+from src.errors import TLSError
+from src.utils import (
     ALERT_CLOSE_NOTIFY, ALERT_DECODE_ERROR, ALERT_DESCRIPTIONS, ALERT_INTERNAL_ERROR, 
     ALERT_PROTOCOL_VERSION, ALERT_TYPE, ALERT_UNEXPECTED_MESSAGE, 
     HANDSHAKE_TYPE_LENGTH, IV_LENGTH, LEGACY_VERSION, LENGTH_FIELD_2_BYTES, 

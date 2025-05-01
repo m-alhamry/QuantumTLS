@@ -1,10 +1,10 @@
 import unittest
-from client_crypto import ClientCrypto
-from errors import TLSError
-from server_crypto import ServerCrypto
+from src.client.client_crypto import ClientCrypto
+from src.errors import TLSError
+from src.server.server_crypto import ServerCrypto
 from cryptography.x509 import load_pem_x509_certificate
 import logging
-from utils import ALERT_HANDSHAKE_FAILURE, ALERT_BAD_CERTIFICATE
+from src.utils import ALERT_HANDSHAKE_FAILURE, ALERT_BAD_CERTIFICATE
 
 class TestHandshake(unittest.TestCase):
     """
@@ -17,7 +17,7 @@ class TestHandshake(unittest.TestCase):
         Initialize the test environment with logger and crypto objects.
         """
         self.logger = logging.getLogger('test')
-        with open("ca.crt", "rb") as f:
+        with open("src/ca.crt", "rb") as f:
             self.ca_cert = load_pem_x509_certificate(f.read())
         self.client_crypto = ClientCrypto(self.logger)
         self.server_crypto = ServerCrypto(self.logger)

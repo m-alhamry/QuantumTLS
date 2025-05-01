@@ -4,10 +4,10 @@ from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives.serialization import Encoding, load_pem_private_key
 from cryptography.x509 import load_pem_x509_certificate
 from cryptography.hazmat.primitives import hashes
-from server_crypto import ServerCrypto
-from errors import TLSError
-from crypto import get_hash
-from utils import ALERT_BAD_CERTIFICATE, CERT_VERIFY_CONTEXT_PADDING, TLS13_CLIENT_CERT_VERIFY_CONTEXT
+from src.server.server_crypto import ServerCrypto
+from src.errors import TLSError
+from src.crypto import get_hash
+from src.utils import ALERT_BAD_CERTIFICATE, CERT_VERIFY_CONTEXT_PADDING, TLS13_CLIENT_CERT_VERIFY_CONTEXT
 
 class TestMitmSimulation(unittest.TestCase):
     """
@@ -22,9 +22,9 @@ class TestMitmSimulation(unittest.TestCase):
         self.logger = logging.getLogger('test')
         self.crypto = ServerCrypto(self.logger)
         # Load client certificate and private key
-        with open("client.crt", "rb") as f:
+        with open("src/client/client.crt", "rb") as f:
             self.client_cert = load_pem_x509_certificate(f.read())
-        with open("client.key", "rb") as f:
+        with open("src/client/client.key", "rb") as f:
             self.client_private_key = load_pem_private_key(f.read(), password=None)
         
         # Validate that the private key matches the certificate

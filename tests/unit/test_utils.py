@@ -4,8 +4,8 @@ import time
 import unittest
 from unittest.mock import patch
 import socket
-from utils import DEFAULT_IP, DEFAULT_PORT, setup_logging
-from network import receive_exact, handle_session_timeout, BaseNetwork
+from src.utils import DEFAULT_IP, DEFAULT_PORT, setup_logging
+from src.network import receive_exact, handle_session_timeout, BaseNetwork
 
 class TestUtils(unittest.TestCase):
     """

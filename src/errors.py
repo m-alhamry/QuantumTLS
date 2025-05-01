@@ -1,5 +1,5 @@
 import logging
-from utils import ALERT_DESCRIPTIONS
+from src.utils import ALERT_DESCRIPTIONS
 
 class TLSError(Exception):
     """

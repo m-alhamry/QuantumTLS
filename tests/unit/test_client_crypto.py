@@ -1,13 +1,13 @@
 import os
 import unittest
-from client_crypto import ClientCrypto
+from src.client.client_crypto import ClientCrypto
 from cryptography.x509 import load_pem_x509_certificate
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives.serialization import Encoding, load_pem_private_key
 import logging
-from errors import TLSError
-from utils import CERT_VERIFY_CONTEXT_PADDING, TLS13_SERVER_CERT_VERIFY_CONTEXT
+from src.errors import TLSError
+from src.utils import CERT_VERIFY_CONTEXT_PADDING, TLS13_SERVER_CERT_VERIFY_CONTEXT
 
 class TestClientCrypto(unittest.TestCase):
     """
@@ -20,15 +20,15 @@ class TestClientCrypto(unittest.TestCase):
         Set up the test environment with logger and crypto instances.
         """
         self.logger = logging.getLogger('test')
-        with open("ca.crt", "rb") as f:
+        with open("src/ca.crt", "rb") as f:
             self.ca_cert = load_pem_x509_certificate(f.read())
-        with open("server.crt", "rb") as f:
+        with open("src/server/server.crt", "rb") as f:
             self.server_cert = load_pem_x509_certificate(f.read())
-        with open("server.key", "rb") as f:
+        with open("src/server/server.key", "rb") as f:
             self.server_private_key = load_pem_private_key(f.read(), password=None)
         
         self.crypto = ClientCrypto(self.logger)
-        self.crypto.load_certificate("client.crt", "client.key")
+        self.crypto.load_certificate("src/client/client.crt", "src/client/client.key")
         self.crypto.handshake_transcript = b"test data"
 
     def test_load_certificate(self):

@@ -1,10 +1,10 @@
 import unittest
 from unittest.mock import patch
-from errors import TLSError
-from server_crypto import ServerCrypto
+from src.errors import TLSError
+from src.server.server_crypto import ServerCrypto
 import logging
-from crypto import generate_ecc_keys
-from utils import ALERT_BAD_CERTIFICATE
+from src.crypto import generate_ecc_keys
+from src.utils import ALERT_BAD_CERTIFICATE
 
 class TestServerCrypto(unittest.TestCase):
     """
@@ -18,7 +18,7 @@ class TestServerCrypto(unittest.TestCase):
         """
         self.logger = logging.getLogger('test')
         self.crypto = ServerCrypto(self.logger)
-        self.crypto.load_certificate("server.crt", "server.key")
+        self.crypto.load_certificate("src/server/server.crt", "src/server/server.key")
         self.crypto.generate_keys(use_hybrid=True, kyber_variant=2)  # Kyber768
         self.crypto.cipher_suite = "TLS_AES_256_GCM_SHA384_Kyber768"
         _, _, self.valid_ecc_pk_bytes = generate_ecc_keys(self.logger)
@@ -27,7 +27,7 @@ class TestServerCrypto(unittest.TestCase):
         """
         Test that the server certificate and private key are loaded correctly.
         """
-        self.crypto.load_certificate("server.crt", "server.key")
+        self.crypto.load_certificate("src/server/server.crt", "src/server/server.key")
         self.assertIsNotNone(self.crypto.cert, "Certificate should be loaded")
         self.assertIsNotNone(self.crypto.cert_private_key, "Private key should be loaded")
 

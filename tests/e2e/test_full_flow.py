@@ -61,14 +61,14 @@ class TestFullFlow(unittest.TestCase):
 
         # Start the server in test mode with cipher suite 1 (TLS_AES_256_GCM_SHA384)
         self.server_proc = subprocess.Popen(
-            ["python", "server.py", "--test-mode", "--port", str(port), "--cipher", "1"],
+            ["python3", "-m", "src.server.server", "--test-mode", "--port", str(port), "--cipher", "1"],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
         time.sleep(1)  # Allow server to initialize
 
         # Start the client to send a simple text message
         self.client_proc = subprocess.Popen(
-            ["python", "client.py", "--test-mode", "--port", str(port), "--message-type", "1", "--message", "Hello, server!"],
+            ["python3", "-m", "src.client.client", "--test-mode", "--port", str(port), "--message-type", "1", "--message", "Hello, server!"],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
         self.client_proc.wait(timeout=20)  # Wait for client to complete
@@ -94,14 +94,14 @@ class TestFullFlow(unittest.TestCase):
 
         # Start the server with cipher suite 3 (TLS_AES_256_GCM_SHA384_Kyber768)
         self.server_proc = subprocess.Popen(
-            ["python", "server.py", "--test-mode", "--port", str(port), "--cipher", "3"],
+            ["python3", "-m", "src.server.server", "--test-mode", "--port", str(port), "--cipher", "3"],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
         time.sleep(1)
 
         # Start the client to send the JSON file
         self.client_proc = subprocess.Popen(
-            ["python", "client.py", "--test-mode", "--port", str(port), "--message-type", "2", "--message", "test_data.json"],
+            ["python3", "-m", "src.client.client", "--test-mode", "--port", str(port), "--message-type", "2", "--message", "test_data.json"],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
         self.client_proc.wait(timeout=10)
@@ -125,13 +125,13 @@ class TestFullFlow(unittest.TestCase):
             self.skipTest(f"Port {port} is in use")
 
         self.server_proc = subprocess.Popen(
-            ["python", "server.py", "--test-mode", "--port", str(port), "--cipher", "1"],
+            ["python3", "-m", "src.server.server", "--test-mode", "--port", str(port), "--cipher", "1"],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
         time.sleep(1)
 
         self.client_proc = subprocess.Popen(
-            ["python", "client.py", "--test-mode", "--port", str(port), "--message-type", "3"],
+            ["python3", "-m", "src.client.client", "--test-mode", "--port", str(port), "--message-type", "3"],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
         self.client_proc.wait(timeout=10)
@@ -150,7 +150,7 @@ class TestFullFlow(unittest.TestCase):
             self.skipTest(f"Port {port} is in use")
 
         self.server_proc = subprocess.Popen(
-            ["python", "server.py", "--test-mode", "--port", str(port), "--cipher", "2"],
+            ["python3", "-m", "src.server.server", "--test-mode", "--port", str(port), "--cipher", "2"],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
         time.sleep(1)
@@ -159,7 +159,7 @@ class TestFullFlow(unittest.TestCase):
         for i in range(3):
             # Launch three clients with unique messages
             client = subprocess.Popen(
-                ["python", "client.py", "--test-mode", "--port", str(port), "--message-type", "1", "--message", f"Client {i}"],
+                ["python3", "-m", "src.client.client", "--test-mode", "--port", str(port), "--message-type", "1", "--message", f"Client {i}"],
                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
             )
             clients.append(client)
@@ -186,13 +186,13 @@ class TestFullFlow(unittest.TestCase):
             f.write(b'{"data": "' + b"large payload" * 1000 + b'"}')
 
         self.server_proc = subprocess.Popen(
-            ["python", "server.py", "--test-mode", "--port", str(port), "--cipher", "4"],
+            ["python3", "-m", "src.server.server", "--test-mode", "--port", str(port), "--cipher", "4"],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
         time.sleep(1)
 
         self.client_proc = subprocess.Popen(
-            ["python", "client.py", "--test-mode", "--port", str(port), "--message-type", "2", "--message", "large_data_example.json"],
+            ["python3", "-m", "src.client.client", "--test-mode", "--port", str(port), "--message-type", "2", "--message", "large_data_example.json"],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
         self.client_proc.wait(timeout=30)
@@ -213,27 +213,27 @@ class TestFullFlow(unittest.TestCase):
             self.skipTest(f"Port {port} is in use")
 
         # Generate expired certificates if not present
-        if not os.path.exists("expired_client.crt") or not os.path.exists("expired_client.key"):
-            subprocess.run(["python", "generate_client_expire_certs.py"], check=True)
+        if not os.path.exists("src/client/expired_client.crt") or not os.path.exists("src/client/expired_client.key"):
+            subprocess.run(["python3", "-m", "src.client.generate_client_expire_certs"], check=True)
 
         # Backup existing certificates
-        for original, backup in [("client.crt", "client.crt.bak"), ("client.key", "client.key.bak")]:
+        for original, backup in [("src/client/client.crt", "src/client/client.crt.bak"), ("src/client/client.key", "src/client/client.key.bak")]:
             if os.path.exists(original):
                 os.rename(original, backup)
 
         # Use expired certificates
-        os.rename("expired_client.crt", "client.crt")
-        os.rename("expired_client.key", "client.key")
+        os.rename("src/client/expired_client.crt", "src/client/client.crt")
+        os.rename("src/client/expired_client.key", "src/client/client.key")
 
         try:
             self.server_proc = subprocess.Popen(
-                ["python", "server.py", "--test-mode", "--port", str(port), "--cipher", "1", "--mutual-auth", "enable"],
+                ["python3", "-m", "src.server.server", "--test-mode", "--port", str(port), "--cipher", "1", "--mutual-auth", "enable"],
                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
             )
             time.sleep(1)
 
             self.client_proc = subprocess.Popen(
-                ["python", "client.py", "--test-mode", "--port", str(port), "--message-type", "1", "--message", "Test", "--send-cert", "enable"],
+                ["python3", "-m", "src.client.client", "--test-mode", "--port", str(port), "--message-type", "1", "--message", "Test", "--send-cert", "enable"],
                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
             )
             self.client_proc.wait(timeout=20)
@@ -245,8 +245,8 @@ class TestFullFlow(unittest.TestCase):
             self.assertIn("2d", client_log)  # Hex code for certificate_expired
         finally:
             # Restore original certificates
-            subprocess.run(["python", "generate_client_certs.py"], check=True)
-            for backup in ["client.crt.bak", "client.key.bak", "expired_client.crt", "expired_client.key"]:
+            subprocess.run(["python3", "-m", "src.client.generate_client_certs"], check=True)
+            for backup in ["src/client/client.crt.bak", "src/client/client.key.bak", "src/client/expired_client.crt", "src/client/expired_client.key"]:
                 if os.path.exists(backup):
                     os.remove(backup)
 
@@ -259,13 +259,13 @@ class TestFullFlow(unittest.TestCase):
             self.skipTest(f"Port {port} is in use")
 
         self.server_proc = subprocess.Popen(
-            ["python", "server.py", "--test-mode", "--port", str(port), "--cipher", "3"],
+            ["python3", "-m", "src.server.server", "--test-mode", "--port", str(port), "--cipher", "3"],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
         time.sleep(1)
 
         self.client_proc = subprocess.Popen(
-            ["python", "client.py", "--test-mode", "--port", str(port), "--message-type", "1", "--message", "Long test"],
+            ["python3", "-m", "src.client.client", "--test-mode", "--port", str(port), "--message-type", "1", "--message", "Long test"],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
         time.sleep(60)  # Simulate a 60-second session
@@ -286,13 +286,13 @@ class TestFullFlow(unittest.TestCase):
             self.skipTest(f"Port {port} is in use")
 
         self.server_proc = subprocess.Popen(
-            ["python", "server.py", "--test-mode", "--port", str(port), "--cipher", "3"],
+            ["python3", "-m", "src.server.server", "--test-mode", "--port", str(port), "--cipher", "3"],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
         time.sleep(1)
 
         self.client_proc = subprocess.Popen(
-            ["python", "client.py", "--test-mode", "--port", str(port), "--message-type", "1", "--message", "Test"],
+            ["python3", "-m", "src.client.client", "--test-mode", "--port", str(port), "--message-type", "1", "--message", "Test"],
             stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
         )
 
@@ -336,13 +336,13 @@ class TestFullFlow(unittest.TestCase):
             f.write(b"{data: invalid}")  # Intentionally malformed JSON
 
         self.server_proc = subprocess.Popen(
-            ["python", "server.py", "--test-mode", "--port", str(port), "--cipher", "4"],
+            ["python3", "-m", "src.server.server", "--test-mode", "--port", str(port), "--cipher", "4"],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
         time.sleep(1)
 
         self.client_proc = subprocess.Popen(
-            ["python", "client.py", "--test-mode", "--port", str(port), "--message-type", "2", "--message", "corrupted_data.json"],
+            ["python3", "-m", "src.client.client", "--test-mode", "--port", str(port), "--message-type", "2", "--message", "corrupted_data.json"],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
         self.client_proc.wait(timeout=20)
@@ -363,7 +363,7 @@ class TestFullFlow(unittest.TestCase):
             self.skipTest(f"Port {port} is in use")
 
         self.server_proc = subprocess.Popen(
-            ["python", "server.py", "--test-mode", "--port", str(port), "--cipher", "3"],
+            ["python3", "-m", "src.server.server", "--test-mode", "--port", str(port), "--cipher", "3"],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
         time.sleep(1)
@@ -371,7 +371,7 @@ class TestFullFlow(unittest.TestCase):
         start_time = time.time()
         for _ in range(10):  # Perform 10 consecutive handshakes
             client_proc = subprocess.Popen(
-                ["python", "client.py", "--test-mode", "--port", str(port), "--message-type", "1", "--message", "Load test"],
+                ["python3", "-m", "src.client.client", "--test-mode", "--port", str(port), "--message-type", "1", "--message", "Load test"],
                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
             )
             client_proc.wait(timeout=10)
