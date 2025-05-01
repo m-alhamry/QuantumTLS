@@ -1,5 +1,0 @@
-2025-05-01 09:53:31,256 [DEBUG] Loaded CA certificate
-2025-05-01 09:53:31,256 [INFO] Connected by ('127.0.0.1', 26047)
-2025-05-01 09:53:31,257 [INFO] Starting server-client handshake
-2025-05-01 09:53:31,273 [DEBUG] Received ClientHello with 4 cipher suites
-2025-05-01 09:53:31,274 [DEBUG] Selected cipher suite TLS_AES_256_GCM_SHA384_Kyber768
