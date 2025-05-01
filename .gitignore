@@ -15,5 +15,4 @@ server.log
 
 # Exclude all files under logs directory
 logs/*
-# Allow .gitkeep to track the logs directory
 !logs/.gitkeep
