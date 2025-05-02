@@ -1,10 +1,10 @@
 import unittest
 from src.client.client_crypto import ClientCrypto
-from src.errors import TLSError
+from src.utils.errors import TLSError
 from src.server.server_crypto import ServerCrypto
 from cryptography.x509 import load_pem_x509_certificate
 import logging
-from src.utils import ALERT_HANDSHAKE_FAILURE, ALERT_BAD_CERTIFICATE
+from src.utils.utils import ALERT_HANDSHAKE_FAILURE, ALERT_BAD_CERTIFICATE
 
 class TestHandshake(unittest.TestCase):
     """

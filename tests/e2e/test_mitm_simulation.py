@@ -5,9 +5,9 @@ from cryptography.hazmat.primitives.serialization import Encoding, load_pem_priv
 from cryptography.x509 import load_pem_x509_certificate
 from cryptography.hazmat.primitives import hashes
 from src.server.server_crypto import ServerCrypto
-from src.errors import TLSError
-from src.crypto import get_hash
-from src.utils import ALERT_BAD_CERTIFICATE, CERT_VERIFY_CONTEXT_PADDING, TLS13_CLIENT_CERT_VERIFY_CONTEXT
+from src.utils.errors import TLSError
+from src.utils.crypto import get_hash
+from src.utils.utils import ALERT_BAD_CERTIFICATE, CERT_VERIFY_CONTEXT_PADDING, TLS13_CLIENT_CERT_VERIFY_CONTEXT
 
 class TestMitmSimulation(unittest.TestCase):
     """

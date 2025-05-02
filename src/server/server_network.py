@@ -5,10 +5,10 @@ import struct
 from typing import Dict
 
 from cryptography.hazmat.primitives.serialization import Encoding
-from src.network import BaseNetwork, receive_exact
+from src.utils.network import BaseNetwork, receive_exact
 from src.server.server_crypto import ServerCrypto
-from src.errors import TLSError
-from src.utils import (
+from src.utils.errors import TLSError
+from src.utils.utils import (
     ALERT_PROTOCOL_VERSION, ALERT_UNEXPECTED_MESSAGE,
     ALERT_INTERNAL_ERROR, EXTENSION_KEY_SHARE, EXTENSION_SUPPORTED_VERSIONS,
     GROUP_SECP384R1, HANDSHAKE_TYPE_CERTIFICATE, HANDSHAKE_TYPE_CERTIFICATE_REQUEST,

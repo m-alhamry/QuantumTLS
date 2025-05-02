@@ -1,10 +1,10 @@
 import unittest
 from unittest.mock import patch
-from src.errors import TLSError
+from src.utils.errors import TLSError
 from src.server.server_crypto import ServerCrypto
 import logging
-from src.crypto import generate_ecc_keys
-from src.utils import ALERT_BAD_CERTIFICATE
+from src.utils.crypto import generate_ecc_keys
+from src.utils.utils import ALERT_BAD_CERTIFICATE
 
 class TestServerCrypto(unittest.TestCase):
     """

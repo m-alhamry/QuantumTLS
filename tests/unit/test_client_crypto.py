@@ -6,8 +6,8 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives.serialization import Encoding, load_pem_private_key
 import logging
-from src.errors import TLSError
-from src.utils import CERT_VERIFY_CONTEXT_PADDING, TLS13_SERVER_CERT_VERIFY_CONTEXT
+from src.utils.errors import TLSError
+from src.utils.utils import CERT_VERIFY_CONTEXT_PADDING, TLS13_SERVER_CERT_VERIFY_CONTEXT
 
 class TestClientCrypto(unittest.TestCase):
     """

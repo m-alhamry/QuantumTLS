@@ -7,9 +7,9 @@ from typing import Dict
 
 from cryptography.hazmat.primitives.serialization import Encoding
 from src.client.client_crypto import ClientCrypto
-from src.errors import TLSError
-from src.network import BaseNetwork, receive_exact
-from src.utils import (
+from src.utils.errors import TLSError
+from src.utils.network import BaseNetwork, receive_exact
+from src.utils.utils import (
     ALERT_ACCESS_DENIED, ALERT_ILLEGAL_PARAMETER, ALERT_INTERNAL_ERROR, ALERT_PROTOCOL_VERSION,
     ALERT_UNEXPECTED_MESSAGE, CIPHER_SUITE_CODES, CIPHER_SUITE_NAMES, CIPHER_SUITES,
     EXTENSION_KEY_SHARE, EXTENSION_SIGNATURE_ALGORITHMS, EXTENSION_SUPPORTED_VERSIONS,

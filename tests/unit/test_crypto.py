@@ -1,10 +1,10 @@
 import os
 import unittest
-from src.crypto import generate_ecc_keys, generate_kyber_keys
-from src.errors import TLSError
+from src.utils.crypto import generate_ecc_keys, generate_kyber_keys
+from src.utils.errors import TLSError
 from cryptography.hazmat.primitives.asymmetric import ec
 import logging
-from src.utils import setup_logging  # Import the setup_logging function
+from src.utils.utils import setup_logging
 
 class TestCrypto(unittest.TestCase):
     """
