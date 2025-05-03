@@ -14,7 +14,7 @@ from src.utils.errors import TLSError
 from src.utils.utils import (
     ALERT_CLOSE_NOTIFY, ALERT_DECODE_ERROR, ALERT_HANDSHAKE_FAILURE, ALERT_INTERNAL_ERROR,
     ALERT_UNEXPECTED_MESSAGE, CIPHER_SUITE_CODES, CIPHER_SUITE_NAMES, CIPHER_SUITES,
-    DEFAULT_SERVER_CERT, DEFAULT_SERVER_KEY, GROUP_SECP384R1, HANDSHAKE_TYPE_CERTIFICATE, 
+    SERVER_CERT_FILE, SERVER_CERT_KEY_FILE, GROUP_SECP384R1, HANDSHAKE_TYPE_CERTIFICATE, 
     HANDSHAKE_TYPE_CERTIFICATE_VERIFY, HANDSHAKE_TYPE_FINISHED, KYBER_GROUPS, 
     KYBER_VARIANTS, SESSION_TIMEOUT, STATE_SERVER_APPLICATION, DEFAULT_IP, DEFAULT_PORT,
     setup_logging
@@ -192,7 +192,7 @@ def client_server_handshake(crypto: ServerCrypto, network: ServerNetwork, mutual
             network.send_certificate_request(crypto)
         # Load and send server certificate if not already loaded
         if crypto.cert is None:
-            crypto.load_certificate(DEFAULT_SERVER_CERT, DEFAULT_SERVER_KEY)
+            crypto.load_certificate(SERVER_CERT_FILE, SERVER_CERT_KEY_FILE)
         network.send_certificate(crypto)
         # Send certificate verify
         network.send_certificate_verify(crypto)

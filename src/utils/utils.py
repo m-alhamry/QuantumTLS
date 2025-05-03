@@ -18,11 +18,11 @@ LENGTH_FIELD_4_BYTES = 4
 
 # File locations
 DEFAULT_JSON_FILE = "src/large_data.json"
-DEFAULT_CA_CERT = "src/ca.crt"
-DEFAULT_CLIENT_CERT = "src/client/client.crt"
-DEFAULT_CLIENT_KEY = "src/client/client.key"
-DEFAULT_SERVER_CERT = "src/server/server.crt"
-DEFAULT_SERVER_KEY = "src/server/server.key"
+CA_CERT_FILE = "src/ca.crt"
+CLIENT_CERT_FILE = "src/client/client.crt"
+CLIENT_CERT_KEY_FILE = "src/client/client.key"
+SERVER_CERT_FILE = "src/server/server.crt"
+SERVER_CERT_KEY_FILE = "src/server/server.key"
 
 # Cryptographic constants
 RANDOM_BYTES_LENGTH = 32
@@ -39,7 +39,7 @@ IV_LENGTH = 12
 SEQ_BYTES_LENGTH = 8
 
 # Protocol defaults
-DEFAULT_SNI = b"example.com"
+SNI = b"example.com"
 ALPN_HTTP = b"\x04http"
 VERSION_LENGTH = 2
 HANDSHAKE_TYPE_LENGTH = 1

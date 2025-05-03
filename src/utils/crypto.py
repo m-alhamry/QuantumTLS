@@ -18,7 +18,7 @@ from src.utils.errors import TLSError
 from src.utils.utils import (
     ALERT_BAD_CERTIFICATE, ALERT_CERTIFICATE_EXPIRED, ALERT_DECODE_ERROR, ALERT_HANDSHAKE_FAILURE,
     ALERT_BAD_RECORD_MAC, ALERT_UNEXPECTED_MESSAGE, ALERT_INTERNAL_ERROR, ALERT_ILLEGAL_PARAMETER,
-    CERT_VERIFY_CONTEXT_PADDING, DEFAULT_CA_CERT, HKDF_INFO_EARLY_SECRET, HKDF_INFO_HANDSHAKE_KEY,
+    CERT_VERIFY_CONTEXT_PADDING, CA_CERT_FILE, HKDF_INFO_EARLY_SECRET, HKDF_INFO_HANDSHAKE_KEY,
     HKDF_INFO_INITIAL_KEY, IV_LENGTH, HKDF_INFO_MASTER_SECRET, HKDF_INFO_APPLICATION_KEY, KEM_MAP,
     KEY_LENGTH, KYBER_CT_SIZES, KYBER_PK_SIZES, SEQ_BYTES_LENGTH, SIGNATURE_ECDSA_SECP384R1_SHA384
 )
@@ -226,7 +226,7 @@ class TLSCrypto:
     def _load_ca_certificate(self) -> None:
         """Load the CA certificate for verification."""
         try:
-            with open(DEFAULT_CA_CERT, "rb") as f:
+            with open(CA_CERT_FILE, "rb") as f:
                 self.ca_cert = load_pem_x509_certificate(f.read())
             self.logger.debug(f"Loaded CA certificate")
         except Exception as e:

@@ -14,7 +14,7 @@ from src.utils.network import handle_session_timeout
 from src.utils.utils import (
     ALERT_CERTIFICATE_REQUIRED, ALERT_CLOSE_NOTIFY, ALERT_DECODE_ERROR, ALERT_HANDSHAKE_FAILURE,
     ALERT_ILLEGAL_PARAMETER, ALERT_INTERNAL_ERROR, ALERT_TYPE, ALERT_UNEXPECTED_MESSAGE, CIPHER_SUITES,
-    DEFAULT_CLIENT_CERT, DEFAULT_CLIENT_KEY, DEFAULT_IP, DEFAULT_JSON_FILE, DEFAULT_PORT,
+    CLIENT_CERT_FILE, CLIENT_CERT_KEY_FILE, DEFAULT_IP, DEFAULT_JSON_FILE, DEFAULT_PORT,
     HANDSHAKE_TYPE_CERTIFICATE, HANDSHAKE_TYPE_CERTIFICATE_REQUEST, HANDSHAKE_TYPE_CERTIFICATE_VERIFY,
     HANDSHAKE_TYPE_ENCRYPTED_EXTENSIONS, HANDSHAKE_TYPE_FINISHED, SESSION_TIMEOUT, STATE_CLIENT_APPLICATION, 
     setup_logging
@@ -162,7 +162,7 @@ def client_server_handshake(crypto: ClientCrypto, network: ClientNetwork, mutual
         if server_mutual_auth:
             if mutual_auth:
                 if crypto.cert is None:
-                    crypto.load_certificate(DEFAULT_CLIENT_CERT, DEFAULT_CLIENT_KEY)
+                    crypto.load_certificate(CLIENT_CERT_FILE, CLIENT_CERT_KEY_FILE)
                 # Send client certificate
                 network.send_client_certificate(crypto)
                 # Send client certificate verify

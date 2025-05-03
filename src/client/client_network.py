@@ -20,7 +20,7 @@ from src.utils.utils import (
     EXTENSION_ALPN, GROUP_SECP384R1, GROUP_KYBER512, GROUP_KYBER768, GROUP_KYBER1024,
     STATE_CLIENT_RECEIVED_SERVER_HELLO, STATE_CLIENT_SENT_HELLO, TLS_VERSION_1_3, 
     SOCKET_RECV_BUFFER_SIZE, SOCKET_CONNECT_TIMEOUT, CONNECTION_RETRY_ATTEMPTS, RETRY_SLEEP_SECONDS, 
-    RANDOM_BYTES_LENGTH, DEFAULT_SNI, ALPN_HTTP, SUPPORTED_SIGNATURE_ALGORITHMS, VERSION_LENGTH, 
+    RANDOM_BYTES_LENGTH, SNI, ALPN_HTTP, SUPPORTED_SIGNATURE_ALGORITHMS, VERSION_LENGTH, 
     encode_key_shares, encode_signature_algorithms, encode_extension, decode_extensions
 )
 
@@ -84,7 +84,7 @@ class ClientNetwork(BaseNetwork):
         extensions = bytearray()
         
         extensions.extend(encode_extension(EXTENSION_SUPPORTED_VERSIONS, b"\x02" + TLS_VERSION_1_3))
-        sni = DEFAULT_SNI
+        sni = SNI
         sni_data = b"\x00\x00" + len(sni).to_bytes(LENGTH_FIELD_2_BYTES, 'big') + sni
         extensions.extend(encode_extension(EXTENSION_SERVER_NAME, sni_data))
         groups = [GROUP_SECP384R1, GROUP_KYBER512, GROUP_KYBER768, GROUP_KYBER1024]
