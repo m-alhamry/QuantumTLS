@@ -39,9 +39,9 @@ ca_cert = (
 )
 
 # Save CA certificate and private key
-with open("ca.crt", "wb") as f:
+with open("src/ca.crt", "wb") as f:
     f.write(ca_cert.public_bytes(serialization.Encoding.PEM))
-with open("ca.key", "wb") as f:
+with open("src/ca.key", "wb") as f:
     f.write(ca_private_key.private_bytes(
         encoding=serialization.Encoding.PEM,
         format=serialization.PrivateFormat.PKCS8,
