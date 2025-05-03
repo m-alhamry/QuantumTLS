@@ -82,8 +82,8 @@ Example:
 
 ```bash
     python3 -m src.generate_ca_certs
-    python3 -m src.server.generate_server_certs
-    python3 -m src.client.generate_client_certs
+    python3 -m src.generate_server_certs
+    python3 -m src.generate_client_certs
 ```
 - Ensure the certificates and keys are placed in the specified directories:
 

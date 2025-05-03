@@ -214,7 +214,7 @@ class TestFullFlow(unittest.TestCase):
 
         # Generate expired certificates if not present
         if not os.path.exists("src/client/expired_client.crt") or not os.path.exists("src/client/expired_client.key"):
-            subprocess.run(["python3", "-m", "src.client.generate_client_expire_certs"], check=True)
+            subprocess.run(["python3", "-m", "src.generate_client_expire_certs"], check=True)
 
         # Delete original client cert files
         for cert_file in ["src/client/client.crt", "src/client/client.key"]:
@@ -249,7 +249,7 @@ class TestFullFlow(unittest.TestCase):
             if os.path.exists(test_resource):
                 os.remove(test_resource)
         # Generate new client certificate
-        subprocess.run(["python3", "-m", "src.client.generate_client_certs"], check=True)
+        subprocess.run(["python3", "-m", "src.generate_client_certs"], check=True)
 
     def test_long_running_session(self):
         """
