@@ -173,7 +173,7 @@ class BaseNetwork:
                 data = seq_bytes + iv + ct + flag
                 self.sock.send(bytes([MSG_TYPE_APPLICATION]) + LEGACY_VERSION + len(data).to_bytes(2, 'big') + data)
             duration = time.perf_counter() - start
-            self.logger.debug(f"Sent application data: {plaintext[:20]} ({len(plaintext)} bytes) in {duration:.6f} seconds")
+            self.logger.debug(f"Message encrypted and sent successfully: {plaintext[:20]} ({len(plaintext)} bytes) in {duration:.6f} seconds")
         except TLSError as e:
             raise
         except socket.error as e:
