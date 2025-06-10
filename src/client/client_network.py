@@ -10,7 +10,7 @@ from src.client.client_crypto import ClientCrypto
 from src.utils.errors import TLSError
 from src.utils.network import BaseNetwork, receive_exact
 from src.utils.utils import (
-    ALERT_ACCESS_DENIED, ALERT_ILLEGAL_PARAMETER, ALERT_INTERNAL_ERROR, ALERT_PROTOCOL_VERSION,
+    ALERT_ILLEGAL_PARAMETER, ALERT_INTERNAL_ERROR, ALERT_PROTOCOL_VERSION,
     ALERT_UNEXPECTED_MESSAGE, CIPHER_SUITE_CODES, CIPHER_SUITE_NAMES, CIPHER_SUITES,
     EXTENSION_KEY_SHARE, EXTENSION_SIGNATURE_ALGORITHMS, EXTENSION_SUPPORTED_VERSIONS,
     HANDSHAKE_TYPE_CERTIFICATE, HANDSHAKE_TYPE_CERTIFICATE_VERIFY, HANDSHAKE_TYPE_FINISHED, KYBER_GROUPS,
@@ -61,7 +61,8 @@ class ClientNetwork(BaseNetwork):
                     self.logger.debug(f"Connection attempt {attempt + 1} failed: {e}, retrying")
                     time.sleep(RETRY_SLEEP_SECONDS)
                 else:
-                    raise TLSError(f"Connection failed after {CONNECTION_RETRY_ATTEMPTS} attempts: {e}", ALERT_ACCESS_DENIED, self.logger, self)
+                    self.logger.debug(f"Connection failed after {CONNECTION_RETRY_ATTEMPTS} attempts: {e}")
+                    raise
 
     def send_client_hello(self, crypto: ClientCrypto) -> None:
         """

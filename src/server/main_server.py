@@ -4,7 +4,7 @@ import threading
 import signal
 import socket
 import time
-from typing import Dict, Optional, Tuple
+from typing import Optional
 
 from src.utils.crypto import parse_and_validate_certificate, validate_and_verify_certificate_verify
 from src.utils.network import handle_session_timeout
@@ -12,11 +12,9 @@ from src.server.server_network import ServerNetwork
 from src.server.server_crypto import ServerCrypto
 from src.utils.errors import TLSError
 from src.utils.utils import (
-    ALERT_CLOSE_NOTIFY, ALERT_DECODE_ERROR, ALERT_HANDSHAKE_FAILURE, ALERT_INTERNAL_ERROR,
-    ALERT_UNEXPECTED_MESSAGE, CIPHER_SUITE_CODES, CIPHER_SUITE_NAMES, CIPHER_SUITES,
-    SERVER_CERT_FILE, SERVER_CERT_KEY_FILE, GROUP_SECP384R1, HANDSHAKE_TYPE_CERTIFICATE, 
-    HANDSHAKE_TYPE_CERTIFICATE_VERIFY, HANDSHAKE_TYPE_FINISHED, KYBER_GROUPS, 
-    KYBER_VARIANTS, SESSION_TIMEOUT, STATE_SERVER_APPLICATION, DEFAULT_IP, DEFAULT_PORT,
+    ALERT_CLOSE_NOTIFY, ALERT_DECODE_ERROR, ALERT_HANDSHAKE_FAILURE, ALERT_INTERNAL_ERROR, ALERT_UNEXPECTED_MESSAGE, 
+    CIPHER_SUITES, SERVER_CERT_FILE, SERVER_CERT_KEY_FILE, HANDSHAKE_TYPE_CERTIFICATE, HANDSHAKE_TYPE_CERTIFICATE_VERIFY, 
+    HANDSHAKE_TYPE_FINISHED, SESSION_TIMEOUT, STATE_SERVER_APPLICATION, DEFAULT_IP, DEFAULT_PORT,
     setup_logging
 )
 
@@ -48,7 +46,7 @@ def handle_client(conn: socket.socket, addr: tuple[str, int], mutual_auth: bool,
     try:
         client_logger.info(f"Connected by {addr}")
         client_logger.info("Starting server-client handshake")
-        client_server_handshake(crypto, network, mutual_auth, preferred_cipher_suite, test_interrupt)
+        client_server_handshake(crypto, network, mutual_auth, preferred_cipher_suite)
         network.sock.settimeout(SESSION_TIMEOUT)
         client_logger.info("starting message exchange")
         message_exchange(crypto, network, test_interrupt)
@@ -158,7 +156,7 @@ def shutdown_server(network: ServerNetwork) -> None:
     network.close()
     logger.info("Server shut down cleanly")
 
-def client_server_handshake(crypto: ServerCrypto, network: ServerNetwork, mutual_auth: bool, preferred_cipher_suite: str, test_interrupt: bool = False) -> None:
+def client_server_handshake(crypto: ServerCrypto, network: ServerNetwork, mutual_auth: bool, preferred_cipher_suite: str) -> None:
     """
     Perform the TLS 1.3 handshake with the client.
 
@@ -178,10 +176,10 @@ def client_server_handshake(crypto: ServerCrypto, network: ServerNetwork, mutual
         suites_len = len(client_hello["cipher_suites"])//2
         network.logger.debug(f"Received ClientHello with {suites_len} cipher suites")
         # Select cipher suite and determine hybrid key exchange
-        use_hybrid, kyber_variant, selected_code = select_cipher_suite(client_hello, preferred_cipher_suite, network, crypto)
+        use_hybrid, kyber_variant, selected_code = crypto.select_cipher_suite(client_hello, preferred_cipher_suite)
         network.logger.debug(f"Selected cipher suite {crypto.cipher_suite}")
         # Validate key shares and generate handshake keys
-        kyber_ct = _generate_derive_handshake_keys(client_hello, use_hybrid, kyber_variant, network, crypto)
+        kyber_ct = crypto.generate_derive_handshake_keys(client_hello, use_hybrid, kyber_variant)
         # Send ServerHello and subsequent handshake messages
         network.send_server_hello(crypto, client_hello, selected_code, kyber_ct)
         network.logger.debug("Sent ServerHello")
@@ -218,10 +216,6 @@ def client_server_handshake(crypto: ServerCrypto, network: ServerNetwork, mutual
             validate_and_verify_certificate_verify(body, client_cert_bytes, network, crypto, network.logger)
             handshake_message = bytes([handshake_type]) + len(body).to_bytes(3, 'big') + body
             crypto.handshake_transcript.extend(handshake_message)
-        # for test network interruption during handshake phase
-        # if test_interrupt:
-        #     network.logger.info("Test interruption: closing connection without responding")
-        #     network.close()
         # Receive client Finished
         handshake_type, body = network.receive_encrypted_handshake_message(crypto)
         if handshake_type != HANDSHAKE_TYPE_FINISHED:
@@ -291,72 +285,6 @@ def message_exchange(crypto: ServerCrypto, network: ServerNetwork, test_interrup
             network.logger.error(f"Message exchange failed: {e}", exc_info=True)
             network.send_alert(ALERT_INTERNAL_ERROR, str(e))
             break
-
-def select_cipher_suite(client_hello: Dict[str, bytes], preferred_cipher_suite: str, network: ServerNetwork, crypto: ServerCrypto) -> Tuple[bool, int | None, bytes]:
-    """
-    Select a cipher suite based on client and server preferences.
-
-    Args:
-        client_hello (Dict[str, bytes]): Parsed ClientHello data.
-        preferred_cipher_suite (str): Server's preferred cipher suite.
-        network (ServerNetwork): Network instance for logging.
-        crypto (ServerCrypto): Crypto instance for cipher suite selection.
-
-    Returns:
-        Tuple[bool, int | None, bytes]: (use_hybrid, kyber_variant, selected_code)
-
-    Raises:
-        TLSError: If no supported cipher suite is found.
-    """
-    client_cipher_suites = [client_hello["cipher_suites"][i:i+2] for i in range(0, len(client_hello["cipher_suites"]), 2)]
-    preferred_code = CIPHER_SUITE_CODES.get(preferred_cipher_suite)
-    if preferred_code in client_cipher_suites:
-        selected_code = preferred_code
-    else:
-        for code in client_cipher_suites:
-            if code in CIPHER_SUITE_NAMES:
-                selected_code = code
-                break
-        else:
-            raise TLSError("No supported cipher suite found", ALERT_HANDSHAKE_FAILURE, network.logger, network)
-    crypto.cipher_suite = CIPHER_SUITE_NAMES[selected_code]
-    use_hybrid = "Kyber" in crypto.cipher_suite
-    kyber_variant = KYBER_VARIANTS.get(crypto.cipher_suite)
-    return use_hybrid, kyber_variant, selected_code
-
-def _generate_derive_handshake_keys(client_hello: Dict[str, bytes], use_hybrid: bool, kyber_variant: int | None, network: ServerNetwork, crypto: ServerCrypto) -> bytes | None:
-    """
-    Validate client key shares, generate server keys, and derive handshake keys.
-
-    Args:
-        client_hello (Dict[str, bytes]): Parsed ClientHello data.
-        use_hybrid (bool): Whether to use hybrid key exchange.
-        kyber_variant (int | None): Kyber variant if hybrid.
-        network (ServerNetwork): Network instance for logging.
-        crypto (ServerCrypto): Crypto instance for key operations.
-
-    Returns:
-        bytes | None: Kyber ciphertext if hybrid, else None.
-
-    Raises:
-        TLSError: If required key shares are missing or key derivation fails.
-    """
-    if GROUP_SECP384R1 not in client_hello["key_shares"]:
-        raise TLSError("Client did not provide ECC key share", ALERT_HANDSHAKE_FAILURE, network.logger, network)
-    ecc_pk = client_hello["key_shares"][GROUP_SECP384R1]
-    kyber_pk = None
-    if use_hybrid:
-        kyber_group = KYBER_GROUPS.get(crypto.cipher_suite)
-        if kyber_group not in client_hello["key_shares"]:
-            raise TLSError(f"Client did not provide key share for {crypto.cipher_suite}", ALERT_HANDSHAKE_FAILURE, network.logger, network)
-        kyber_pk = client_hello["key_shares"][kyber_group]
-
-    crypto.generate_keys(use_hybrid, kyber_variant)
-    kyber_ct, kyber_ss = None, None
-    if use_hybrid:
-        kyber_ct, kyber_ss = crypto.encapsulate_kyber(kyber_pk)
-    crypto.derive_handshake_keys({"ecc_pk": ecc_pk}, use_hybrid, kyber_ss)
-    return kyber_ct
 
 if __name__ == "__main__":
     main()

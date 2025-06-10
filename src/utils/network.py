@@ -245,7 +245,7 @@ class BaseNetwork:
             self.sock.send(message)
             self.logger.info(f"Sent alert {alert_type:02x} ({description})")
         except socket.error as e:
-            raise TLSError(f"Failed to send alert: {e}", ALERT_INTERNAL_ERROR, self.logger, self)
+            self.close()
 
     def receive_alert(self) -> Tuple[int, str]:
         """

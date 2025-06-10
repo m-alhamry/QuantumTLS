@@ -52,7 +52,8 @@ class ServerNetwork(BaseNetwork):
             self.server_socket.bind((self.ip, self.port))
             self.server_socket.listen(SERVER_LISTEN_BACKLOG)
         except socket.error as e:
-            raise TLSError(f"Failed to set up server socket: {e}", ALERT_INTERNAL_ERROR, self.logger, self)
+            self.logger.debug(f"Failed to set up server socket: {e}")
+            raise
 
     def receive_client_hello(self, crypto: ServerCrypto) -> Dict[str, bytes]:
         """

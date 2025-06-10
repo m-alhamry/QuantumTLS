@@ -4,7 +4,6 @@ import select
 import socket
 import time
 from typing import Optional
-from unittest.mock import patch
 
 from src.client.client_network import ClientNetwork
 from src.client.client_crypto import ClientCrypto
@@ -70,6 +69,7 @@ def main(ip: str = None, port: int = None, mutual_auth: Optional[bool] = None, t
         network.sock.settimeout(SESSION_TIMEOUT)
         logger.info("starting message exchange")
         if test_inputs:
+            from unittest.mock import patch
             with patch('builtins.input', side_effect=test_inputs):
                 message_exchange(crypto, network, test_mode)
         else:

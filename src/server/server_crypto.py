@@ -7,7 +7,8 @@ from cryptography.hazmat.primitives.asymmetric import ec
 from src.utils.crypto import TLSCrypto, generate_kyber_keys, get_hash
 from src.utils.errors import TLSError
 from src.utils.utils import (
-    ALERT_HANDSHAKE_FAILURE, ALERT_ILLEGAL_PARAMETER, ALERT_INTERNAL_ERROR, 
+    ALERT_HANDSHAKE_FAILURE, ALERT_ILLEGAL_PARAMETER, ALERT_INTERNAL_ERROR, CIPHER_SUITE_CODES, 
+    CIPHER_SUITE_NAMES, GROUP_SECP384R1, KYBER_GROUPS, KYBER_VARIANTS, 
     TLS13_SERVER_CERT_VERIFY_CONTEXT, TLS13_CLIENT_CERT_VERIFY_CONTEXT
 )
 
@@ -104,6 +105,68 @@ class ServerCrypto(TLSCrypto):
             raise
         except Exception as e:
             raise TLSError(f"Handshake key derivation failed: {e}", ALERT_INTERNAL_ERROR, self.logger, self.network)
+        
+    def select_cipher_suite(self, client_hello: Dict[str, bytes], preferred_cipher_suite: str) -> Tuple[bool, int | None, bytes]:
+        """
+        Select a cipher suite based on client and server preferences.
+
+        Args:
+            client_hello (Dict[str, bytes]): Parsed ClientHello data.
+            preferred_cipher_suite (str): Server's preferred cipher suite.
+
+        Returns:
+            Tuple[bool, int | None, bytes]: (use_hybrid, kyber_variant, selected_code)
+
+        Raises:
+            TLSError: If no supported cipher suite is found.
+        """
+        client_cipher_suites = [client_hello["cipher_suites"][i:i+2] for i in range(0, len(client_hello["cipher_suites"]), 2)]
+        preferred_code = CIPHER_SUITE_CODES.get(preferred_cipher_suite)
+        if preferred_code in client_cipher_suites:
+            selected_code = preferred_code
+        else:
+            for code in client_cipher_suites:
+                if code in CIPHER_SUITE_NAMES:
+                    selected_code = code
+                    break
+            else:
+                raise TLSError("No supported cipher suite found", ALERT_HANDSHAKE_FAILURE, self.logger, self.network)
+        self.cipher_suite = CIPHER_SUITE_NAMES[selected_code]
+        use_hybrid = "Kyber" in self.cipher_suite
+        kyber_variant = KYBER_VARIANTS.get(self.cipher_suite)
+        return use_hybrid, kyber_variant, selected_code
+
+    def generate_derive_handshake_keys(self, client_hello: Dict[str, bytes], use_hybrid: bool, kyber_variant: int | None) -> bytes | None:
+        """
+        Validate client key shares, generate server keys, and derive handshake keys.
+
+        Args:
+            client_hello (Dict[str, bytes]): Parsed ClientHello data.
+            use_hybrid (bool): Whether to use hybrid key exchange.
+            kyber_variant (int | None): Kyber variant if hybrid.
+
+        Returns:
+            bytes | None: Kyber ciphertext if hybrid, else None.
+
+        Raises:
+            TLSError: If required key shares are missing or key derivation fails.
+        """
+        if GROUP_SECP384R1 not in client_hello["key_shares"]:
+            raise TLSError("Client did not provide ECC key share", ALERT_HANDSHAKE_FAILURE, self.logger, self.network)
+        ecc_pk = client_hello["key_shares"][GROUP_SECP384R1]
+        kyber_pk = None
+        if use_hybrid:
+            kyber_group = KYBER_GROUPS.get(self.cipher_suite)
+            if kyber_group not in client_hello["key_shares"]:
+                raise TLSError(f"Client did not provide key share for {self.cipher_suite}", ALERT_HANDSHAKE_FAILURE, self.logger, self.network)
+            kyber_pk = client_hello["key_shares"][kyber_group]
+
+        self.generate_keys(use_hybrid, kyber_variant)
+        kyber_ct, kyber_ss = None, None
+        if use_hybrid:
+            kyber_ct, kyber_ss = self.encapsulate_kyber(kyber_pk)
+        self.derive_handshake_keys({"ecc_pk": ecc_pk}, use_hybrid, kyber_ss)
+        return kyber_ct
 
     def clear_sensitive_data(self) -> None:
         """
