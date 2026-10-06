@@ -1,290 +1,192 @@
+"""Bounded QTL2 demonstration server. Importing this module has no side effects."""
 import argparse
 import logging
-import threading
+import math
+from pathlib import Path
 import signal
 import socket
+import threading
 import time
-from typing import Optional
 
-from src.utils.crypto import parse_and_validate_certificate, validate_and_verify_certificate_verify
-from src.utils.network import handle_session_timeout
-from src.server.server_network import ServerNetwork
 from src.server.server_crypto import ServerCrypto
+from src.server.server_network import ServerNetwork
 from src.utils.errors import TLSError
+from src.utils.handshake import server_handshake as client_server_handshake
 from src.utils.utils import (
-    ALERT_CLOSE_NOTIFY, ALERT_DECODE_ERROR, ALERT_HANDSHAKE_FAILURE, ALERT_INTERNAL_ERROR, ALERT_UNEXPECTED_MESSAGE, 
-    CIPHER_SUITES, SERVER_CERT_FILE, SERVER_CERT_KEY_FILE, HANDSHAKE_TYPE_CERTIFICATE, HANDSHAKE_TYPE_CERTIFICATE_VERIFY, 
-    HANDSHAKE_TYPE_FINISHED, SESSION_TIMEOUT, STATE_SERVER_APPLICATION, DEFAULT_IP, DEFAULT_PORT,
-    setup_logging
+    CIPHER_SUITES, DEFAULT_CERT_DIR, DEFAULT_CIPHER, DEFAULT_IP, DEFAULT_PORT,
+    HANDSHAKE_TIMEOUT, MAX_CONNECTIONS, MESSAGE_TIMEOUT, SHUTDOWN_TIMEOUT,
+    close_logging, setup_logging,
 )
 
-# Global variables for server state and thread management
-logger = setup_logging("server", "server.log", logging.DEBUG)
-SHUTDOWN = False
-ACTIVE_THREADS = []
-SHUTDOWN_LOCK = threading.Lock()
+ACKNOWLEDGEMENT = b'Message received successfully'
 
-def handle_client(conn: socket.socket, addr: tuple[str, int], mutual_auth: bool, preferred_cipher_suite: str, test_interrupt: bool = False) -> None:
-    """
-    Handle a client connection in a separate thread.
 
-    Args:
-        conn (socket.socket): Client connection socket.
-        addr (tuple[str, int]): Client address (IP, port).
-        mutual_auth (bool): Whether to perform mutual authentication.
-        preferred_cipher_suite (str): Server's preferred cipher suite.
+class QTLServer:
+    def __init__(self, ip=DEFAULT_IP, port=DEFAULT_PORT, *, cert_dir=DEFAULT_CERT_DIR,
+                 cipher=DEFAULT_CIPHER, mutual_auth=False, max_connections=MAX_CONNECTIONS,
+                 handshake_timeout=HANDSHAKE_TIMEOUT, message_timeout=MESSAGE_TIMEOUT,
+                 shutdown_timeout=SHUTDOWN_TIMEOUT, logger=None, echo=False, test_interrupt=False):
+        if cipher not in range(1, len(CIPHER_SUITES) + 1) or max_connections < 1:
+            raise ValueError('Invalid server policy')
+        if not all(math.isfinite(t) and t > 0 for t in (handshake_timeout, message_timeout, shutdown_timeout)):
+            raise ValueError('Timeouts must be positive')
+        self.ip, self.port, self.cert_dir = ip, port, cert_dir
+        self.suite, self.mutual_auth = CIPHER_SUITES[cipher - 1], mutual_auth
+        self.max_connections = max_connections
+        self.handshake_timeout, self.message_timeout = handshake_timeout, message_timeout
+        self.shutdown_timeout = shutdown_timeout
+        self.logger = logger or logging.getLogger('qtl.server')
+        self.echo, self.test_interrupt = echo, test_interrupt
+        self.ready = threading.Event()
+        self.stopped = threading.Event()
+        self._lock = threading.Lock()
+        self._connections = {}
+        self.listener = None
 
-    Raises:
-        TLSError: Propagated from handshake or message exchange on failure.
-    """
-    client_logger = setup_logging(f"server_client_{addr[1]}", f"logs/server_client_{addr[1]}.log", logging.DEBUG)
-    network = ServerNetwork("", 0, client_logger)
-    network.sock = conn
-    crypto = ServerCrypto(client_logger, network)
-    network.crypto = crypto
+    @property
+    def active_connections(self):
+        with self._lock:
+            return len(self._connections)
 
-    try:
-        client_logger.info(f"Connected by {addr}")
-        client_logger.info("Starting server-client handshake")
-        client_server_handshake(crypto, network, mutual_auth, preferred_cipher_suite)
-        network.sock.settimeout(SESSION_TIMEOUT)
-        client_logger.info("starting message exchange")
-        message_exchange(crypto, network, test_interrupt)
-    except TLSError as e:
-        client_logger.error(f"TLS error with {addr}: {e}")
-    except socket.error as e:
-        client_logger.error(f"Network error with {addr}: {e}")
-        network.send_alert(ALERT_CLOSE_NOTIFY, f"Network error: {e}")
-    except ValueError as e:
-        client_logger.error(f"Data error with {addr}: {e}")
-        network.send_alert(ALERT_HANDSHAKE_FAILURE, str(e))
-    except Exception as e:
-        client_logger.error(f"Unexpected error with {addr}: {e}", exc_info=True)
-        network.send_alert(ALERT_INTERNAL_ERROR, f"Unexpected error: {e}")
-    finally:
-        crypto.clear_sensitive_data()
-        network.close()
-        with SHUTDOWN_LOCK:
-            ACTIVE_THREADS.remove(threading.current_thread())
-        
-def main(ip: Optional[str] = None, port: Optional[int] = None, mutual_auth: Optional[bool] = None, cipher: Optional[int] = None, server_sock: Optional[socket.socket] = None) -> None:
-    """
-    Main function to run the TLS 1.3 server.
-
-    Args:
-        ip (str, optional): IP address to bind.
-        port (int, optional): Port number to bind.
-        mutual_auth (bool, optional): Enable mutual authentication.
-        cipher (int, optional): Preferred cipher suite index (1-4).
-        server_sock (socket.socket, optional): Pre-configured socket for testing.
-    """
-    global SHUTDOWN
-    
-    # Parse command-line arguments or use defaults/provided values
-    parser = argparse.ArgumentParser(description="TLS 1.3 Server")
-    parser.add_argument("--ip", type=str, default=DEFAULT_IP, help="IP address (default: 127.0.0.1)")
-    parser.add_argument("--port", type=int, default=DEFAULT_PORT, help="Port (default: 65432)")
-    parser.add_argument("--mutual-auth", type=str, choices=["enable", "disable"], default="disable", help="Mutual auth (default: disable)")
-    parser.add_argument("--cipher", type=int, choices=[1, 2, 3, 4], default=2, help="Cipher suite: 1=AES_256_GCM_SHA384, 2=Kyber512, 3=Kyber768, 4=Kyber1024 (default: 2)")
-    parser.add_argument("--test-mode", action="store_true", help="Run in test mode")
-    parser.add_argument("--test-interrupt", action="store_true", help="Interrupt after receiving message in test mode")
-    args = parser.parse_args() if not server_sock else None
-
-    ip = ip if ip else (args.ip if args else DEFAULT_IP)
-    port = port if port else (args.port if args else DEFAULT_PORT)
-    mutual_auth = mutual_auth if mutual_auth is not None else (args.mutual_auth == "enable" if args else False)
-    cipher = cipher if cipher is not None else (args.cipher if args else 2)
-    cipher_suite = CIPHER_SUITES[cipher - 1]
-
-    logger.info(f"Starting server with (--ip): {ip}, (--port): {port}, (--mutual-auth): {mutual_auth}, (--cipher): {cipher_suite}")
-    network = ServerNetwork(ip, port, logger)
-    signal.signal(signal.SIGINT, shutdown_handler)
-    signal.signal(signal.SIGTERM, shutdown_handler)
-
-    try:
-        if server_sock:
-            network.server_socket = server_sock
-        else:
-            network.setup()
-            logger.info(f"Server listening on {ip}:{port}")
-        logger.info("Server started, awaiting connections")
-        
-        while not SHUTDOWN:
-            try:
-                network.server_socket.settimeout(1.0)
-                conn, addr = network.server_socket.accept()
-                thread = threading.Thread(target=handle_client, args=(conn, addr, mutual_auth, cipher_suite, args.test_interrupt))
-                with SHUTDOWN_LOCK:
-                    ACTIVE_THREADS.append(thread)
-                thread.start()
-                logger.info(f"Spawned thread for client {addr}")
-            except socket.timeout:
-                continue
-            except socket.error as e:
-                if not SHUTDOWN:
-                    logger.error(f"Accept failed: {e}")
-    except TLSError as e:
-        logger.error(f"Server setup failed: {e}")
-    except Exception as e:
-        logger.error(f"Server failed: {e}", exc_info=True)
-    finally:
-        shutdown_server(network)
-
-def shutdown_handler(signum: int, _) -> None:
-    """
-    Handle shutdown signals (SIGINT, SIGTERM).
-
-    Args:
-        signum (int): Signal number.
-    """
-    global SHUTDOWN
-    logger.info(f"Received signal {signum}, initiating shutdown")
-    SHUTDOWN = True
-
-def shutdown_server(network: ServerNetwork) -> None:
-    """
-    Gracefully shut down the server.
-
-    Args:
-        network (ServerNetwork): Server network instance.
-    """
-    logger.info("Shutting down server...")
-    with SHUTDOWN_LOCK:
-        threads = ACTIVE_THREADS.copy()
-    for thread in threads:
-        thread.join()
-    network.close()
-    logger.info("Server shut down cleanly")
-
-def client_server_handshake(crypto: ServerCrypto, network: ServerNetwork, mutual_auth: bool, preferred_cipher_suite: str) -> None:
-    """
-    Perform the TLS 1.3 handshake with the client.
-
-    Args:
-        crypto (ServerCrypto): Crypto instance for cryptographic operations.
-        network (ServerNetwork): Network instance for communication.
-        mutual_auth (bool): Whether to request client authentication.
-        preferred_cipher_suite (str): Server's preferred cipher suite.
-
-    Raises:
-        TLSError: If handshake fails at any step.
-    """
-    try:
-        start = time.perf_counter()
-        # Receive and process ClientHello
-        client_hello = network.receive_client_hello(crypto)
-        suites_len = len(client_hello["cipher_suites"])//2
-        network.logger.debug(f"Received ClientHello with {suites_len} cipher suites")
-        # Select cipher suite and determine hybrid key exchange
-        use_hybrid, kyber_variant, selected_code = crypto.select_cipher_suite(client_hello, preferred_cipher_suite)
-        network.logger.debug(f"Selected cipher suite {crypto.cipher_suite}")
-        # Validate key shares and generate handshake keys
-        kyber_ct = crypto.generate_derive_handshake_keys(client_hello, use_hybrid, kyber_variant)
-        # Send ServerHello and subsequent handshake messages
-        network.send_server_hello(crypto, client_hello, selected_code, kyber_ct)
-        network.logger.debug("Sent ServerHello")
-        # Send encrypted extensions
-        network.send_encrypted_extensions(crypto)
-        # Send Certificate Request if Mutual auth enabled
-        if mutual_auth:
-            network.send_certificate_request(crypto)
-        # Load and send server certificate if not already loaded
-        if crypto.cert is None:
-            crypto.load_certificate(SERVER_CERT_FILE, SERVER_CERT_KEY_FILE)
-        network.send_certificate(crypto)
-        # Send certificate verify
-        network.send_certificate_verify(crypto)
-        # Send server Finished
-        network.send_finished(crypto)
-        sendCert = " CertificateRequest, " if mutual_auth else " "
-        network.logger.debug(f"Sent server handshake messages: EncryptedExtensions,{sendCert}Certificate, CertificateVerify, and Finished")
-        # Handle mutual authentication if enabled
-        if mutual_auth:
-            # Receive Client Certificate
-            handshake_type, body = network.receive_encrypted_handshake_message(crypto)
-            if handshake_type != HANDSHAKE_TYPE_CERTIFICATE:
-                raise TLSError(f"Expected client Certificate (0x0b), got {handshake_type:02x}", ALERT_UNEXPECTED_MESSAGE, network.logger, network)
-            handshake_message = bytes([handshake_type]) + len(body).to_bytes(3, 'big') + body
-            crypto.handshake_transcript.extend(handshake_message)
-            # Validate clinet certificate
-            client_cert_bytes = parse_and_validate_certificate(body, network, "Client")
-            # Receive Client Certificate Verify
-            handshake_type, body = network.receive_encrypted_handshake_message(crypto)
-            if handshake_type != HANDSHAKE_TYPE_CERTIFICATE_VERIFY:
-                raise TLSError(f"Expected client CertificateVerify (0x0f), got {handshake_type:02x}", ALERT_UNEXPECTED_MESSAGE, network.logger, network)
-            # Validate clinet certificate Verify
-            validate_and_verify_certificate_verify(body, client_cert_bytes, network, crypto, network.logger)
-            handshake_message = bytes([handshake_type]) + len(body).to_bytes(3, 'big') + body
-            crypto.handshake_transcript.extend(handshake_message)
-        # Receive client Finished
-        handshake_type, body = network.receive_encrypted_handshake_message(crypto)
-        if handshake_type != HANDSHAKE_TYPE_FINISHED:
-            raise TLSError(f"Expected client Finished (0x14), got {handshake_type:02x}", ALERT_UNEXPECTED_MESSAGE, network.logger, network)
-        # Verify client Finished
-        if not crypto.verify_finished_message(body):
-            raise TLSError("Client Finished verification failed", ALERT_HANDSHAKE_FAILURE, network.logger, network)
-        clientCert = " Certificate, CertificateVerify, and " if mutual_auth else " "
-        network.logger.debug(f"Received and verified client{clientCert}Finished")
-        handshake_message = bytes([handshake_type]) + len(body).to_bytes(3, 'big') + body
-        crypto.handshake_transcript.extend(handshake_message)
-
-        # Derive application keys
-        crypto.derive_application_key()
-        # Be ready for message exchange phase
-        network.handshake_state = STATE_SERVER_APPLICATION
-        duration = time.perf_counter() - start
-        network.logger.debug(f"Handshake completed in {duration:.6f} seconds")
-    except TLSError as e:
-        raise
-    except Exception as e:
-        raise TLSError(f"Handshake failed: {e}", ALERT_INTERNAL_ERROR, network.logger, network)
-
-def message_exchange(crypto: ServerCrypto, network: ServerNetwork, test_interrupt: bool = False) -> None:
-    """
-    Handle message exchange with the client after handshake.
-
-    Args:
-        crypto (ServerCrypto): Crypto instance for cryptographic operations.
-        network (ServerNetwork): Network instance for communication.
-
-    Raises:
-        TLSError: If message exchange fails.
-    """
-    global SHUTDOWN
-    last_activity = time.time()
-    while not SHUTDOWN:
+    def serve_forever(self):
+        # Fail before accepting connections when local credentials are unusable.
+        probe = ServerCrypto(self.logger, cert_dir=self.cert_dir)
         try:
-            if handle_session_timeout(network, last_activity, SESSION_TIMEOUT):
-                network.send_alert(ALERT_CLOSE_NOTIFY, "Session timeout")
-                break
-            message_data = network.receive_application_data(crypto)
-            # for test network interruption during message exchange phase
-            if test_interrupt:
-                network.logger.info("Test interruption: closing connection without responding")
-                network.close()
-                break
-            if message_data["type"] == "end_session":
-                network.end_session("Client terminated session")
-                break
-            plaintext = message_data["data"]
-            response = b"Message received successfully"
-            network.send_application_data(crypto, response)
-            last_activity = time.time()
-        except TLSError as e:
-            network.logger.error(f"TLS error: {e}")
-            break
-        except socket.timeout:
-            network.logger.error("Socket timeout")
-            network.send_alert(ALERT_CLOSE_NOTIFY, "Socket timeout")
-            break
-        except ValueError as e:
-            network.logger.error(f"Invalid message data: {e}")
-            network.send_alert(ALERT_DECODE_ERROR, str(e))
-            break
-        except Exception as e:
-            network.logger.error(f"Message exchange failed: {e}", exc_info=True)
-            network.send_alert(ALERT_INTERNAL_ERROR, str(e))
-            break
+            probe.load_identity()
+            if self.suite != CIPHER_SUITES[0]:
+                from src.utils.crypto import create_kem
+                from src.utils.utils import KYBER_VARIANTS
+                kem = create_kem(KYBER_VARIANTS[self.suite])
+                kem.free()
+        finally:
+            probe.clear_sensitive_data()
+        listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.listener = listener
+        try:
+            listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            listener.bind((self.ip, self.port))
+            listener.listen(self.max_connections)
+            listener.settimeout(0.2)
+            self.port = listener.getsockname()[1]
+            self.logger.info('Listening on %s:%d', self.ip, self.port)
+            self.ready.set()
+            while not self.stopped.is_set():
+                try:
+                    sock, address = listener.accept()
+                except socket.timeout:
+                    continue
+                except OSError:
+                    if self.stopped.is_set():
+                        break
+                    raise
+                with self._lock:
+                    if self.stopped.is_set() or len(self._connections) >= self.max_connections:
+                        sock.close()
+                        continue
+                    worker = threading.Thread(target=self._handle, args=(sock, address), daemon=True)
+                    self._connections[worker] = sock
+                try:
+                    worker.start()
+                except Exception:
+                    with self._lock:
+                        self._connections.pop(worker, None)
+                    sock.close()
+                    raise
+        finally:
+            self.stop()
+            until = time.monotonic() + self.shutdown_timeout
+            with self._lock:
+                workers = list(self._connections)
+            for worker in workers:
+                worker.join(max(0, until - time.monotonic()))
 
-if __name__ == "__main__":
-    main()
+    def stop(self):
+        self.stopped.set()
+        if self.listener is not None:
+            self.listener.close()
+        with self._lock:
+            sockets = list(self._connections.values())
+        for sock in sockets:
+            try:
+                sock.shutdown(socket.SHUT_RDWR)
+            except OSError:
+                pass
+            sock.close()
+
+    def _handle(self, sock, address):
+        network = ServerNetwork(address[0], address[1], self.logger,
+                                handshake_timeout=self.handshake_timeout, message_timeout=self.message_timeout)
+        network.sock = sock
+        crypto = None
+        try:
+            crypto = ServerCrypto(self.logger, network, cert_dir=self.cert_dir)
+            network.crypto = crypto
+            client_server_handshake(crypto, network, self.mutual_auth, self.suite)
+            while not self.stopped.is_set():
+                message = network.receive_application_data(crypto)
+                if message is None:
+                    network.end_session()
+                    break
+                if self.test_interrupt:
+                    break
+                network.send_application_data(crypto, message if self.echo else ACKNOWLEDGEMENT)
+        except (OSError, TLSError, ValueError) as exc:
+            self.logger.info('Connection ended: %s', exc)
+            if isinstance(exc, TLSError):
+                try:
+                    network.send_alert(exc.alert_type)
+                except (OSError, TLSError):
+                    pass
+        except Exception:
+            self.logger.exception('Unexpected connection failure')
+        finally:
+            network.close()
+            if crypto is not None:
+                crypto.clear_sensitive_data()
+            with self._lock:
+                self._connections.pop(threading.current_thread(), None)
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description='QTL2 prototype server (not TLS)')
+    parser.add_argument('--ip', default=DEFAULT_IP)
+    parser.add_argument('--port', type=int, default=DEFAULT_PORT)
+    parser.add_argument('--cert-dir', type=Path, default=DEFAULT_CERT_DIR)
+    parser.add_argument('--log-dir', type=Path, default=Path('logs'))
+    parser.add_argument('--cipher', type=int, choices=range(1, 8), default=DEFAULT_CIPHER)
+    parser.add_argument('--mutual-auth', choices=['enable', 'disable'], default='disable')
+    parser.add_argument('--max-connections', type=int, default=MAX_CONNECTIONS)
+    parser.add_argument('--handshake-timeout', type=float, default=HANDSHAKE_TIMEOUT)
+    parser.add_argument('--message-timeout', type=float, default=MESSAGE_TIMEOUT)
+    parser.add_argument('--echo', action='store_true', help='Echo received payloads for exact round-trip checks')
+    parser.add_argument('--test-mode', action='store_true')
+    parser.add_argument('--test-interrupt', action='store_true')
+    args = parser.parse_args(argv)
+    if args.test_interrupt and not args.test_mode:
+        parser.error('--test-interrupt requires --test-mode')
+    logger = setup_logging('qtl.server', str(args.log_dir / 'server.log'))
+    server = None
+    handlers = {}
+    try:
+        server = QTLServer(args.ip, args.port, cert_dir=args.cert_dir, cipher=args.cipher,
+                           mutual_auth=args.mutual_auth == 'enable', max_connections=args.max_connections,
+                           handshake_timeout=args.handshake_timeout, message_timeout=args.message_timeout,
+                           logger=logger, echo=args.echo, test_interrupt=args.test_interrupt)
+        if threading.current_thread() is threading.main_thread():
+            for sig in (signal.SIGINT, signal.SIGTERM):
+                handlers[sig] = signal.signal(sig, lambda *_: server.stopped.set())
+        server.serve_forever()
+        return 0
+    except (OSError, TLSError, ValueError) as exc:
+        logger.error('Server failed: %s', exc)
+        return 1
+    finally:
+        if server is not None:
+            server.stop()
+        for sig, handler in handlers.items():
+            signal.signal(sig, handler)
+        close_logging(logger)
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())
